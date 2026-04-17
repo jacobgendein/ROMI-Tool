@@ -56,7 +56,6 @@
     .inline-export-btn:hover{background:var(--bg-tertiary);color:var(--text-primary)}
     .export-btn:hover{background:rgba(255,255,255,0.1)}
     .export-btn.visible{display:block}
-    #landing{display:flex;min-height:calc(100vh - 56px)}
     .half{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3rem 2.5rem;cursor:pointer;transition:background 0.2s;position:relative;overflow:hidden}
     .half-left{background:var(--bg-primary);border-right:0.5px solid var(--border-light)}
     .half-right{background:var(--bg-secondary)}
@@ -77,8 +76,8 @@
     .half-pill{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-secondary);color:var(--text-secondary);border:0.5px solid var(--border-light)}
     .half-cta{font-size:13px;font-weight:600;padding:10px 24px;border-radius:var(--radius-md);background:transparent;color:var(--text-primary);border:1.5px solid var(--border-medium);transition:all 0.2s;pointer-events:none}
     .half-divider{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:var(--bg-tertiary);border:0.5px solid var(--border-medium);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-tertiary);z-index:10;pointer-events:none}
-    #tool-optimizer,#tool-planner{display:none}
-    #tool-optimizer.active,#tool-planner.active{display:block}
+    #tool-optimizer,#tool-planner,#tool-dashboard{display:none}
+    #tool-optimizer.active,#tool-planner.active,#tool-dashboard.active{display:block}
     .app-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem}
     .step{display:none}.step.active{display:block}
     .step-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
@@ -224,6 +223,88 @@
     .scen-delta{font-size:11px;font-weight:600;margin-top:3px}
     .scen-up{color:var(--text-success)}.scen-dn{color:var(--text-danger)}.scen-nc{color:var(--text-secondary)}
     .reset-scen{font-size:11px;color:var(--text-secondary);cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block}
+
+    /* ── THEME TOGGLE ── */
+    .theme-btn{font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);background:transparent;cursor:pointer}
+    .theme-btn:hover{background:rgba(255,255,255,0.1)}
+    body.light-forced{--bg-primary:#ffffff;--bg-secondary:#f7f7f5;--bg-tertiary:#f0efe9;--bg-info:#e6f1fb;--bg-success:#eaf3de;--bg-warning:#faeeda;--bg-danger:#fcebeb;--text-primary:#1a1a18;--text-secondary:#6b6b66;--text-tertiary:#9a9990;--text-info:#0c447c;--text-success:#27500a;--text-warning:#633806;--text-danger:#791f1f;--border-light:rgba(0,0,0,0.1);--border-medium:rgba(0,0,0,0.18);--border-info:rgba(55,138,221,0.4);--border-success:rgba(99,153,34,0.4);--accent:#1F3864;--accent-mid:#2E75B6}
+    body.dark-forced{--bg-primary:#1e1e1c;--bg-secondary:#272724;--bg-tertiary:#2e2e2b;--bg-info:#0c2340;--bg-success:#162808;--bg-warning:#2a1a04;--bg-danger:#280f0f;--text-primary:#f0efe9;--text-secondary:#a8a89e;--text-tertiary:#6b6b66;--text-info:#85b7eb;--text-success:#97c459;--text-warning:#fac775;--text-danger:#f09595;--border-light:rgba(255,255,255,0.08);--border-medium:rgba(255,255,255,0.15);--border-info:rgba(55,138,221,0.35);--border-success:rgba(99,153,34,0.35);--accent:#2E75B6;--accent-mid:#85b7eb}
+
+    /* ── LANDING DASHBOARD ── */
+    #landing-dashboard{display:none}
+    #landing-dashboard.active{display:block}
+    #landing-split{display:flex;min-height:calc(100vh - 56px)}
+    #landing-split.hidden{display:none!important}
+    .home-wrap{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+    .home-hero{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:12px}
+    .home-hero-title{font-size:22px;font-weight:700;color:var(--text-primary)}
+    .home-hero-sub{font-size:13px;color:var(--text-secondary);margin-top:3px}
+    .home-tool-btns{display:flex;gap:8px}
+    .home-btn-opt{font-size:13px;font-weight:600;padding:9px 20px;border-radius:var(--radius-md);background:var(--bg-info);color:var(--text-info);border:0.5px solid var(--border-info);cursor:pointer}
+    .home-btn-pln{font-size:13px;font-weight:600;padding:9px 20px;border-radius:var(--radius-md);background:#e6f5ee;color:#0a5c3a;border:0.5px solid rgba(29,158,117,0.4);cursor:pointer}
+    .home-btn-opt:hover{opacity:0.85}.home-btn-pln:hover{opacity:0.85}
+    .home-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.75rem}
+    .home-stat{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem;text-align:center}
+    .home-stat-val{font-size:24px;font-weight:700;color:var(--text-primary)}
+    .home-stat-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px;text-transform:uppercase;letter-spacing:0.04em}
+    .home-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem}
+    .home-section-title{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em}
+    .campaign-card{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
+    .campaign-card:hover{border-color:var(--border-info)}
+    .campaign-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+    .campaign-card-name{font-size:14px;font-weight:600;color:var(--text-primary)}
+    .campaign-card-meta{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .campaign-card-metrics{display:flex;gap:16px;flex-wrap:wrap}
+    .ccm{text-align:left}
+    .ccm-val{font-size:15px;font-weight:600;color:var(--text-primary)}
+    .ccm-lbl{font-size:10px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;margin-top:1px}
+    .campaign-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg-secondary);color:var(--text-secondary);border:0.5px solid var(--border-light);cursor:pointer;white-space:nowrap}
+    .campaign-tag.active-tag{background:var(--bg-info);color:var(--text-info);border-color:var(--border-info)}
+    .tag-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+    .romi-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+    .romi-good{background:var(--bg-success);color:var(--text-success)}
+    .romi-warn{background:var(--bg-warning);color:var(--text-warning)}
+    .romi-bad{background:var(--bg-danger);color:var(--text-danger)}
+    .empty-state{text-align:center;padding:4rem 2rem;color:var(--text-secondary)}
+    .empty-state-title{font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:8px}
+    .empty-state-sub{font-size:13px;line-height:1.7;margin-bottom:1.5rem}
+    .home-tab-row{display:flex;border-bottom:0.5px solid var(--border-light);margin-bottom:1.5rem}
+    .home-tab{font-size:13px;font-weight:600;padding:8px 16px;cursor:pointer;color:var(--text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+    .home-tab.active{color:var(--text-primary);border-bottom-color:var(--accent-mid)}
+
+    /* ── ONBOARDING OVERLAY ── */
+    .onboard-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+    .onboard-box{background:var(--bg-primary);border-radius:var(--radius-lg);padding:2rem;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+    .onboard-logo{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:0.5rem}
+    .onboard-tagline{font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem}
+    .onboard-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:1.5rem}
+    .onboard-step{display:flex;gap:12px;align-items:flex-start}
+    .onboard-num{width:24px;height:24px;border-radius:50%;background:var(--bg-info);color:var(--text-info);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+    .onboard-text{font-size:13px;color:var(--text-primary);line-height:1.5}
+    .onboard-text strong{color:var(--text-primary)}
+    .onboard-dismiss{width:100%;font-size:13px;font-weight:600;padding:10px;border-radius:var(--radius-md);background:var(--accent);color:#fff;border:none;cursor:pointer}
+    .onboard-dismiss:hover{opacity:0.88}
+    .onboard-skip{font-size:11px;color:var(--text-tertiary);cursor:pointer;text-align:center;margin-top:8px;display:block}
+
+    /* ── GOAL TRACKING ── */
+    .goal-track-bar{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:0.9rem 1.25rem;margin-bottom:1rem;display:none}
+    .goal-track-row{display:flex;align-items:center;gap:12px}
+    .goal-track-label{font-size:12px;color:var(--text-secondary);min-width:110px}
+    .goal-track-wrap{flex:1;height:8px;background:var(--bg-tertiary);border-radius:4px;overflow:hidden}
+    .goal-track-fill{height:100%;border-radius:4px;transition:width 0.6s ease}
+    .goal-track-val{font-size:12px;font-weight:600;min-width:80px;text-align:right}
+
+    /* ── SHARE BUTTON ── */
+    .share-btn{font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-medium);color:var(--text-secondary);background:var(--bg-secondary);cursor:pointer}
+    .share-btn:hover{background:var(--bg-tertiary)}
+    .share-toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1a1a18;color:#fff;font-size:12px;padding:8px 18px;border-radius:20px;z-index:999;opacity:0;transition:opacity 0.2s;pointer-events:none}
+    .share-toast.show{opacity:1}
+
+    /* ── SAVE MODAL WITH TAGS ── */
+    .tag-input-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .tag-opt{font-size:11px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--border-light);background:var(--bg-secondary);color:var(--text-secondary);cursor:pointer}
+    .tag-opt.selected{background:var(--bg-info);color:var(--text-info);border-color:var(--border-info)}
+
     /* ── PRINT / PDF ── */
     @media print{
       .site-header,.back-btn,.export-btn,.btn-p,.btn-s,.btn-g,.add-btn,.rmv,.nav,.tab-row,.prog,.half{display:none!important}
@@ -260,13 +341,32 @@
     <div class="site-header-sub" id="header-sub">Optimizer &amp; Campaign Planner</div>
   </div>
   <div class="site-header-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">☀ Light</button>
     <button class="export-btn" id="export-btn" onclick="exportPDF()">⬇ Export PDF</button>
     <a class="site-header-name" href="https://www.linkedin.com/in/jacob-gendein-4b38b217b" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.75);text-decoration:none">Jacob Gendein</a>
   </div>
 </header>
 
-<!-- ══ LANDING ══ -->
-<div id="landing">
+<!-- ══ ONBOARDING OVERLAY ══ -->
+<div class="onboard-overlay" id="onboard-overlay" style="display:none">
+  <div class="onboard-box">
+    <div class="onboard-logo">ROMI Suite</div>
+    <div class="onboard-tagline">Browser-based marketing analytics — no login, no data leaves your device.</div>
+    <div class="onboard-steps">
+      <div class="onboard-step"><div class="onboard-num">1</div><div class="onboard-text"><strong>ROMI Optimizer</strong> — analyze past campaigns. Enter channel data, get ROAS scores, risk flags, and actionable recommendations.</div></div>
+      <div class="onboard-step"><div class="onboard-num">2</div><div class="onboard-text"><strong>Campaign Planner</strong> — plan future campaigns. Set a budget and goal, get an auto-suggested channel mix with projected ROMI ranges.</div></div>
+      <div class="onboard-step"><div class="onboard-num">3</div><div class="onboard-text"><strong>Dashboard</strong> — your saved reports live here. Track performance over time, filter by tag, and share reports via link.</div></div>
+    </div>
+    <button class="onboard-dismiss" onclick="dismissOnboard()">Get started</button>
+    <span class="onboard-skip" onclick="dismissOnboard()">Skip intro</span>
+  </div>
+</div>
+
+<!-- ══ SHARE TOAST ══ -->
+<div class="share-toast" id="share-toast">Link copied to clipboard</div>
+
+<!-- ══ LANDING SPLIT (shown when no reports) ══ -->
+<div id="landing-split">
   <div class="half half-left" onclick="launchTool('optimizer')">
     <div class="half-icon">📊</div>
     <div class="half-label">Backwards-looking</div>
@@ -293,6 +393,37 @@
     <div class="half-cta">Open Planner →</div>
   </div>
 </div>
+
+<!-- ══ LANDING PREVIEW ══ -->
+<div id="landing-preview" style="background:var(--bg-secondary);border-top:0.5px solid var(--border-light);padding:2rem 0">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em">Saved reports</div>
+      <button class="home-btn-opt" onclick="launchDashboard()">Open Dashboard →</button>
+    </div>
+    <div id="landing-preview-list"></div>
+  </div>
+</div>
+
+<!-- ══ FULL DASHBOARD PAGE ══ -->
+<div id="tool-dashboard">
+  <main class="home-wrap">
+    <div class="home-hero">
+      <div>
+        <div class="home-hero-title">Campaign Dashboard</div>
+        <div class="home-hero-sub" id="home-sub">Your saved analyses and plans</div>
+      </div>
+    </div>
+    <div class="home-stats" id="home-stats"></div>
+    <div class="home-section-hdr">
+      <div class="home-section-title">Saved reports</div>
+      <div class="tag-chips" id="home-tag-chips" style="margin-bottom:0"></div>
+    </div>
+    <div id="home-campaigns"></div>
+  </main>
+  <footer class="site-footer">Built with vanilla JS &amp; <a href="https://www.chartjs.org" target="_blank" rel="noopener">Chart.js</a> &nbsp;·&nbsp; No data leaves your browser &nbsp;·&nbsp; <a href="https://github.com/jacobgendein/romi-tool" target="_blank" rel="noopener">View source on GitHub</a></footer>
+</div>
+
 
 <!-- ══ OPTIMIZER ══ -->
 <div id="tool-optimizer">
@@ -386,7 +517,7 @@
     </div>
 
     <div class="step" id="opt-step3">
-      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div>
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div><div style="display:flex;gap:6px;margin-left:auto"><button class="share-btn" onclick="shareReport()">Share</button><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div></div>
       <div class="print-header" id="opt-print-header">
         <div class="print-header-title" id="opt-print-title">ROMI Optimizer Report</div>
         <div class="print-header-meta" id="opt-print-meta"></div>
@@ -402,6 +533,7 @@
       <div class="mgrid" id="summary-metrics"></div>
       <div class="gauge" id="romi-gauge"></div>
       <div id="ltv-panel"></div>
+      <div class="goal-track-bar" id="goal-track-bar"></div>
       <div class="slbl">Channel breakdown</div>
       <div id="ch-table"></div>
       <div style="position:relative;width:100%;height:260px;margin-top:1.25rem"><canvas id="roasChart" role="img" aria-label="Bar chart comparing ROAS and ROMI per channel"></canvas></div>
@@ -421,9 +553,31 @@
         <div class="slbl">Risk flags</div><div id="flags-out"></div>
         <div class="slbl">Recommendations</div><div id="recs-out"></div>
         <div class="slbl">Executive summary</div><div class="exec" id="exec-out"></div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:1rem">
-          <input id="save-label" placeholder="Label this report" style="flex:1;font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
-          <button class="btn-g" onclick="saveReport()">Save report</button>
+        <div style="margin-top:1rem">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <input id="save-label" placeholder="Label this report" style="flex:1;font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+            <button class="btn-g" onclick="saveReport()">Save report</button>
+          </div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:5px">Tag this report</div>
+          <div class="tag-input-row" id="tag-selector">
+            <span class="tag-opt" onclick="toggleTag(this,'brand')">Brand</span>
+            <span class="tag-opt" onclick="toggleTag(this,'performance')">Performance</span>
+            <span class="tag-opt" onclick="toggleTag(this,'seasonal')">Seasonal</span>
+            <span class="tag-opt" onclick="toggleTag(this,'retention')">Retention</span>
+            <span class="tag-opt" onclick="toggleTag(this,'launch')">Launch</span>
+            <span class="tag-opt" onclick="toggleTag(this,'awareness')">Awareness</span>
+            <span class="tag-opt" onclick="toggleTag(this,'test')">Test</span>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+            <div class="fg" style="flex:1;min-width:120px">
+              <label class="fl">Target ROMI goal</label>
+              <input id="save-romi-goal" type="number" step="0.1" placeholder="e.g. 3.0" style="font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);width:100%">
+            </div>
+            <div class="fg" style="flex:1;min-width:120px">
+              <label class="fl">Target revenue ($)</label>
+              <input id="save-rev-goal" type="number" placeholder="e.g. 100000" style="font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);width:100%">
+            </div>
+          </div>
         </div>
         <div id="save-confirm" style="font-size:12px;color:var(--text-success);margin-top:6px;display:none"></div>
       </div>
@@ -516,7 +670,7 @@
     </div>
 
     <div class="step" id="pln-step3">
-      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div>
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div><div style="display:flex;gap:6px;margin-left:auto"><button class="share-btn" onclick="sharePlan()">Share</button><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div></div>
       <div class="print-header" id="pln-print-header">
         <div class="print-header-title" id="pln-print-title">Campaign Planner Forecast</div>
         <div class="print-header-meta" id="pln-print-meta"></div>
@@ -610,7 +764,9 @@ function setAttribution(model){currentAttribution=model;['last','linear','first'
 
 function launchTool(tool){
   currentTool=tool;
-  document.getElementById('landing').style.display='none';
+  document.getElementById('tool-dashboard').classList.remove('active');
+  document.getElementById('landing-split').classList.add('hidden');
+  document.getElementById('landing-preview').style.display='none';
   document.getElementById('tool-optimizer').classList.toggle('active',tool==='optimizer');
   document.getElementById('tool-planner').classList.toggle('active',tool==='planner');
   document.getElementById('back-btn').classList.add('visible');
@@ -618,12 +774,126 @@ function launchTool(tool){
   if(tool==='planner'){plnSuggestMix();plnUpdateAlloc();}
 }
 function goHome(){
-  document.getElementById('landing').style.display='flex';
   document.getElementById('tool-optimizer').classList.remove('active');
   document.getElementById('tool-planner').classList.remove('active');
+  document.getElementById('tool-dashboard').classList.remove('active');
   document.getElementById('back-btn').classList.remove('visible');
   document.getElementById('export-btn').classList.remove('visible');
   document.getElementById('header-sub').textContent='Optimizer & Campaign Planner';
+  renderHomePreview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function launchDashboard(){
+  document.getElementById('landing-split').classList.add('hidden');
+  document.getElementById('landing-preview').style.display='none';
+  document.getElementById('tool-dashboard').classList.add('active');
+  document.getElementById('back-btn').classList.add('visible');
+  document.getElementById('header-sub').textContent='Campaign Dashboard';
+  currentTool='dashboard';
+  renderHomeDashboard();
+}
+function renderHomePreview(){
+  document.getElementById('landing-split').classList.remove('hidden');
+  document.getElementById('landing-preview').style.display='block';
+  const h=getHistory();
+  const el=document.getElementById('landing-preview-list');
+  if(!h.length){
+    el.innerHTML='<div style="font-size:13px;color:var(--text-secondary);padding:0.75rem 0">No saved reports yet — run an analysis or plan and save it to see it here.</div>';
+    return;
+  }
+  el.innerHTML=h.slice(0,3).map((r,i)=>{
+    const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0);
+    const romi=ts>0?(tr-ts)/ts:0;
+    const romiCls=romi>=1?'romi-good':romi>=0?'romi-warn':'romi-bad';
+    return`<div class="campaign-card" onclick="launchDashboard()" style="margin-bottom:6px">
+      <div class="campaign-card-top">
+        <div><div class="campaign-card-name">${esc(r.label)}</div><div class="campaign-card-meta">${r.date}${r.meta?.vertical?' · '+esc(r.meta.vertical):''}</div></div>
+        <span class="romi-pill ${romiCls}">${fn(romi,2)}x ROMI</span>
+      </div>
+      <div class="campaign-card-metrics">
+        <div class="ccm"><div class="ccm-val">${f$(ts)}</div><div class="ccm-lbl">Spend</div></div>
+        <div class="ccm"><div class="ccm-val">${f$(tr)}</div><div class="ccm-lbl">Revenue</div></div>
+        <div class="ccm"><div class="ccm-val">${r.channels.length}</div><div class="ccm-lbl">Channels</div></div>
+      </div>
+    </div>`;
+  }).join('')+(h.length>3?`<div style="font-size:12px;color:var(--text-secondary);margin-top:6px">+${h.length-3} more — <span style="cursor:pointer;text-decoration:underline" onclick="launchDashboard()">Open Dashboard</span></div>`:'');
+}
+function renderHomeDashboard(){
+  const h=getHistory();
+  if(h.length===0){
+    document.getElementById('home-stats').innerHTML='';
+    document.getElementById('home-tag-chips').innerHTML='';
+    document.getElementById('home-campaigns').innerHTML='<div class="empty-state"><div class="empty-state-title">No saved reports yet</div><div class="empty-state-sub">Use the Optimizer or Planner, save a report, and it will appear here.</div></div>';
+    return;
+  }
+  document.getElementById('landing-dashboard').classList.add('active');
+  // Stats
+  const totalSpend=h.reduce((s,r)=>s+r.channels.reduce((ss,c)=>ss+c.spend,0),0);
+  const totalRev=h.reduce((s,r)=>s+r.channels.reduce((ss,c)=>ss+c.rev,0),0);
+  const blendedROMI=totalSpend>0?((totalRev-totalSpend)/totalSpend):0;
+  const bestReport=h.reduce((best,r)=>{const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0);const romi=ts>0?(tr-ts)/ts:0;return romi>(best.romi||0)?{...r,romi}:best;},{});
+  document.getElementById('home-stats').innerHTML=`
+    <div class="home-stat"><div class="home-stat-val">${h.length}</div><div class="home-stat-lbl">Saved reports</div></div>
+    <div class="home-stat"><div class="home-stat-val">${f$(totalSpend)}</div><div class="home-stat-lbl">Total spend tracked</div></div>
+    <div class="home-stat"><div class="home-stat-val">${f$(totalRev)}</div><div class="home-stat-lbl">Total revenue tracked</div></div>
+    <div class="home-stat"><div class="home-stat-val" style="color:${blendedROMI>=1?'var(--text-success)':blendedROMI>=0?'var(--text-warning)':'var(--text-danger)'}">${fn(blendedROMI,2)}x</div><div class="home-stat-lbl">Blended ROMI</div></div>
+    ${bestReport.label?`<div class="home-stat"><div class="home-stat-val" style="font-size:13px;font-weight:600">${esc(bestReport.label.slice(0,18))}${bestReport.label.length>18?'…':''}</div><div class="home-stat-lbl">Best campaign</div></div>`:''}`;
+  // Tags
+  const allTags=[...new Set(h.flatMap(r=>r.tags||[]))];
+  const chips=document.getElementById('home-tag-chips');
+  chips.innerHTML='';
+  function makeChip(label,tag,active){
+    const s=document.createElement('span');
+    s.className='campaign-tag'+(active?' active-tag':'');
+    s.textContent=label;
+    s.onclick=function(){filterHomeTag(tag,s);};
+    chips.appendChild(s);
+  }
+  makeChip('All','all',true);
+  allTags.forEach(function(t){makeChip(t,t,false);});
+  renderHomeCampaigns(h,'all');
+  document.getElementById('home-sub').textContent=h.length+' report'+(h.length!==1?'s':'')+' saved';
+}
+function filterHomeTag(tag,el){
+  document.querySelectorAll('#home-tag-chips .campaign-tag').forEach(c=>c.classList.remove('active-tag'));
+  el.classList.add('active-tag');
+  renderHomeCampaigns(getHistory(),tag);
+}
+function renderHomeCampaigns(h,tag){
+  const filtered=tag==='all'?h:h.filter(r=>(r.tags||[]).includes(tag));
+  const el=document.getElementById('home-campaigns');
+  if(!filtered.length){el.innerHTML='<div style="font-size:13px;color:var(--text-secondary);padding:1rem 0">No reports match this filter.</div>';return;}
+  el.innerHTML=filtered.map((r,i)=>{
+    const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0),tc=r.channels.reduce((s,c)=>s+c.conv,0);
+    const romi=ts>0?(tr-ts)/ts:0,roas=ts>0?tr/ts:0;
+    const romiCls=romi>=1?'romi-good':romi>=0?'romi-warn':'romi-bad';
+    const tags=(r.tags||[]).map(t=>`<span class="campaign-tag">${esc(t)}</span>`).join('');
+    const goalBar=r.romiGoal?`<div style="margin-top:8px"><div style="font-size:10px;color:var(--text-tertiary);margin-bottom:3px">ROMI goal: ${r.romiGoal}x</div><div style="height:5px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden"><div style="width:${Math.min(100,(romi/r.romiGoal)*100)}%;height:100%;background:${romi>=r.romiGoal?'#639922':'#2E75B6'};border-radius:3px"></div></div></div>`:'';
+    const hi=getHistory().indexOf(r);
+    return`<div class="campaign-card" onclick="loadReportFromHome(${hi})">
+      <div class="campaign-card-top">
+        <div><div class="campaign-card-name">${esc(r.label)}</div><div class="campaign-card-meta">${r.date}${r.meta?.vertical?' · '+esc(r.meta.vertical):''}${r.meta?.goal?' · '+esc(r.meta.goal):''}</div></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span class="romi-pill ${romiCls}">${fn(romi,2)}x ROMI</span><button class="rmv" onclick="event.stopPropagation();deleteReportHome(${hi})">Delete</button></div>
+      </div>
+      <div class="campaign-card-metrics">
+        <div class="ccm"><div class="ccm-val">${f$(ts)}</div><div class="ccm-lbl">Spend</div></div>
+        <div class="ccm"><div class="ccm-val">${f$(tr)}</div><div class="ccm-lbl">Revenue</div></div>
+        <div class="ccm"><div class="ccm-val">${fn(roas,1)}x</div><div class="ccm-lbl">ROAS</div></div>
+        <div class="ccm"><div class="ccm-val">${tc.toLocaleString()}</div><div class="ccm-lbl">Conversions</div></div>
+        <div class="ccm"><div class="ccm-val">${r.channels.length}</div><div class="ccm-lbl">Channels</div></div>
+      </div>
+      ${tags?`<div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap">${tags}</div>`:''}
+      ${goalBar}
+    </div>`;
+  }).join('');
+}
+function deleteReportHome(i){let h=getHistory();h.splice(i,1);localStorage.setItem('romi_history',JSON.stringify(h));renderHomeDashboard();renderHomePreview();}
+function loadReportFromHome(i){
+  const h=getHistory();const r=h[i];if(!r)return;
+  // Load into optimizer and jump to step 4
+  launchTool('optimizer');
+  analysisData=r.channels;kwData=r.keywords||[];campaignMeta=r.meta||{};
+  if(r.channels.length){renderDashboard(r.channels,kwData,campaignMeta);optGoStep(3);}
 }
 function exportPDF(){
   if(currentTool==='optimizer'){
@@ -820,6 +1090,18 @@ function runAnalysis(){
 function renderDashboard(data,kws,meta){
   document.getElementById('dash-sub').textContent=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
   try{renderLTVPanel(data,meta);}catch(e){console.warn('LTV panel error:',e);}
+  // Goal tracking
+  try{
+    const h=getHistory();const saved=h.find(r=>r.label===meta.name||(r.meta&&r.meta.name===meta.name));
+    const gtBar=document.getElementById('goal-track-bar');
+    if(saved&&(saved.romiGoal||saved.revGoal)&&gtBar){
+      const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0);
+      const romi=ts>0?(tr-ts)/ts:0;let html='';
+      if(saved.romiGoal){const pct=Math.min(100,Math.round((romi/saved.romiGoal)*100));const col=pct>=100?'#639922':pct>=75?'#EF9F27':'#2E75B6';html+=`<div class="goal-track-row" style="margin-bottom:${saved.revGoal?'8px':'0'}"><span class="goal-track-label">ROMI goal: ${saved.romiGoal}x</span><div class="goal-track-wrap"><div class="goal-track-fill" style="width:${pct}%;background:${col}"></div></div><span class="goal-track-val" style="color:${col}">${fn(romi,2)}x / ${pct}%</span></div>`;}
+      if(saved.revGoal){const pct2=Math.min(100,Math.round((tr/saved.revGoal)*100));const col2=pct2>=100?'#639922':pct2>=75?'#EF9F27':'#2E75B6';html+=`<div class="goal-track-row"><span class="goal-track-label">Revenue goal: ${f$(saved.revGoal)}</span><div class="goal-track-wrap"><div class="goal-track-fill" style="width:${pct2}%;background:${col2}"></div></div><span class="goal-track-val" style="color:${col2}">${f$(tr)} / ${pct2}%</span></div>`;}
+      if(html){gtBar.innerHTML=html;gtBar.style.display='block';}else{gtBar.style.display='none';}
+    } else if(gtBar){gtBar.style.display='none';}
+  }catch(e){console.warn('Goal tracking error:',e);}
   const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0),tc=data.reduce((s,c)=>s+c.conv,0);
   const bROAS=ts>0?tr/ts:0,bROMI=ts>0?(tr-ts)/ts:0;
   document.getElementById('summary-metrics').innerHTML=`<div class="mcard"><div class="mval">${f$(ts)}</div><div class="mlbl">Total spend</div></div><div class="mcard"><div class="mval">${f$(tr)}</div><div class="mlbl">Revenue</div></div><div class="mcard"><div class="mval">${tc.toLocaleString()}</div><div class="mlbl">Conversions</div></div><div class="mcard"><div class="mval">${fn(bROAS,1)}x</div><div class="mlbl">ROAS</div></div><div class="mcard"><div class="mval">${fn(bROMI,1)}x</div><div class="mlbl">ROMI</div></div>${meta.budget>0?`<div class="mcard"><div class="mval">${Math.round((ts/meta.budget)*100)}%</div><div class="mlbl">Budget used</div></div>`:''}`;
@@ -945,11 +1227,18 @@ function renderRecs(data,kws,meta){
 }
 
 // ── OPTIMIZER HISTORY ──
+function toggleTag(el,tag){el.classList.toggle('selected');}
+function getSelectedTags(){return Array.from(document.querySelectorAll('#tag-selector .tag-opt.selected')).map(e=>e.textContent);}
 function saveReport(){
   const label=document.getElementById('save-label').value.trim()||campaignMeta.name;
-  const report={label,date:new Date().toLocaleDateString(),meta:campaignMeta,channels:analysisData,keywords:kwData};
-  let h=JSON.parse(localStorage.getItem('romi_history')||'[]');h.unshift(report);if(h.length>10)h=h.slice(0,10);localStorage.setItem('romi_history',JSON.stringify(h));
-  const sc=document.getElementById('save-confirm');sc.textContent='Saved: "'+label+'"';sc.style.display='block';setTimeout(()=>sc.style.display='none',3000);renderHistory();populateCmpDropdowns();
+  const tags=getSelectedTags();
+  const romiGoal=parseFloat(document.getElementById('save-romi-goal')?.value)||0;
+  const revGoal=parseFloat(document.getElementById('save-rev-goal')?.value)||0;
+  const report={label,date:new Date().toLocaleDateString(),meta:campaignMeta,channels:analysisData,keywords:kwData,tags,romiGoal:romiGoal||null,revGoal:revGoal||null};
+  let h=JSON.parse(localStorage.getItem('romi_history')||'[]');h.unshift(report);if(h.length>20)h=h.slice(0,20);localStorage.setItem('romi_history',JSON.stringify(h));
+  const sc=document.getElementById('save-confirm');sc.textContent='Saved: "'+label+'"';sc.style.display='block';setTimeout(()=>sc.style.display='none',3000);
+  document.querySelectorAll('#tag-selector .tag-opt').forEach(e=>e.classList.remove('selected'));
+  renderHistory();populateCmpDropdowns();
 }
 function getHistory(){return JSON.parse(localStorage.getItem('romi_history')||'[]');}
 function renderHistory(){
@@ -1137,8 +1426,84 @@ function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElem
 function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';optGoStep(1);}
 
 
+
+// ── THEME TOGGLE ──────────────────────────────────────────
+function toggleTheme(){
+  const body=document.body;
+  const btn=document.getElementById('theme-btn');
+  if(body.classList.contains('dark-forced')){body.classList.remove('dark-forced');body.classList.add('light-forced');btn.textContent='☾ Dark';localStorage.setItem('romi_theme','light');}
+  else if(body.classList.contains('light-forced')){body.classList.remove('light-forced');btn.textContent='Auto';localStorage.setItem('romi_theme','auto');}
+  else{body.classList.add('dark-forced');btn.textContent='☀ Light';localStorage.setItem('romi_theme','dark');}
+}
+function initTheme(){
+  const t=localStorage.getItem('romi_theme');const btn=document.getElementById('theme-btn');
+  if(t==='dark'){document.body.classList.add('dark-forced');btn.textContent='☀ Light';}
+  else if(t==='light'){document.body.classList.add('light-forced');btn.textContent='☾ Dark';}
+  else{btn.textContent='☀ Light';}
+}
+
+// ── ONBOARDING ────────────────────────────────────────────
+function checkOnboard(){
+  if(!localStorage.getItem('romi_onboarded')){
+    document.getElementById('onboard-overlay').style.display='flex';
+  }
+}
+function dismissOnboard(){
+  document.getElementById('onboard-overlay').style.display='none';
+  localStorage.setItem('romi_onboarded','1');
+}
+
+// ── SHARE REPORT ──────────────────────────────────────────
+function shareReport(){
+  try{
+    const payload={type:'opt',meta:campaignMeta,channels:analysisData,keywords:kwData};
+    const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const url=window.location.href.split('?')[0]+'?r='+encoded;
+    navigator.clipboard.writeText(url).then(()=>showToast('Link copied to clipboard'));
+  }catch(e){showToast('Could not generate link — report may be too large');}
+}
+function sharePlan(){
+  try{
+    const payload={type:'pln',name:document.getElementById('pln-name')?.value,budget:document.getElementById('pln-budget')?.value,goal:document.getElementById('pln-goal')?.value,vertical:document.getElementById('pln-vertical')?.value,duration:document.getElementById('pln-duration')?.value,audience:document.getElementById('pln-audience')?.value,aov:document.getElementById('pln-aov')?.value,rationale:document.getElementById('pln-rationale')?.value,alloc:plnAllocData};
+    const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const url=window.location.href.split('?')[0]+'?r='+encoded;
+    navigator.clipboard.writeText(url).then(()=>showToast('Plan link copied to clipboard'));
+  }catch(e){showToast('Could not generate link');}
+}
+function showToast(msg){
+  const t=document.getElementById('share-toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
+}
+function loadFromURL(){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    const r=params.get('r');if(!r)return false;
+    const payload=JSON.parse(decodeURIComponent(escape(atob(r))));
+    if(payload.type==='opt'&&payload.channels){
+      analysisData=payload.channels;kwData=payload.keywords||[];campaignMeta=payload.meta||{};
+      launchTool('optimizer');
+      renderDashboard(payload.channels,kwData,campaignMeta);optGoStep(3);
+      return true;
+    }
+    if(payload.type==='pln'&&payload.alloc){
+      launchTool('planner');
+      if(payload.name)document.getElementById('pln-name').value=payload.name;
+      if(payload.budget)document.getElementById('pln-budget').value=payload.budget;
+      if(payload.goal)document.getElementById('pln-goal').value=payload.goal;
+      if(payload.vertical)document.getElementById('pln-vertical').value=payload.vertical;
+      if(payload.duration)document.getElementById('pln-duration').value=payload.duration;
+      if(payload.audience)document.getElementById('pln-audience').value=payload.audience;
+      if(payload.aov)document.getElementById('pln-aov').value=payload.aov;
+      if(payload.rationale)document.getElementById('pln-rationale').value=payload.rationale;
+      plnAllocData=payload.alloc;plnGoStep(2);
+      return true;
+    }
+  }catch(e){console.warn('Share URL load failed:',e);}
+  return false;
+}
+
 // ── INIT ──
-buildDemoGrid();addChannel();addChannel();renderHistory();plnSuggestMix();
+initTheme();buildDemoGrid();addChannel();addChannel();renderHistory();plnSuggestMix();
+if(!loadFromURL()){renderHomePreview();checkOnboard();}
 </script>
 </body>
 </html>
