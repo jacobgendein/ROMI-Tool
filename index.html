@@ -3,517 +3,287 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ── Primary Meta ── -->
-  <title>ROMI Optimization System — Marketing Campaign Analyzer</title>
-  <meta name="description" content="A free, browser-based marketing analytics tool for campaign managers. Input channel data, get ROMI/ROAS scores, risk flags, and actionable recommendations instantly. No login required." />
-  <meta name="author" content="Your Name" />
-  <meta name="keywords" content="ROMI calculator, ROAS calculator, marketing analytics, campaign optimization, marketing ROI, paid search analysis, marketing dashboard, channel performance" />
-
-  <!-- ── Open Graph (LinkedIn, Slack, iMessage previews) ── -->
+  <title>ROMI Suite — Optimizer &amp; Campaign Planner</title>
+  <meta name="description" content="Two tools in one: analyze past campaign performance with the ROMI Optimizer, or forecast future campaign returns with the Campaign Planner. Free, browser-based, no login required." />
+  <meta name="author" content="Jacob Gendein" />
+  <meta name="keywords" content="ROMI calculator, ROAS calculator, marketing analytics, campaign planner, marketing ROI, campaign forecasting, marketing dashboard, channel performance" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ROMI Optimization System" />
-  <meta property="og:description" content="Enter your campaign data — get instant ROMI scoring, channel benchmarks, risk flags, and optimization recommendations. Built with rule-based intelligence." />
-  <meta property="og:url" content="https://yourusername.github.io/romi-tool/" />
-  <meta property="og:image" content="https://yourusername.github.io/romi-tool/og-preview.png" />
-
-  <!-- ── Twitter / X Card ── -->
+  <meta property="og:title" content="ROMI Suite — Optimizer &amp; Campaign Planner" />
+  <meta property="og:description" content="Analyze past campaigns or forecast future ones. Rule-based intelligence, no login, no data leaves your browser." />
+  <meta property="og:url" content="https://jacobgendein.github.io/romi-tool/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ROMI Optimization System" />
-  <meta name="twitter:description" content="Free marketing analytics tool. Score your campaigns, surface risks, get recommendations — all in the browser." />
-  <meta name="twitter:image" content="https://yourusername.github.io/romi-tool/og-preview.png" />
-
-  <!-- ── Favicon (inline SVG as data URI — no extra files needed) ── -->
+  <meta name="twitter:title" content="ROMI Suite — Optimizer &amp; Campaign Planner" />
+  <meta name="twitter:description" content="Two tools in one: ROMI Optimizer for past campaigns, Campaign Planner for future ones." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231F3864'/><text y='68' x='50' text-anchor='middle' font-size='58' font-family='Arial' fill='white' font-weight='bold'>R</text></svg>" />
-
-  <!-- ── Canonical ── -->
-  <link rel="canonical" href="https://yourusername.github.io/romi-tool/" />
-
+  <link rel="canonical" href="https://jacobgendein.github.io/romi-tool/" />
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f7f7f5;
-      --bg-tertiary: #f0efe9;
-      --bg-info: #e6f1fb;
-      --bg-success: #eaf3de;
-      --bg-warning: #faeeda;
-      --bg-danger: #fcebeb;
-      --text-primary: #1a1a18;
-      --text-secondary: #6b6b66;
-      --text-tertiary: #9a9990;
-      --text-info: #0c447c;
-      --text-success: #27500a;
-      --text-warning: #633806;
-      --text-danger: #791f1f;
-      --border-light: rgba(0,0,0,0.1);
-      --border-medium: rgba(0,0,0,0.18);
-      --border-info: rgba(55,138,221,0.4);
-      --border-success: rgba(99,153,34,0.4);
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --accent: #1F3864;
-      --accent-mid: #2E75B6;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg-primary:#ffffff;--bg-secondary:#f7f7f5;--bg-tertiary:#f0efe9;
+      --bg-info:#e6f1fb;--bg-success:#eaf3de;--bg-warning:#faeeda;--bg-danger:#fcebeb;
+      --text-primary:#1a1a18;--text-secondary:#6b6b66;--text-tertiary:#9a9990;
+      --text-info:#0c447c;--text-success:#27500a;--text-warning:#633806;--text-danger:#791f1f;
+      --border-light:rgba(0,0,0,0.1);--border-medium:rgba(0,0,0,0.18);
+      --border-info:rgba(55,138,221,0.4);--border-success:rgba(99,153,34,0.4);
+      --radius-md:8px;--radius-lg:12px;--accent:#1F3864;--accent-mid:#2E75B6;
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-primary: #1e1e1c;
-        --bg-secondary: #272724;
-        --bg-tertiary: #2e2e2b;
-        --bg-info: #0c2340;
-        --bg-success: #162808;
-        --bg-warning: #2a1a04;
-        --bg-danger: #280f0f;
-        --text-primary: #f0efe9;
-        --text-secondary: #a8a89e;
-        --text-tertiary: #6b6b66;
-        --text-info: #85b7eb;
-        --text-success: #97c459;
-        --text-warning: #fac775;
-        --text-danger: #f09595;
-        --border-light: rgba(255,255,255,0.08);
-        --border-medium: rgba(255,255,255,0.15);
-        --border-info: rgba(55,138,221,0.35);
-        --border-success: rgba(99,153,34,0.35);
-        --accent: #2E75B6;
-        --accent-mid: #85b7eb;
+    @media(prefers-color-scheme:dark){
+      :root{
+        --bg-primary:#1e1e1c;--bg-secondary:#272724;--bg-tertiary:#2e2e2b;
+        --bg-info:#0c2340;--bg-success:#162808;--bg-warning:#2a1a04;--bg-danger:#280f0f;
+        --text-primary:#f0efe9;--text-secondary:#a8a89e;--text-tertiary:#6b6b66;
+        --text-info:#85b7eb;--text-success:#97c459;--text-warning:#fac775;--text-danger:#f09595;
+        --border-light:rgba(255,255,255,0.08);--border-medium:rgba(255,255,255,0.15);
+        --border-info:rgba(55,138,221,0.35);--border-success:rgba(99,153,34,0.35);
+        --accent:#2E75B6;--accent-mid:#85b7eb;
       }
     }
-
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      padding: 0;
-    }
-
-    /* ── Site Header ── */
-    .site-header {
-      background: var(--accent);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .site-header-logo {
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: 0.01em;
-    }
-    .site-header-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      margin-top: 1px;
-    }
-    .site-header-badge {
-      font-size: 11px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: rgba(255,255,255,0.8);
-    }
-
-    /* ── Main container ── */
-    .app-wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
-    }
-
-    /* ── Steps ── */
-    .step { display: none; }
-    .step.active { display: block; }
-
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 1.25rem;
-    }
-    .step-num {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--bg-info);
-      color: var(--text-info);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 600; flex-shrink: 0;
-    }
-    .step-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
-    .step-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-
-    /* ── Progress bar ── */
-    .prog {
-      display: flex; gap: 6px;
-      margin-bottom: 1.75rem;
-    }
-    .pseg {
-      height: 3px; border-radius: 2px; flex: 1;
-      background: var(--border-light);
-      transition: background 0.3s;
-    }
-    .pseg.done { background: var(--accent-mid); }
-
-    /* ── Cards ── */
-    .card {
-      background: var(--bg-primary);
-      border: 0.5px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.25rem;
-      margin-bottom: 12px;
-    }
-    .card-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-
-    /* ── Form elements ── */
-    .fg { display: flex; flex-direction: column; gap: 4px; }
-    .fl { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
-    .fg input, .fg select, .fg textarea {
-      font-size: 13px; padding: 7px 10px;
-      border: 0.5px solid var(--border-medium);
-      border-radius: var(--radius-md);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      width: 100%;
-    }
-    .fg textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
-    .fg input:focus, .fg select:focus, .fg textarea:focus {
-      outline: none; border-color: var(--accent-mid);
-    }
-    .fgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-    .fgrid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .fgrid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-    /* ── Buttons ── */
-    .btn-p {
-      font-size: 13px; font-weight: 600; padding: 8px 20px;
-      border-radius: var(--radius-md);
-      background: var(--bg-info); color: var(--text-info);
-      border: 0.5px solid var(--border-info); cursor: pointer;
-      transition: opacity 0.15s;
-    }
-    .btn-p:hover { opacity: 0.82; }
-    .btn-s {
-      font-size: 13px; padding: 8px 20px;
-      border-radius: var(--radius-md);
-      background: transparent; color: var(--text-secondary);
-      border: 0.5px solid var(--border-light); cursor: pointer;
-    }
-    .btn-s:hover { background: var(--bg-secondary); }
-    .btn-g {
-      font-size: 13px; padding: 8px 18px;
-      border-radius: var(--radius-md);
-      background: var(--bg-success); color: var(--text-success);
-      border: 0.5px solid var(--border-success); cursor: pointer;
-    }
-    .add-btn {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: var(--text-info); cursor: pointer;
-      border: 0.5px dashed var(--border-info);
-      border-radius: var(--radius-lg);
-      padding: 10px 1.25rem; background: transparent; width: 100%; margin-bottom: 10px;
-    }
-    .add-btn:hover { background: var(--bg-info); }
-    .rmv {
-      font-size: 11px; color: var(--text-secondary); cursor: pointer;
-      border: 0.5px solid var(--border-light);
-      border-radius: var(--radius-md); padding: 3px 9px; background: transparent;
-    }
-    .rmv:hover { background: var(--bg-secondary); }
-    .nav { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.25rem; }
-    .err { font-size: 12px; color: var(--text-danger); margin-top: 6px; display: none; }
-
-    /* ── Tabs ── */
-    .tab-row {
-      display: flex; gap: 0;
-      margin-bottom: 1.1rem;
-      border-bottom: 0.5px solid var(--border-light);
-    }
-    .tab {
-      font-size: 13px; padding: 8px 16px; cursor: pointer;
-      color: var(--text-secondary);
-      border-bottom: 2px solid transparent; margin-bottom: -0.5px;
-    }
-    .tab.active { color: var(--text-primary); border-bottom-color: var(--accent-mid); font-weight: 600; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* ── Demo cards ── */
-    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 10px; margin-bottom: 1.25rem; }
-    .demo-card {
-      background: var(--bg-primary);
-      border: 0.5px solid var(--border-light);
-      border-radius: var(--radius-lg); padding: 1rem; cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    .demo-card:hover { border-color: var(--border-info); background: var(--bg-info); }
-    .demo-icon { font-size: 22px; margin-bottom: 7px; }
-    .demo-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
-    .demo-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
-    .demo-tag {
-      display: inline-block; font-size: 10px; padding: 2px 8px;
-      border-radius: var(--radius-md);
-      background: var(--bg-secondary); color: var(--text-secondary); margin-top: 6px;
-    }
-    .divider {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem;
-    }
-    .divider-line { flex: 1; height: 0.5px; background: var(--border-light); }
-    .divider-text { font-size: 11px; color: var(--text-tertiary); }
-
-    /* ── Info box ── */
-    .info {
-      background: var(--bg-info); border-radius: var(--radius-md);
-      padding: 9px 12px; font-size: 12px; color: var(--text-info); margin-bottom: 1rem;
-    }
-
-    /* ── CSV Upload ── */
-    .upload-zone {
-      border: 1.5px dashed var(--border-medium);
-      border-radius: var(--radius-lg); padding: 1.75rem;
-      text-align: center; cursor: pointer;
-      transition: background 0.15s; margin-bottom: 10px;
-    }
-    .upload-zone:hover, .upload-zone.drag { background: var(--bg-secondary); border-color: var(--border-info); }
-    .upload-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-    .upload-sub { font-size: 12px; color: var(--text-secondary); }
-    .map-row {
-      display: grid; grid-template-columns: 1fr 20px 1fr;
-      gap: 8px; align-items: center; padding: 6px 0;
-      border-bottom: 0.5px solid var(--border-light); font-size: 12px;
-    }
-    .map-label { color: var(--text-secondary); }
-    .map-arrow { color: var(--text-tertiary); text-align: center; }
-    .preview-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 0.75rem; }
-    .preview-table th {
-      background: var(--bg-secondary); padding: 5px 8px;
-      text-align: left; font-weight: 600; color: var(--text-secondary);
-      border-bottom: 0.5px solid var(--border-light);
-    }
-    .preview-table td { padding: 5px 8px; border-bottom: 0.5px solid var(--border-light); color: var(--text-primary); }
-
-    /* ── Dashboard ── */
-    .slbl {
-      font-size: 11px; font-weight: 600; color: var(--text-secondary);
-      letter-spacing: 0.05em; text-transform: uppercase;
-      margin: 1.25rem 0 0.6rem;
-    }
-    .mgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 8px; margin-bottom: 1.25rem; }
-    .mcard { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 10px; text-align: center; }
-    .mval { font-size: 20px; font-weight: 600; color: var(--text-primary); }
-    .mlbl { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-    .gauge {
-      display: flex; align-items: center; gap: 1rem; padding: 10px 1rem;
-      background: var(--bg-primary); border: 0.5px solid var(--border-light);
-      border-radius: var(--radius-lg); margin-bottom: 1rem;
-    }
-    .gval { font-size: 28px; font-weight: 600; }
-    .glbl { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-    .gbar { flex: 1; height: 8px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; }
-    .gfill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-    .crow {
-      display: grid;
-      grid-template-columns: 1fr 75px 72px 72px 72px 112px;
-      gap: 6px; align-items: center;
-      padding: 9px 0; border-bottom: 0.5px solid var(--border-light); font-size: 12px;
-    }
-    .crow.hdr { font-size: 11px; color: var(--text-secondary); font-weight: 600; border-bottom: 0.5px solid var(--border-medium); }
-    .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-md); }
-    .b-ok  { background: var(--bg-success);  color: var(--text-success); }
-    .b-warn{ background: var(--bg-warning); color: var(--text-warning); }
-    .b-bad { background: var(--bg-danger);  color: var(--text-danger); }
-    .krow {
-      display: grid; grid-template-columns: 2fr 70px 72px 72px 72px 90px;
-      gap: 6px; align-items: center; padding: 8px 0;
-      border-bottom: 0.5px solid var(--border-light); font-size: 12px;
-    }
-    .krow.hdr { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
-
-    /* ── Flags & Recs ── */
-    .flag-item {
-      display: flex; gap: 10px; align-items: flex-start;
-      padding: 9px 0; border-bottom: 0.5px solid var(--border-light);
-    }
-    .fdot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-    .fdot.w { background: #EF9F27; }
-    .fdot.d { background: #E24B4A; }
-    .ftitle { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-    .fdesc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5; }
-    .rec {
-      padding: 10px 12px; background: var(--bg-secondary);
-      border-radius: var(--radius-md); margin-bottom: 7px;
-    }
-    .rch { font-size: 11px; font-weight: 600; color: var(--text-info); margin-bottom: 3px; letter-spacing: 0.03em; }
-    .ract { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
-    .rimp { font-size: 11px; color: var(--text-success); margin-top: 3px; }
-    .exec {
-      background: var(--bg-secondary); border-radius: var(--radius-lg);
-      padding: 1.1rem; font-size: 13px; color: var(--text-secondary);
-      line-height: 1.8; margin-bottom: 1rem;
-    }
-
-    /* ── History & Compare ── */
-    .hist-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 0.5px solid var(--border-light);
-    }
-    .hist-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-    .hist-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-    .compare-row {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 6px; align-items: center;
-      padding: 8px 0; border-bottom: 0.5px solid var(--border-light); font-size: 12px;
-    }
-    .compare-row.hdr { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
-    .delta-up { color: var(--text-success); font-weight: 600; }
-    .delta-dn { color: var(--text-danger); font-weight: 600; }
-    .delta-nc { color: var(--text-secondary); }
-
-    /* ── Footer ── */
-    .site-footer {
-      text-align: center; padding: 2rem;
-      font-size: 12px; color: var(--text-tertiary);
-      border-top: 0.5px solid var(--border-light);
-      margin-top: 3rem;
-    }
-    .site-footer a { color: var(--text-secondary); text-decoration: none; }
-    .site-footer a:hover { text-decoration: underline; }
-
-    @media (max-width: 600px) {
-      .app-wrap { padding: 1.25rem 1rem 3rem; }
-      .crow { grid-template-columns: 1fr 60px 60px 60px; }
-      .crow .hide-mobile { display: none; }
-      .fgrid3 { grid-template-columns: 1fr 1fr; }
-      .demo-grid { grid-template-columns: 1fr 1fr; }
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg-tertiary);color:var(--text-primary);min-height:100vh}
+    .site-header{background:var(--accent);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .site-header-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.01em}
+    .site-header-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:1px}
+    .back-btn{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);background:transparent;cursor:pointer;display:none}
+    .back-btn:hover{background:rgba(255,255,255,0.1)}
+    .back-btn.visible{display:block}
+    #landing{display:flex;min-height:calc(100vh - 56px)}
+    .half{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3rem 2.5rem;cursor:pointer;transition:background 0.2s;position:relative;overflow:hidden}
+    .half-left{background:var(--bg-primary);border-right:0.5px solid var(--border-light)}
+    .half-right{background:var(--bg-secondary)}
+    .half-left:hover{background:var(--bg-info)}
+    .half-right:hover{background:#dff0e8}
+    .half:hover .half-cta{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .half-icon{font-size:48px;margin-bottom:1.25rem;line-height:1}
+    .half-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:0.5rem}
+    .half-title{font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:0.75rem;text-align:center}
+    .half-desc{font-size:14px;color:var(--text-secondary);line-height:1.7;text-align:center;max-width:320px;margin-bottom:1.5rem}
+    .half-pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:1.75rem}
+    .half-pill{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg-secondary);color:var(--text-secondary);border:0.5px solid var(--border-light)}
+    .half-cta{font-size:13px;font-weight:600;padding:10px 24px;border-radius:var(--radius-md);background:transparent;color:var(--text-primary);border:1.5px solid var(--border-medium);transition:all 0.2s;pointer-events:none}
+    .half-divider{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:var(--bg-tertiary);border:0.5px solid var(--border-medium);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-tertiary);z-index:10;pointer-events:none}
+    #tool-optimizer,#tool-planner{display:none}
+    #tool-optimizer.active,#tool-planner.active{display:block}
+    .app-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem 4rem}
+    .step{display:none}.step.active{display:block}
+    .step-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
+    .step-num{width:28px;height:28px;border-radius:50%;background:var(--bg-info);color:var(--text-info);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+    .step-title{font-size:18px;font-weight:600;color:var(--text-primary)}
+    .step-sub{font-size:12px;color:var(--text-secondary);margin-top:2px}
+    .prog{display:flex;gap:6px;margin-bottom:1.75rem}
+    .pseg{height:3px;border-radius:2px;flex:1;background:var(--border-light);transition:background 0.3s}
+    .pseg.done{background:var(--accent-mid)}
+    .card{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
+    .card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .card-title{font-size:13px;font-weight:600;color:var(--text-primary)}
+    .fg{display:flex;flex-direction:column;gap:4px}
+    .fl{font-size:11px;color:var(--text-secondary);font-weight:500}
+    .fg input,.fg select,.fg textarea{font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);width:100%}
+    .fg textarea{resize:vertical;min-height:60px;line-height:1.5}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--accent-mid)}
+    .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+    .fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .btn-p{font-size:13px;font-weight:600;padding:8px 20px;border-radius:var(--radius-md);background:var(--bg-info);color:var(--text-info);border:0.5px solid var(--border-info);cursor:pointer;transition:opacity 0.15s}
+    .btn-p:hover{opacity:0.82}
+    .btn-s{font-size:13px;padding:8px 20px;border-radius:var(--radius-md);background:transparent;color:var(--text-secondary);border:0.5px solid var(--border-light);cursor:pointer}
+    .btn-s:hover{background:var(--bg-secondary)}
+    .btn-g{font-size:13px;padding:8px 18px;border-radius:var(--radius-md);background:var(--bg-success);color:var(--text-success);border:0.5px solid var(--border-success);cursor:pointer}
+    .add-btn{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-info);cursor:pointer;border:0.5px dashed var(--border-info);border-radius:var(--radius-lg);padding:10px 1.25rem;background:transparent;width:100%;margin-bottom:10px}
+    .add-btn:hover{background:var(--bg-info)}
+    .rmv{font-size:11px;color:var(--text-secondary);cursor:pointer;border:0.5px solid var(--border-light);border-radius:var(--radius-md);padding:3px 9px;background:transparent}
+    .rmv:hover{background:var(--bg-secondary)}
+    .nav{display:flex;gap:10px;justify-content:flex-end;margin-top:1.25rem}
+    .err{font-size:12px;color:var(--text-danger);margin-top:6px;display:none}
+    .tab-row{display:flex;gap:0;margin-bottom:1.1rem;border-bottom:0.5px solid var(--border-light)}
+    .tab{font-size:13px;padding:8px 16px;cursor:pointer;color:var(--text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+    .tab.active{color:var(--text-primary);border-bottom-color:var(--accent-mid);font-weight:600}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .slbl{font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin:1.25rem 0 0.6rem}
+    .info{background:var(--bg-info);border-radius:var(--radius-md);padding:9px 12px;font-size:12px;color:var(--text-info);margin-bottom:1rem}
+    .mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:1.25rem}
+    .mcard{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px;text-align:center}
+    .mval{font-size:20px;font-weight:600;color:var(--text-primary)}
+    .mlbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .gauge{display:flex;align-items:center;gap:1rem;padding:10px 1rem;background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:1rem}
+    .gval{font-size:28px;font-weight:600}
+    .glbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .gbar{flex:1;height:8px;background:var(--bg-tertiary);border-radius:4px;overflow:hidden}
+    .gfill{height:100%;border-radius:4px;transition:width 0.6s ease}
+    .crow{display:grid;grid-template-columns:1fr 75px 72px 72px 72px 112px;gap:6px;align-items:center;padding:9px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .crow.hdr{font-size:11px;color:var(--text-secondary);font-weight:600;border-bottom:0.5px solid var(--border-medium)}
+    .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:var(--radius-md)}
+    .b-ok{background:var(--bg-success);color:var(--text-success)}
+    .b-warn{background:var(--bg-warning);color:var(--text-warning)}
+    .b-bad{background:var(--bg-danger);color:var(--text-danger)}
+    .krow{display:grid;grid-template-columns:2fr 70px 72px 72px 72px 90px;gap:6px;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .krow.hdr{font-size:11px;color:var(--text-secondary);font-weight:600}
+    .flag-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:0.5px solid var(--border-light)}
+    .fdot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+    .fdot.w{background:#EF9F27}.fdot.d{background:#E24B4A}
+    .ftitle{font-size:13px;font-weight:600;color:var(--text-primary)}
+    .fdesc{font-size:12px;color:var(--text-secondary);margin-top:2px;line-height:1.5}
+    .rec{padding:10px 12px;background:var(--bg-secondary);border-radius:var(--radius-md);margin-bottom:7px}
+    .rch{font-size:11px;font-weight:600;color:var(--text-info);margin-bottom:3px;letter-spacing:0.03em}
+    .ract{font-size:13px;color:var(--text-primary);line-height:1.5}
+    .rimp{font-size:11px;color:var(--text-success);margin-top:3px}
+    .exec{background:var(--bg-secondary);border-radius:var(--radius-lg);padding:1.1rem;font-size:13px;color:var(--text-secondary);line-height:1.8;margin-bottom:1rem}
+    .hist-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border-light)}
+    .hist-name{font-size:13px;font-weight:600;color:var(--text-primary)}
+    .hist-meta{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:6px;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .compare-row.hdr{font-size:11px;color:var(--text-secondary);font-weight:600}
+    .delta-up{color:var(--text-success);font-weight:600}
+    .delta-dn{color:var(--text-danger);font-weight:600}
+    .delta-nc{color:var(--text-secondary)}
+    .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:1.25rem}
+    .demo-card{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:border-color 0.15s,background 0.15s}
+    .demo-card:hover{border-color:var(--border-info);background:var(--bg-info)}
+    .demo-icon{font-size:22px;margin-bottom:7px}
+    .demo-name{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px}
+    .demo-desc{font-size:11px;color:var(--text-secondary);line-height:1.5}
+    .demo-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg-secondary);color:var(--text-secondary);margin-top:6px}
+    .divider{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+    .divider-line{flex:1;height:0.5px;background:var(--border-light)}
+    .divider-text{font-size:11px;color:var(--text-tertiary)}
+    .upload-zone{border:1.5px dashed var(--border-medium);border-radius:var(--radius-lg);padding:1.75rem;text-align:center;cursor:pointer;transition:background 0.15s;margin-bottom:10px}
+    .upload-zone:hover,.upload-zone.drag{background:var(--bg-secondary);border-color:var(--border-info)}
+    .upload-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+    .upload-sub{font-size:12px;color:var(--text-secondary)}
+    .map-row{display:grid;grid-template-columns:1fr 20px 1fr;gap:8px;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .map-label{color:var(--text-secondary)}
+    .map-arrow{color:var(--text-tertiary);text-align:center}
+    .preview-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:0.75rem}
+    .preview-table th{background:var(--bg-secondary);padding:5px 8px;text-align:left;font-weight:600;color:var(--text-secondary);border-bottom:0.5px solid var(--border-light)}
+    .preview-table td{padding:5px 8px;border-bottom:0.5px solid var(--border-light);color:var(--text-primary)}
+    .forecast-band{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin-bottom:10px}
+    .forecast-band-title{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em}
+    .band-row{display:grid;grid-template-columns:90px 1fr 90px;gap:10px;align-items:center;margin-bottom:8px;font-size:12px}
+    .band-label{color:var(--text-secondary)}
+    .band-bar-wrap{height:8px;background:var(--bg-tertiary);border-radius:4px;overflow:hidden}
+    .band-bar{height:100%;border-radius:4px}
+    .band-val{font-weight:600;color:var(--text-primary);text-align:right}
+    .alloc-row{display:grid;grid-template-columns:130px 1fr 55px 80px;gap:10px;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .alloc-row.hdr{font-size:11px;color:var(--text-secondary);font-weight:600}
+    .alloc-name{font-weight:500;color:var(--text-primary)}
+    .alloc-pct{font-weight:600;color:var(--text-info);text-align:right}
+    .projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
+    .proj-card{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem;text-align:center}
+    .proj-main{font-size:22px;font-weight:600;color:var(--text-primary)}
+    .proj-range{font-size:11px;color:var(--text-secondary);margin-top:3px}
+    .proj-label{font-size:11px;color:var(--text-tertiary);margin-top:4px;text-transform:uppercase;letter-spacing:0.04em}
+    .confidence-note{font-size:11px;color:var(--text-tertiary);font-style:italic;margin-top:0.5rem;padding:0 0.25rem;line-height:1.6}
+    .insight-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:0.5px solid var(--border-light)}
+    .insight-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;background:#1D9E75}
+    .insight-text{font-size:13px;font-weight:600;color:var(--text-primary)}
+    .insight-sub{font-size:12px;color:var(--text-secondary);margin-top:2px;line-height:1.5}
+    .total-pct{font-size:12px;margin-top:6px;padding:6px 10px;border-radius:var(--radius-md);text-align:center;font-weight:600}
+    .total-ok{background:var(--bg-success);color:var(--text-success)}
+    .total-bad{background:var(--bg-danger);color:var(--text-danger)}
+    .site-footer{text-align:center;padding:2rem;font-size:12px;color:var(--text-tertiary);border-top:0.5px solid var(--border-light);margin-top:3rem}
+    .site-footer a{color:var(--text-secondary);text-decoration:none}
+    .site-footer a:hover{text-decoration:underline}
+    @media(max-width:700px){
+      #landing{flex-direction:column}
+      .half{padding:2.5rem 1.5rem}
+      .crow{grid-template-columns:1fr 60px 60px 60px}
+      .crow .hide-mobile{display:none}
+      .fgrid3{grid-template-columns:1fr 1fr}
+      .alloc-row{grid-template-columns:100px 1fr 48px 65px}
     }
   </style>
 </head>
 <body>
 
-  <!-- ── Site Header ── -->
-  <header class="site-header">
-    <div>
-      <div class="site-header-logo">ROMI Optimization System</div>
-      <div class="site-header-sub">Marketing Campaign Analyzer</div>
-    </div>
-    <div class="site-header-badge">Free &amp; open source</div>
-  </header>
+<header class="site-header">
+  <div>
+    <div class="site-header-logo">ROMI Suite</div>
+    <div class="site-header-sub" id="header-sub">Optimizer &amp; Campaign Planner</div>
+  </div>
+  <button class="back-btn" id="back-btn" onclick="goHome()">← Back to home</button>
+</header>
 
-  <!-- ── App ── -->
+<!-- ══ LANDING ══ -->
+<div id="landing">
+  <div class="half half-left" onclick="launchTool('optimizer')">
+    <div class="half-icon">📊</div>
+    <div class="half-label">Backwards-looking</div>
+    <div class="half-title">ROMI Optimizer</div>
+    <div class="half-desc">Enter data from campaigns you've already run. Get scores, benchmark comparisons, risk flags, and recommendations to improve future spend.</div>
+    <div class="half-pills">
+      <span class="half-pill">Channel scoring</span><span class="half-pill">Risk flags</span>
+      <span class="half-pill">CSV import</span><span class="half-pill">Report history</span>
+      <span class="half-pill">Side-by-side compare</span>
+    </div>
+    <div class="half-cta">Open Optimizer →</div>
+  </div>
+  <div class="half-divider">or</div>
+  <div class="half half-right" onclick="launchTool('planner')">
+    <div class="half-icon">🧭</div>
+    <div class="half-label">Forwards-looking</div>
+    <div class="half-title">Campaign Planner</div>
+    <div class="half-desc">Plan a campaign before you spend. Set your budget, goal, and vertical — get an auto-suggested channel mix with projected ROMI, revenue, and conversion ranges.</div>
+    <div class="half-pills">
+      <span class="half-pill">Budget allocation</span><span class="half-pill">ROMI forecast bands</span>
+      <span class="half-pill">Auto channel mix</span><span class="half-pill">Live sliders</span>
+      <span class="half-pill">Strategic insights</span>
+    </div>
+    <div class="half-cta">Open Planner →</div>
+  </div>
+</div>
+
+<!-- ══ OPTIMIZER ══ -->
+<div id="tool-optimizer">
   <main class="app-wrap">
-    <div class="prog" id="progress">
-      <div class="pseg done" id="p1"></div>
-      <div class="pseg" id="p2"></div>
-      <div class="pseg" id="p3"></div>
-      <div class="pseg" id="p4"></div>
-    </div>
+    <div class="prog"><div class="pseg done" id="op1"></div><div class="pseg" id="op2"></div><div class="pseg" id="op3"></div><div class="pseg" id="op4"></div></div>
 
-    <!-- STEP 1: Campaign details -->
-    <div class="step active" id="step1">
-      <div class="step-header">
-        <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Campaign details</div>
-          <div class="step-sub">Start from scratch or load a demo scenario</div>
-        </div>
-      </div>
-
+    <div class="step active" id="opt-step1">
+      <div class="step-header"><div class="step-num">1</div><div><div class="step-title">Campaign details</div><div class="step-sub">Start from scratch or load a demo scenario</div></div></div>
       <div class="slbl">Quick start — load a demo scenario</div>
       <div class="demo-grid" id="demo-grid"></div>
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <span class="divider-text">or fill in manually</span>
-        <div class="divider-line"></div>
-      </div>
-
+      <div class="divider"><div class="divider-line"></div><span class="divider-text">or fill in manually</span><div class="divider-line"></div></div>
       <div class="card">
         <div class="fgrid2" style="margin-bottom:10px">
           <div class="fg"><label class="fl">Campaign name</label><input id="camp-name" placeholder="e.g. Summer 2025 Brand Push"></div>
           <div class="fg"><label class="fl">Reporting period</label><input id="camp-period" placeholder="e.g. Q2 2025 / June 1–30"></div>
         </div>
         <div class="fgrid3" style="margin-bottom:10px">
-          <div class="fg">
-            <label class="fl">Primary goal</label>
-            <select id="camp-goal">
-              <option>Brand awareness</option><option>Lead generation</option>
-              <option>Direct sales / ROAS</option><option>Customer retention</option>
-              <option>App installs</option><option>Event registrations</option>
-            </select>
-          </div>
-          <div class="fg">
-            <label class="fl">Industry / vertical</label>
-            <select id="camp-vertical">
-              <option>E-commerce / DTC</option><option>B2B SaaS</option>
-              <option>Consumer services</option><option>Healthcare</option>
-              <option>Finance</option><option>Education</option>
-              <option>Non-profit</option><option>Other</option>
-            </select>
-          </div>
+          <div class="fg"><label class="fl">Primary goal</label><select id="camp-goal"><option>Brand awareness</option><option>Lead generation</option><option>Direct sales / ROAS</option><option>Customer retention</option><option>App installs</option><option>Event registrations</option></select></div>
+          <div class="fg"><label class="fl">Industry / vertical</label><select id="camp-vertical"><option>E-commerce / DTC</option><option>B2B SaaS</option><option>Consumer services</option><option>Healthcare</option><option>Finance</option><option>Education</option><option>Non-profit</option><option>Other</option></select></div>
           <div class="fg"><label class="fl">Total budget ($)</label><input id="camp-budget" type="number" placeholder="50000"></div>
         </div>
         <div class="fgrid2" style="margin-bottom:10px">
           <div class="fg"><label class="fl">Target audience</label><input id="camp-audience" placeholder="e.g. Women 25–44, urban, health-conscious"></div>
           <div class="fg"><label class="fl">Geographic focus</label><input id="camp-geo" placeholder="e.g. US National, Northeast, Global"></div>
         </div>
-        <div class="fg" style="margin-bottom:10px">
-          <label class="fl">Campaign rationale — why this campaign, why now?</label>
-          <textarea id="camp-rationale" placeholder="Describe the strategic reason for this campaign..."></textarea>
-        </div>
+        <div class="fg" style="margin-bottom:10px"><label class="fl">Campaign rationale</label><textarea id="camp-rationale" placeholder="Why this campaign, why now?"></textarea></div>
         <div class="fg"><label class="fl">Additional KPIs being tracked</label><input id="camp-kpis" placeholder="e.g. Email list growth, branded search volume, NPS"></div>
       </div>
-      <div class="nav"><button class="btn-p" onclick="goStep(2)">Channel data →</button></div>
+      <div class="nav"><button class="btn-p" onclick="optGoStep(2)">Channel data →</button></div>
     </div>
 
-    <!-- STEP 2: Channel + keyword data -->
-    <div class="step" id="step2">
-      <div class="step-header">
-        <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Channel &amp; keyword data</div>
-          <div class="step-sub">Enter manually, upload a CSV, or edit the loaded demo</div>
-        </div>
-      </div>
+    <div class="step" id="opt-step2">
+      <div class="step-header"><div class="step-num">2</div><div><div class="step-title">Channel &amp; keyword data</div><div class="step-sub">Enter manually, upload a CSV, or edit the loaded demo</div></div></div>
       <div class="tab-row">
         <div class="tab active" onclick="switchTab('channels')" id="tab-channels">Channels</div>
         <div class="tab" onclick="switchTab('keywords')" id="tab-keywords">Keywords / SEO</div>
         <div class="tab" onclick="switchTab('csv')" id="tab-csv">CSV import</div>
       </div>
-
       <div class="tab-panel active" id="panel-channels">
-        <div class="info">Add one row per marketing channel. At least 2 channels required to run a comparison.</div>
+        <div class="info">Add one row per marketing channel. At least 2 channels required.</div>
         <div id="ch-container"></div>
-        <button class="add-btn" onclick="addChannel()">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Add channel
-        </button>
+        <button class="add-btn" onclick="addChannel()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Add channel</button>
       </div>
-
       <div class="tab-panel" id="panel-keywords">
-        <div class="info">Optional: enter keyword data from Google Search Console, SEMrush, or Ahrefs for SEO analysis.</div>
+        <div class="info">Optional: keyword data from Google Search Console, SEMrush, or Ahrefs.</div>
         <div id="kw-container"></div>
-        <button class="add-btn" onclick="addKeyword()">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Add keyword
-        </button>
+        <button class="add-btn" onclick="addKeyword()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Add keyword</button>
       </div>
-
       <div class="tab-panel" id="panel-csv">
-        <div class="info">Upload a CSV from Google Ads, Meta Ads Manager, HubSpot, Klaviyo, or any spreadsheet. Columns are auto-detected.</div>
-        <div class="upload-zone" id="upload-zone"
-          onclick="document.getElementById('csv-input').click()"
-          ondragover="event.preventDefault();this.classList.add('drag')"
-          ondragleave="this.classList.remove('drag')"
-          ondrop="handleDrop(event)">
+        <div class="info">Upload a CSV from Google Ads, Meta, HubSpot, Klaviyo, or any spreadsheet.</div>
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-input').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
           <svg style="width:36px;height:36px;margin:0 auto 10px;display:block;opacity:0.35" viewBox="0 0 36 36" fill="none"><path d="M18 4v20M11 11l7-7 7 7M5 26v2a3 3 0 003 3h20a3 3 0 003-3v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div class="upload-title">Drop a CSV file here, or click to browse</div>
-          <div class="upload-sub">Supports Google Ads, Meta Ads Manager, HubSpot, Klaviyo, or any custom export</div>
+          <div class="upload-title">Drop a CSV here, or click to browse</div>
+          <div class="upload-sub">Supports Google Ads, Meta, HubSpot, Klaviyo, or any custom export</div>
         </div>
         <input type="file" id="csv-input" accept=".csv" style="display:none" onchange="handleCSVFile(event)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
@@ -522,461 +292,509 @@
         </div>
         <div id="csv-mapper" style="display:none;margin-top:1rem"></div>
       </div>
-
       <div id="step2-err" class="err"></div>
-      <div class="nav">
-        <button class="btn-s" onclick="goStep(1)">← Back</button>
-        <button class="btn-p" onclick="runAnalysis()">Run analysis →</button>
-      </div>
+      <div class="nav"><button class="btn-s" onclick="optGoStep(1)">← Back</button><button class="btn-p" onclick="runAnalysis()">Run analysis →</button></div>
     </div>
 
-    <!-- STEP 3: Dashboard -->
-    <div class="step" id="step3">
-      <div class="step-header">
-        <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Dashboard</div>
-          <div class="step-sub" id="dash-sub">Results</div>
-        </div>
-      </div>
+    <div class="step" id="opt-step3">
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div></div>
       <div class="mgrid" id="summary-metrics"></div>
       <div class="gauge" id="romi-gauge"></div>
       <div class="slbl">Channel breakdown</div>
       <div id="ch-table"></div>
-      <div style="position:relative;width:100%;height:260px;margin-top:1.25rem">
-        <canvas id="roasChart" role="img" aria-label="Bar chart comparing ROAS and ROMI per marketing channel"></canvas>
-      </div>
+      <div style="position:relative;width:100%;height:260px;margin-top:1.25rem"><canvas id="roasChart" role="img" aria-label="Bar chart comparing ROAS and ROMI per channel"></canvas></div>
       <div id="kw-section"></div>
-      <div class="nav">
-        <button class="btn-s" onclick="goStep(2)">← Back</button>
-        <button class="btn-p" onclick="goStep(4)">Recommendations →</button>
-      </div>
+      <div class="nav"><button class="btn-s" onclick="optGoStep(2)">← Back</button><button class="btn-p" onclick="optGoStep(4)">Recommendations →</button></div>
     </div>
 
-    <!-- STEP 4: Recs + History -->
-    <div class="step" id="step4">
-      <div class="step-header">
-        <div class="step-num">4</div>
-        <div>
-          <div class="step-title">Flags, recommendations &amp; history</div>
-          <div class="step-sub">Optimizations and report archive</div>
-        </div>
-      </div>
+    <div class="step" id="opt-step4">
+      <div class="step-header"><div class="step-num">4</div><div><div class="step-title">Flags, recommendations &amp; history</div><div class="step-sub">Optimizations and report archive</div></div></div>
       <div class="tab-row">
         <div class="tab active" onclick="switchTab4('recs')" id="tab4-recs">Recommendations</div>
         <div class="tab" onclick="switchTab4('history')" id="tab4-history">Report history</div>
         <div class="tab" onclick="switchTab4('compare')" id="tab4-compare">Compare reports</div>
       </div>
-
       <div class="tab-panel active" id="panel4-recs">
         <div class="slbl">Risk flags</div><div id="flags-out"></div>
         <div class="slbl">Recommendations</div><div id="recs-out"></div>
-        <div class="slbl">Executive summary</div>
-        <div class="exec" id="exec-out"></div>
+        <div class="slbl">Executive summary</div><div class="exec" id="exec-out"></div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:1rem">
-          <input id="save-label" placeholder="Label this report (e.g. Q2 Brand Campaign)"
-            style="flex:1;font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
+          <input id="save-label" placeholder="Label this report" style="flex:1;font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">
           <button class="btn-g" onclick="saveReport()">Save report</button>
         </div>
         <div id="save-confirm" style="font-size:12px;color:var(--text-success);margin-top:6px;display:none"></div>
       </div>
-
-      <div class="tab-panel" id="panel4-history">
-        <div id="history-list"></div>
-        <div style="margin-top:1rem"><button class="btn-s" onclick="resetTool()">Start new analysis</button></div>
-      </div>
-
+      <div class="tab-panel" id="panel4-history"><div id="history-list"></div><div style="margin-top:1rem"><button class="btn-s" onclick="resetTool()">Start new analysis</button></div></div>
       <div class="tab-panel" id="panel4-compare">
         <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap">
-          <div class="fg" style="flex:1;min-width:160px">
-            <label class="fl">Report A</label>
-            <select id="cmp-a" style="font-size:13px;padding:6px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)"></select>
-          </div>
-          <div class="fg" style="flex:1;min-width:160px">
-            <label class="fl">Report B</label>
-            <select id="cmp-b" style="font-size:13px;padding:6px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)"></select>
-          </div>
+          <div class="fg" style="flex:1;min-width:160px"><label class="fl">Report A</label><select id="cmp-a" style="font-size:13px;padding:6px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)"></select></div>
+          <div class="fg" style="flex:1;min-width:160px"><label class="fl">Report B</label><select id="cmp-b" style="font-size:13px;padding:6px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)"></select></div>
           <div style="align-self:flex-end"><button class="btn-p" onclick="runComparison()">Compare →</button></div>
         </div>
         <div id="compare-out"></div>
       </div>
-
-      <div class="nav"><button class="btn-s" onclick="goStep(3)">← Dashboard</button></div>
+      <div class="nav"><button class="btn-s" onclick="optGoStep(3)">← Dashboard</button></div>
     </div>
   </main>
+  <footer class="site-footer">Built with vanilla JS &amp; <a href="https://www.chartjs.org" target="_blank" rel="noopener">Chart.js</a> &nbsp;·&nbsp; No data leaves your browser &nbsp;·&nbsp; <a href="https://github.com/yourusername/romi-tool" target="_blank" rel="noopener">View source on GitHub</a></footer>
+</div>
 
-  <!-- ── Footer ── -->
-  <footer class="site-footer">
-    Built with vanilla JS &amp; <a href="https://www.chartjs.org" target="_blank" rel="noopener">Chart.js</a> &nbsp;·&nbsp;
-    No data leaves your browser &nbsp;·&nbsp;
-    <a href="https://github.com/yourusername/romi-tool" target="_blank" rel="noopener">View source on GitHub</a>
-  </footer>
+<!-- ══ CAMPAIGN PLANNER ══ -->
+<div id="tool-planner">
+  <main class="app-wrap">
+    <div class="prog"><div class="pseg done" id="pp1"></div><div class="pseg" id="pp2"></div><div class="pseg" id="pp3"></div></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <script>
-    let chCount=0, kwCount=0, analysisData=[], kwData=[], campaignMeta={}, chartInst=null;
-
-    const TYPES=['Paid Search','Paid Social','Email','SEO / Organic','Display','Affiliate','Influencer','Direct Mail','Other'];
-    const BENCH={
-      'Paid Search':{roas:4,romi:3,ctr:3.5},'Paid Social':{roas:2.5,romi:1.5,ctr:1.0},
-      'Email':{roas:10,romi:9,ctr:2.5},'SEO / Organic':{roas:8,romi:7,ctr:4.0},
-      'Display':{roas:2.0,romi:1.0,ctr:0.3},'Affiliate':{roas:5,romi:4,ctr:2.0},
-      'Influencer':{roas:3,romi:2,ctr:1.5},'Direct Mail':{roas:3,romi:2,ctr:0.5},
-      'Other':{roas:3,romi:2,ctr:1.5}
-    };
-    const CTR_BY_POS={1:27.6,2:15.8,3:11.0,4:8.0,5:7.2,6:5.0,7:4.2,8:3.8,9:3.5,10:3.0};
-    function posCTR(p){return p<=10?(CTR_BY_POS[p]||3.0):p<=20?1.5:0.5;}
-    function f$(n){return '$'+Math.round(n).toLocaleString('en-US');}
-    function fn(n,d=2){return parseFloat(n.toFixed(d)).toString();}
-    function pct(n){return fn(n,1)+'%';}
-
-    // ── DEMO SCENARIOS ────────────────────────────────────────────────────────
-    const DEMOS=[
-      {icon:'🛍️',name:'E-commerce DTC',tag:'Healthy mix',
-       meta:{name:'Spring Sale Campaign',period:'Q2 2025',goal:'Direct sales / ROAS',vertical:'E-commerce / DTC',budget:85000,audience:'Women 25–44, fashion-forward, mobile-first',geo:'US National',rationale:'Seasonal push to capture spring apparel demand and clear winter inventory before Q3 refresh.',kpis:'CAC payback, repeat purchase rate, email list growth'},
-       channels:[{type:'Paid Search',spend:22000,impr:420000,clicks:18900,conv:567,rev:85000},{type:'Paid Social',spend:28000,impr:1200000,clicks:13200,conv:330,rev:52000},{type:'Email',spend:3200,impr:95000,clicks:7600,conv:380,rev:44000},{type:'Display',spend:8000,impr:2100000,clicks:4200,conv:63,rev:9800}],
-       keywords:[{term:'spring dresses 2025',impr:18000,clicks:1260,conv:63,rank:3},{term:'women fashion sale',impr:42000,clicks:1680,conv:42,rank:7}]},
-      {icon:'💼',name:'B2B SaaS',tag:'Lead gen focus',
-       meta:{name:'Q2 Pipeline Push',period:'Q2 2025',goal:'Lead generation',vertical:'B2B SaaS',budget:120000,audience:'Marketing directors & VPs, 200–2000 employee companies',geo:'US & Canada',rationale:'Accelerate pipeline to hit Q3 ARR target. Competitor raised prices — window to capture churning customers.',kpis:'MQL volume, SQL conversion rate, CAC, pipeline coverage ratio'},
-       channels:[{type:'Paid Search',spend:38000,impr:280000,clicks:8960,conv:224,rev:168000},{type:'Paid Social',spend:31000,impr:650000,clicks:5850,conv:88,rev:61600},{type:'Email',spend:4500,impr:42000,clicks:3360,conv:134,rev:93800},{type:'SEO / Organic',spend:12000,impr:190000,clicks:15200,conv:152,rev:106400},{type:'Display',spend:9500,impr:1800000,clicks:3600,conv:18,rev:12600}],
-       keywords:[{term:'marketing analytics software',impr:8400,clicks:336,conv:17,rank:5},{term:'best romi calculator',impr:2200,clicks:154,conv:12,rank:2},{term:'marketing roi tool',impr:5600,clicks:168,conv:8,rank:9}]},
-      {icon:'⚠️',name:'Struggling campaign',tag:'See flags & fixes',
-       meta:{name:'Brand Awareness Drive',period:'Q1 2025',goal:'Brand awareness',vertical:'Consumer services',budget:60000,audience:'Adults 30–55, homeowners, income $75k+',geo:'Southeast US',rationale:'New market entry — building brand recognition ahead of local competitor acquisition.',kpis:'Brand search lift, direct traffic growth, social follower count'},
-       channels:[{type:'Display',spend:24000,impr:3200000,clicks:3840,conv:0,rev:0},{type:'Paid Social',spend:18000,impr:480000,clicks:2016,conv:22,rev:17600},{type:'Influencer',spend:12000,impr:220000,clicks:1320,conv:18,rev:10800},{type:'Paid Search',spend:6000,impr:28000,clicks:308,conv:6,rev:3600}],
-       keywords:[]},
-      {icon:'📧',name:'Email-led retention',tag:'High ROMI example',
-       meta:{name:'Win-Back + Loyalty Q3',period:'Q3 2025',goal:'Customer retention',vertical:'E-commerce / DTC',budget:28000,audience:'Lapsed customers (90+ days) + loyalty tier members',geo:'US National',rationale:'Reactivate dormant customers before holiday season ramp-up. Cheaper to win back than acquire new.',kpis:'Reactivation rate, LTV uplift, unsubscribe rate'},
-       channels:[{type:'Email',spend:4200,impr:88000,clicks:7920,conv:792,rev:71280},{type:'Paid Social',spend:9800,impr:310000,clicks:2790,conv:84,rev:25200},{type:'Paid Search',spend:7400,impr:62000,clicks:3100,conv:93,rev:32550},{type:'Affiliate',spend:6600,impr:95000,clicks:3800,conv:114,rev:39900}],
-       keywords:[{term:'loyalty rewards program',impr:6200,clicks:434,conv:31,rank:4},{term:'win back offer',impr:1800,clicks:90,conv:5,rank:11}]}
-    ];
-
-    function buildDemoGrid(){
-      const grid=document.getElementById('demo-grid');
-      DEMOS.forEach((d,i)=>{
-        const card=document.createElement('div');
-        card.className='demo-card';
-        card.innerHTML=`<div class="demo-icon">${d.icon}</div><div class="demo-name">${d.name}</div><div class="demo-desc">${d.meta.audience.slice(0,60)}${d.meta.audience.length>60?'…':''}</div><span class="demo-tag">${d.tag}</span>`;
-        card.onclick=()=>loadDemo(i);
-        grid.appendChild(card);
-      });
-    }
-
-    function loadDemo(i){
-      const d=DEMOS[i];
-      document.getElementById('camp-name').value=d.meta.name;
-      document.getElementById('camp-period').value=d.meta.period;
-      document.getElementById('camp-goal').value=d.meta.goal;
-      document.getElementById('camp-vertical').value=d.meta.vertical;
-      document.getElementById('camp-budget').value=d.meta.budget;
-      document.getElementById('camp-audience').value=d.meta.audience;
-      document.getElementById('camp-geo').value=d.meta.geo;
-      document.getElementById('camp-rationale').value=d.meta.rationale;
-      document.getElementById('camp-kpis').value=d.meta.kpis;
-      document.getElementById('ch-container').innerHTML='';chCount=0;
-      d.channels.forEach(ch=>addChannel(ch));
-      document.getElementById('kw-container').innerHTML='';kwCount=0;
-      d.keywords.forEach(kw=>addKeyword(kw));
-      goStep(2);switchTab('channels');
-    }
-
-    // ── FORM BUILDERS ─────────────────────────────────────────────────────────
-    function addChannel(p=null){
-      chCount++;const id=chCount;
-      const opts=TYPES.map(t=>`<option${p&&t===p.type?' selected':''}>${t}</option>`).join('');
-      const v=(k)=>p?p[k]:'';
-      const d=document.createElement('div');d.className='card';d.id='ch-'+id;
-      d.innerHTML=`<div class="card-hdr"><span class="card-title">Channel ${id}</span><button class="rmv" onclick="document.getElementById('ch-${id}').remove()">Remove</button></div>
-      <div class="fgrid">
-        <div class="fg"><label class="fl">Channel type</label><select id="type-${id}">${opts}</select></div>
-        <div class="fg"><label class="fl">Spend ($)</label><input type="number" id="spend-${id}" placeholder="5000" value="${v('spend')}" min="0"></div>
-        <div class="fg"><label class="fl">Impressions</label><input type="number" id="impr-${id}" placeholder="100000" value="${v('impr')}" min="0"></div>
-        <div class="fg"><label class="fl">Clicks</label><input type="number" id="clicks-${id}" placeholder="3500" value="${v('clicks')}" min="0"></div>
-        <div class="fg"><label class="fl">Conversions</label><input type="number" id="conv-${id}" placeholder="120" value="${v('conv')}" min="0"></div>
-        <div class="fg"><label class="fl">Revenue ($)</label><input type="number" id="rev-${id}" placeholder="20000" value="${v('rev')}" min="0"></div>
-      </div>`;
-      document.getElementById('ch-container').appendChild(d);
-    }
-
-    function addKeyword(p=null){
-      kwCount++;const id=kwCount;
-      const v=(k)=>p?p[k]:'';
-      const d=document.createElement('div');d.className='card';d.id='kw-'+id;
-      d.innerHTML=`<div class="card-hdr"><span class="card-title" style="font-size:12px;color:var(--text-secondary)">Keyword ${id}</span><button class="rmv" onclick="document.getElementById('kw-${id}').remove()">Remove</button></div>
-      <div class="fgrid">
-        <div class="fg" style="grid-column:span 2"><label class="fl">Keyword / phrase</label><input type="text" id="kw-term-${id}" placeholder="e.g. best running shoes 2025" value="${v('term')}"></div>
-        <div class="fg"><label class="fl">Monthly impressions</label><input type="number" id="kw-impr-${id}" placeholder="12000" value="${v('impr')}" min="0"></div>
-        <div class="fg"><label class="fl">Clicks</label><input type="number" id="kw-clicks-${id}" placeholder="400" value="${v('clicks')}" min="0"></div>
-        <div class="fg"><label class="fl">Conversions</label><input type="number" id="kw-conv-${id}" placeholder="18" value="${v('conv')}" min="0"></div>
-        <div class="fg"><label class="fl">Current rank</label><input type="number" id="kw-rank-${id}" placeholder="4" value="${v('rank')}" min="1" max="100"></div>
-      </div>`;
-      document.getElementById('kw-container').appendChild(d);
-    }
-
-    // ── CSV IMPORT ────────────────────────────────────────────────────────────
-    const FIELD_ALIASES={
-      type:['channel','channel type','channel name','source','medium','campaign type'],
-      spend:['spend','cost','budget','amount spent','total spend','ad spend','cost ($)','spend ($)'],
-      impr:['impressions','impr','views','reach'],
-      clicks:['clicks','link clicks','total clicks','click'],
-      conv:['conversions','conv','leads','purchases','installs','signups','conversions (all)'],
-      rev:['revenue','total revenue','conversion value','purchase value','revenue ($)','total value','amount']
-    };
-    function inferCol(headers,field){
-      const aliases=FIELD_ALIASES[field]||[];
-      for(const h of headers){const hl=h.toLowerCase().trim();if(aliases.some(a=>hl===a||hl.includes(a)))return h;}
-      return '';
-    }
-    function parseCSV(text){
-      const lines=text.trim().split(/\r?\n/);if(lines.length<2)return null;
-      const headers=lines[0].split(',').map(h=>h.replace(/^"|"$/g,'').trim());
-      const rows=lines.slice(1).map(l=>{
-        const vals=[];let cur='',inQ=false;
-        for(const c of l){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){vals.push(cur.trim());cur='';}else cur+=c;}
-        vals.push(cur.trim());
-        return Object.fromEntries(headers.map((h,i)=>[h,vals[i]||'']));
-      }).filter(r=>Object.values(r).some(v=>v));
-      return{headers,rows};
-    }
-    function handleDrop(e){
-      e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');
-      const f=e.dataTransfer.files[0];if(f&&f.name.endsWith('.csv'))processCSVFile(f);
-    }
-    function handleCSVFile(e){const f=e.target.files[0];if(f)processCSVFile(f);}
-    function processCSVFile(file){
-      const reader=new FileReader();
-      reader.onload=ev=>{
-        const parsed=parseCSV(ev.target.result);
-        if(!parsed||!parsed.rows.length){alert('Could not parse this CSV. Please check the format.');return;}
-        renderCSVMapper(parsed);
-      };
-      reader.readAsText(file);
-    }
-    function renderCSVMapper(parsed){
-      const{headers,rows}=parsed;
-      const FIELDS=[{key:'type',label:'Channel type'},{key:'spend',label:'Spend ($)'},{key:'impr',label:'Impressions'},{key:'clicks',label:'Clicks'},{key:'conv',label:'Conversions'},{key:'rev',label:'Revenue ($)'}];
-      let html=`<div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px">Column mapping</div>
-      <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Auto-detected below — confirm or adjust, then click Import.</div>`;
-      FIELDS.forEach(f=>{
-        const sel=inferCol(headers,f.key)||'(skip)';
-        const opts=['(skip)',...headers].map(h=>`<option value="${h}"${h===sel?' selected':''}>${h}</option>`).join('');
-        html+=`<div class="map-row"><span class="map-label">${f.label}</span><span class="map-arrow">→</span><select id="map-${f.key}" style="font-size:12px;padding:4px 8px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">${opts}</select></div>`;
-      });
-      html+=`<div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:11px;color:var(--text-secondary)">${rows.length} row${rows.length!==1?'s':''} detected</span>
-        <button class="btn-p" onclick="importCSVRows()">Import ${rows.length} row${rows.length!==1?'s':''} →</button>
+    <div class="step active" id="pln-step1">
+      <div class="step-header"><div class="step-num">1</div><div><div class="step-title">Campaign brief</div><div class="step-sub">Tell us about the campaign you're planning</div></div></div>
+      <div class="card">
+        <div class="fgrid2" style="margin-bottom:10px">
+          <div class="fg"><label class="fl">Campaign name</label><input id="pln-name" placeholder="e.g. Q3 Growth Push"></div>
+          <div class="fg"><label class="fl">Total budget ($)</label><input id="pln-budget" type="number" placeholder="50000" oninput="plnUpdateAlloc()"></div>
+        </div>
+        <div class="fgrid3" style="margin-bottom:10px">
+          <div class="fg"><label class="fl">Primary goal</label>
+            <select id="pln-goal" onchange="plnSuggestMix()">
+              <option value="sales">Direct sales / ROAS</option>
+              <option value="leads">Lead generation</option>
+              <option value="awareness">Brand awareness</option>
+              <option value="retention">Customer retention</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Industry vertical</label>
+            <select id="pln-vertical" onchange="plnSuggestMix()">
+              <option value="ecom">E-commerce / DTC</option>
+              <option value="saas">B2B SaaS</option>
+              <option value="services">Consumer services</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="finance">Finance</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Campaign duration</label>
+            <select id="pln-duration">
+              <option value="1">1 month</option><option value="2">2 months</option>
+              <option value="3" selected>3 months</option><option value="6">6 months</option>
+              <option value="12">12 months</option>
+            </select>
+          </div>
+        </div>
+        <div class="fgrid2" style="margin-bottom:10px">
+          <div class="fg"><label class="fl">Target audience</label><input id="pln-audience" placeholder="e.g. SMB owners, 35–54, US"></div>
+          <div class="fg"><label class="fl">Average order / deal value ($)</label><input id="pln-aov" type="number" placeholder="120" oninput="plnUpdateAlloc()"></div>
+        </div>
+        <div class="fg"><label class="fl">Campaign rationale &amp; context</label><textarea id="pln-rationale" placeholder="What's the strategic reason for this campaign? Any competitive context, timing factors, or constraints?"></textarea></div>
       </div>
-      <div style="overflow-x:auto;margin-top:10px"><table class="preview-table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
-      <tbody>${rows.slice(0,3).map(r=>`<tr>${headers.map(h=>`<td>${r[h]||''}</td>`).join('')}</tr>`).join('')}${rows.length>3?`<tr><td colspan="${headers.length}" style="color:var(--text-tertiary);text-align:center">+${rows.length-3} more rows</td></tr>`:''}</tbody></table></div>`;
-      const el=document.getElementById('csv-mapper');el.innerHTML=html;el.style.display='block';
-      window._csvRows=rows;
-    }
-    function importCSVRows(){
-      const rows=window._csvRows||[];
-      const gm=(k)=>document.getElementById('map-'+k)?.value||'(skip)';
-      const nc=(s)=>parseFloat(String(s).replace(/[$,%\s]/g,''))||0;
-      const tm=(v)=>{const vl=(v||'').toLowerCase();if(vl.includes('search')||vl.includes('ppc'))return'Paid Search';if(vl.includes('social')||vl.includes('facebook')||vl.includes('instagram')||vl.includes('meta')||vl.includes('tiktok'))return'Paid Social';if(vl.includes('email'))return'Email';if(vl.includes('seo')||vl.includes('organic'))return'SEO / Organic';if(vl.includes('display')||vl.includes('banner'))return'Display';if(vl.includes('affiliate'))return'Affiliate';if(vl.includes('influencer'))return'Influencer';if(vl.includes('direct mail')||vl.includes('mail'))return'Direct Mail';return'Other';};
-      document.getElementById('ch-container').innerHTML='';chCount=0;
-      rows.forEach(row=>{
-        const t=gm('type'),sp=gm('spend'),im=gm('impr'),cl=gm('clicks'),co=gm('conv'),re=gm('rev');
-        addChannel({type:t!=='(skip)'?tm(row[t]):'Other',spend:sp!=='(skip)'?nc(row[sp]):0,impr:im!=='(skip)'?nc(row[im]):0,clicks:cl!=='(skip)'?nc(row[cl]):0,conv:co!=='(skip)'?nc(row[co]):0,rev:re!=='(skip)'?nc(row[re]):0});
-      });
-      switchTab('channels');
-      document.getElementById('csv-mapper').style.display='none';
-      document.getElementById('upload-zone').innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text-success)">✓ ${rows.length} rows imported — review and edit in the Channels tab</div>`;
-    }
-    function downloadTemplate(){
-      const csv='channel,spend,impressions,clicks,conversions,revenue\nPaid Search,5000,120000,4200,126,18900\nPaid Social,8000,450000,5400,81,16200\nEmail,1200,32000,2560,154,21560\nDisplay,3000,800000,1600,16,2400';
-      const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='romi_template.csv';a.click();
-    }
+      <div class="nav"><button class="btn-p" onclick="plnGoStep(2)">Set channel mix →</button></div>
+    </div>
 
-    // ── ANALYSIS ENGINE ───────────────────────────────────────────────────────
-    function getChIds(){return Array.from(document.querySelectorAll('#ch-container > [id^="ch-"]')).map(e=>e.id.replace('ch-',''));}
-    function getKwIds(){return Array.from(document.querySelectorAll('#kw-container > [id^="kw-"]')).map(e=>e.id.replace('kw-',''));}
+    <div class="step" id="pln-step2">
+      <div class="step-header"><div class="step-num">2</div><div><div class="step-title">Channel allocation</div><div class="step-sub">Auto-suggested mix based on your goal and vertical — adjust any slider to override</div></div></div>
+      <div class="info" id="pln-mix-rationale">Loading suggested mix...</div>
+      <div class="card">
+        <div class="alloc-row hdr"><span>Channel</span><span>Allocation</span><span>%</span><span>Budget</span></div>
+        <div id="alloc-rows"></div>
+      </div>
+      <div id="alloc-total-indicator" class="total-pct total-ok">Total: 100%</div>
+      <div id="pln-step2-err" class="err"></div>
+      <div class="nav"><button class="btn-s" onclick="plnGoStep(1)">← Back</button><button class="btn-p" onclick="plnRunForecast()">Generate forecast →</button></div>
+    </div>
 
-    function parseChannels(){
-      const ids=getChIds();if(ids.length<2)return null;
-      const channels=[];
-      for(const id of ids){
-        const typeEl=document.getElementById('type-'+id);
-        const spendEl=document.getElementById('spend-'+id);
-        const imprEl=document.getElementById('impr-'+id);
-        const clicksEl=document.getElementById('clicks-'+id);
-        const convEl=document.getElementById('conv-'+id);
-        const revEl=document.getElementById('rev-'+id);
-        if(!typeEl||!spendEl||!imprEl||!clicksEl||!convEl||!revEl)continue;
-        const type=typeEl.value;
-        const spend=parseFloat(spendEl.value);
-        const impr=parseFloat(imprEl.value);
-        const clicks=parseFloat(clicksEl.value);
-        const conv=parseFloat(convEl.value);
-        const rev=parseFloat(revEl.value);
-        if([spend,impr,clicks,conv,rev].some(v=>isNaN(v)||v<0)||clicks>impr)return null;
-        const b=BENCH[type]||BENCH['Other'];
-        const ctr=impr>0?(clicks/impr)*100:0;
-        const cpc=clicks>0?spend/clicks:spend;
-        const cpa=conv>0?spend/conv:spend;
-        const roas=spend>0?rev/spend:0;
-        const romi=spend>0?(rev-spend)/spend:0;
-        let tier;if(roas>=b.roas*1.1)tier='optimized';else if(roas>=b.roas*0.75)tier='attention';else tier='under';
-        channels.push({id,type,spend,impr,clicks,conv,rev,ctr,cpc,cpa,roas,romi,tier,bench:b});
-      }
-      return channels;
-    }
-    function parseKeywords(){
-      const ids=getKwIds();const kws=[];
-      for(const id of ids){
-        const term=document.getElementById('kw-term-'+id)?.value||'';
-        const impr=parseFloat(document.getElementById('kw-impr-'+id)?.value)||0;
-        const clicks=parseFloat(document.getElementById('kw-clicks-'+id)?.value)||0;
-        const conv=parseFloat(document.getElementById('kw-conv-'+id)?.value)||0;
-        const rank=parseFloat(document.getElementById('kw-rank-'+id)?.value)||10;
-        if(!term||impr<=0)continue;
-        const ctr=impr>0?(clicks/impr)*100:0,cvr=clicks>0?(conv/clicks)*100:0;
-        const benchCTR=posCTR(rank),oppClicks=Math.max(0,Math.round((benchCTR/100-ctr/100)*impr));
-        kws.push({term,impr,clicks,conv,rank,ctr,cvr,benchCTR,oppClicks});
-      }
-      return kws;
-    }
-    function runAnalysis(){
-      const channels=parseChannels();
-      if(!channels){
-        const e=document.getElementById('step2-err');e.style.display='block';
-        e.textContent='Add at least 2 channels with complete, valid data (clicks cannot exceed impressions).';return;
-      }
-      document.getElementById('step2-err').style.display='none';
-      campaignMeta={
-        name:document.getElementById('camp-name').value||'Unnamed Campaign',
-        period:document.getElementById('camp-period').value||'',
-        goal:document.getElementById('camp-goal').value,
-        vertical:document.getElementById('camp-vertical').value,
-        budget:parseFloat(document.getElementById('camp-budget').value)||0,
-        audience:document.getElementById('camp-audience').value,
-        geo:document.getElementById('camp-geo').value,
-        rationale:document.getElementById('camp-rationale').value,
-        kpis:document.getElementById('camp-kpis').value,
-        date:new Date().toLocaleDateString()
-      };
-      analysisData=channels;kwData=parseKeywords();
-      renderDashboard(channels,kwData,campaignMeta);
-      goStep(3);
-    }
+    <div class="step" id="pln-step3">
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div></div>
+      <div class="slbl">Projected outcomes</div>
+      <div class="projection-grid" id="pln-proj-grid"></div>
+      <p class="confidence-note" id="pln-confidence-note"></p>
+      <div class="slbl">Revenue forecast range</div>
+      <div class="forecast-band" id="pln-forecast-band"></div>
+      <div style="position:relative;width:100%;height:260px;margin-top:1.25rem"><canvas id="plnChart" role="img" aria-label="Bar chart comparing budget vs projected revenue by channel"></canvas></div>
+      <div class="slbl">Channel projections</div>
+      <div id="pln-channel-table"></div>
+      <div class="slbl">Strategic insights</div>
+      <div id="pln-insights"></div>
+      <div class="slbl">Planning summary</div>
+      <div class="exec" id="pln-summary"></div>
+      <div class="nav"><button class="btn-s" onclick="plnGoStep(2)">← Adjust mix</button><button class="btn-p" onclick="plnGoStep(1)">Plan another campaign</button></div>
+    </div>
+  </main>
+  <footer class="site-footer">Built with vanilla JS &amp; <a href="https://www.chartjs.org" target="_blank" rel="noopener">Chart.js</a> &nbsp;·&nbsp; No data leaves your browser &nbsp;·&nbsp; <a href="https://github.com/yourusername/romi-tool" target="_blank" rel="noopener">View source on GitHub</a></footer>
+</div>
 
-    // ── DASHBOARD ─────────────────────────────────────────────────────────────
-    function renderDashboard(data,kws,meta){
-      document.getElementById('dash-sub').textContent=meta.name+(meta.period?' — '+meta.period:'');
-      const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0),tc=data.reduce((s,c)=>s+c.conv,0);
-      const bROAS=ts>0?tr/ts:0,bROMI=ts>0?(tr-ts)/ts:0;
-      document.getElementById('summary-metrics').innerHTML=`
-        <div class="mcard"><div class="mval">${f$(ts)}</div><div class="mlbl">Total spend</div></div>
-        <div class="mcard"><div class="mval">${f$(tr)}</div><div class="mlbl">Revenue</div></div>
-        <div class="mcard"><div class="mval">${tc.toLocaleString()}</div><div class="mlbl">Conversions</div></div>
-        <div class="mcard"><div class="mval">${fn(bROAS,1)}x</div><div class="mlbl">ROAS</div></div>
-        <div class="mcard"><div class="mval">${fn(bROMI,1)}x</div><div class="mlbl">ROMI</div></div>
-        ${meta.budget>0?`<div class="mcard"><div class="mval">${Math.round((ts/meta.budget)*100)}%</div><div class="mlbl">Budget used</div></div>`:''}`;
-      const rc=bROMI<0?'#E24B4A':bROMI<1?'#EF9F27':'#639922';
-      const bw=Math.min(100,Math.max(2,(bROMI/5)*100));
-      document.getElementById('romi-gauge').innerHTML=`
-        <div><div class="gval" style="color:${rc}">${fn(bROMI,2)}x</div><div class="glbl">Overall ROMI</div></div>
-        <div class="gbar" style="flex:1"><div class="gfill" style="width:${bw}%;background:${rc}"></div></div>
-        <div style="font-size:11px;color:var(--text-secondary);text-align:right;min-width:110px">${bROMI<0?'Below breakeven':bROMI<1?'Marginal return':bROMI<3?'Healthy return':'Strong return'}</div>`;
-      const tb=(t)=>{if(t==='optimized')return'<span class="badge b-ok">Optimized</span>';if(t==='attention')return'<span class="badge b-warn">Needs attention</span>';return'<span class="badge b-bad">Underperforming</span>';};
-      let tbl=`<div class="crow hdr"><span>Channel</span><span>Spend</span><span>ROAS</span><span>ROMI</span><span class="hide-mobile">CTR%</span><span>Status</span></div>`;
-      data.forEach(c=>{tbl+=`<div class="crow"><span style="font-weight:600">${c.type}</span><span>${f$(c.spend)}</span><span>${fn(c.roas,1)}x</span><span>${fn(c.romi,1)}x</span><span class="hide-mobile">${pct(c.ctr)}</span><span>${tb(c.tier)}</span></div>`;});
-      document.getElementById('ch-table').innerHTML=tbl;
-      if(chartInst){chartInst.destroy();chartInst=null;}
-      chartInst=new Chart(document.getElementById('roasChart'),{type:'bar',data:{labels:data.map(c=>c.type),datasets:[{label:'ROAS',data:data.map(c=>parseFloat(c.roas.toFixed(2))),backgroundColor:'#85B7EB',borderColor:'#378ADD',borderWidth:1},{label:'ROMI',data:data.map(c=>parseFloat(c.romi.toFixed(2))),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
-      if(kws.length>0){
-        let ks=`<div class="slbl">Keyword performance</div><div class="krow hdr"><span>Keyword</span><span>Rank</span><span>CTR%</span><span>Conv rate</span><span>Bench CTR</span><span>Opp. clicks</span></div>`;
-        kws.forEach(k=>{const ok=k.ctr>=k.benchCTR*0.8;ks+=`<div class="krow"><span style="font-weight:600">${k.term}</span><span>#${k.rank}</span><span style="color:${ok?'var(--text-success)':'var(--text-danger)'}">${pct(k.ctr)}</span><span>${pct(k.cvr)}</span><span>${pct(k.benchCTR)}</span><span style="color:${k.oppClicks>50?'var(--text-warning)':'var(--text-secondary)'}">${k.oppClicks>0?'+'+k.oppClicks.toLocaleString():'-'}</span></div>`;});
-        document.getElementById('kw-section').innerHTML=ks;
-      } else document.getElementById('kw-section').innerHTML='';
-      renderRecs(data,kws,meta);
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const TYPES=['Paid Search','Paid Social','Email','SEO / Organic','Display','Affiliate','Influencer','Direct Mail','Other'];
+const BENCH={
+  'Paid Search':{roas:4,romi:3,ctr:3.5,cpc_avg:2.5},
+  'Paid Social':{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.2},
+  'Email':{roas:10,romi:9,ctr:2.5,cpc_avg:0.05},
+  'SEO / Organic':{roas:8,romi:7,ctr:4.0,cpc_avg:0.1},
+  'Display':{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8},
+  'Affiliate':{roas:5,romi:4,ctr:2.0,cpc_avg:1.5},
+  'Influencer':{roas:3,romi:2,ctr:1.5,cpc_avg:2.0},
+  'Direct Mail':{roas:3,romi:2,ctr:0.5,cpc_avg:1.0},
+  'Other':{roas:3,romi:2,ctr:1.5,cpc_avg:1.5}
+};
+const CTR_BY_POS={1:27.6,2:15.8,3:11.0,4:8.0,5:7.2,6:5.0,7:4.2,8:3.8,9:3.5,10:3.0};
+function posCTR(p){return p<=10?(CTR_BY_POS[p]||3.0):p<=20?1.5:0.5;}
+function f$(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function fn(n,d=2){return parseFloat(n.toFixed(d)).toString();}
+function pct(n){return fn(n,1)+'%';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-    // ── RECOMMENDATIONS ───────────────────────────────────────────────────────
-    function renderRecs(data,kws,meta){
-      const flags=[],recs=[];
-      const top=[...data].sort((a,b)=>b.roas-a.roas)[0];
-      const bot=[...data].sort((a,b)=>a.roas-b.roas)[0];
-      data.forEach(c=>{
-        if(c.romi<0){flags.push({l:'d',t:`${c.type} is below breakeven`,d:`ROMI ${fn(c.romi,2)}x — losing ${f$(Math.abs(c.rev-c.spend))} on this channel.`});recs.push({ch:c.type,a:`Pause or significantly reduce ${c.type} spend until creative and targeting are revised.`,i:`Could recover up to ${f$(Math.abs(c.rev-c.spend))} currently being lost.`});}
-        else if(c.roas<c.bench.roas*0.75){flags.push({l:'w',t:`${c.type} underperforming vs. benchmark`,d:`ROAS ${fn(c.roas,1)}x vs. ${c.bench.roas}x benchmark.`});recs.push({ch:c.type,a:`Audit targeting and creative for ${c.type}. A/B test 2–3 ad variations.`,i:`Reaching benchmark ROAS adds ~${f$((c.bench.roas-c.roas)*c.spend)} in recovered revenue.`});}
-        if(c.ctr<c.bench.ctr*0.5){flags.push({l:'w',t:`${c.type} CTR signals creative fatigue`,d:`CTR ${pct(c.ctr)} vs. ${c.bench.ctr}% channel average.`});recs.push({ch:c.type,a:`Refresh creative assets for ${c.type}. Rotate new copy and visuals.`,i:'Improving CTR to benchmark typically reduces CPC by 20–40%.'});}
-        if(c.conv===0&&c.clicks>0){flags.push({l:'d',t:`${c.type} — zero conversions`,d:`${c.clicks.toLocaleString()} clicks, 0 conversions. Funnel may be broken.`});recs.push({ch:c.type,a:`Audit ${c.type} conversion path: verify tracking pixels, test landing page, confirm offer clarity.`,i:'Even 0.5% conversion on current clicks would add meaningful revenue.'});}
-      });
-      if(data.length>=2&&top.roas>bot.roas*1.5){
-        const r=Math.round(bot.spend*0.2);
-        flags.push({l:'w',t:'Budget efficiency gap across channels',d:`${top.type} (${fn(top.roas,1)}x) vs. ${bot.type} (${fn(bot.roas,1)}x).`});
-        recs.push({ch:'Budget allocation',a:`Reallocate ~${f$(r)} (20% of ${bot.type} spend) into ${top.type}, your highest-efficiency channel.`,i:`Estimated uplift ~${f$(Math.round(r*(top.roas-bot.roas)))} based on ROAS delta.`});
-      }
-      kws.forEach(k=>{if(k.ctr<k.benchCTR*0.7&&k.oppClicks>100){flags.push({l:'w',t:`Keyword "${k.term}" underperforming`,d:`Rank #${k.rank}, CTR ${pct(k.ctr)} vs. ${pct(k.benchCTR)} expected. ${k.oppClicks.toLocaleString()} clicks/mo left on table.`});recs.push({ch:'SEO',a:`Optimize title tag and meta description for "${k.term}".`,i:`+${k.oppClicks.toLocaleString()} monthly clicks at current conversion rate.`});}});
-      if(!flags.length)flags.push({l:'',t:'No critical issues detected',d:'All channels are performing at or above benchmark thresholds.'});
-      document.getElementById('flags-out').innerHTML=flags.map(f=>`<div class="flag-item"><div class="fdot ${f.l}"></div><div><div class="ftitle">${f.t}</div><div class="fdesc">${f.d}</div></div></div>`).join('');
-      document.getElementById('recs-out').innerHTML=recs.length?recs.map(r=>`<div class="rec"><div class="rch">${r.ch.toUpperCase()}</div><div class="ract">${r.a}</div><div class="rimp">${r.i}</div></div>`).join(''):'<div style="font-size:13px;color:var(--text-secondary);padding:8px 0">No specific recommendations — campaigns are healthy.</div>';
-      const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0);
-      const bROAS=parseFloat((tr/ts).toFixed(2)),bROMI=parseFloat(((tr-ts)/ts).toFixed(2));
-      const uc=data.filter(c=>c.tier==='under').length;
-      document.getElementById('exec-out').innerHTML=`<strong>${meta.name}</strong>${meta.period?' ('+meta.period+')':''} | Goal: ${meta.goal}${meta.audience?' | Audience: '+meta.audience:''} | Vertical: ${meta.vertical}<br><br>Across ${data.length} channels and ${f$(ts)} total spend, this campaign generated ${f$(tr)} in revenue — a blended ROAS of ${bROAS}x and ROMI of ${bROMI}x. ${bROMI>=1?'Overall performance is above breakeven.':'Total spend is not yet returning profit.'} ${top.type} is the highest-efficiency channel at ${fn(top.roas,1)}x ROAS. ${uc>0?`${uc} channel${uc>1?'s':''} underperforming vs. benchmark — review before next spend cycle.`:'No channels critically underperforming.'} ${kws.length>0?kws.filter(k=>k.oppClicks>50).length+' keyword(s) show significant CTR opportunity.':''}${meta.rationale?'<br><br><em>Campaign context:</em> '+meta.rationale.slice(0,200)+(meta.rationale.length>200?'…':''):''}`;
-      document.getElementById('save-label').value=meta.name+(meta.period?' — '+meta.period:'');
-    }
+let currentTool=null,optChartInst=null,plnChartInst=null;
 
-    // ── HISTORY ───────────────────────────────────────────────────────────────
-    function saveReport(){
-      const label=document.getElementById('save-label').value.trim()||campaignMeta.name;
-      const report={label,date:new Date().toLocaleDateString(),meta:campaignMeta,channels:analysisData,keywords:kwData};
-      let h=JSON.parse(localStorage.getItem('romi_history')||'[]');
-      h.unshift(report);if(h.length>10)h=h.slice(0,10);
-      localStorage.setItem('romi_history',JSON.stringify(h));
-      const sc=document.getElementById('save-confirm');sc.textContent='Saved: "'+label+'"';sc.style.display='block';
-      setTimeout(()=>sc.style.display='none',3000);
-      renderHistory();populateCmpDropdowns();
-    }
-    function getHistory(){return JSON.parse(localStorage.getItem('romi_history')||'[]');}
-    function renderHistory(){
-      const h=getHistory();const el=document.getElementById('history-list');
-      if(!h.length){el.innerHTML='<div style="font-size:13px;color:var(--text-secondary);padding:1rem 0">No saved reports yet. Run an analysis and click "Save report."</div>';return;}
-      el.innerHTML=h.map((r,i)=>{
-        const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0);
-        const romi=ts>0?parseFloat(((tr-ts)/ts).toFixed(2)):0;
-        return`<div class="hist-item"><div><div class="hist-name">${r.label}</div><div class="hist-meta">${r.date} · ${r.channels.length} channels · ROMI ${romi}x · ${f$(ts)} spend</div></div><button class="rmv" onclick="deleteReport(${i})">Delete</button></div>`;
-      }).join('');
-      populateCmpDropdowns();
-    }
-    function deleteReport(i){let h=getHistory();h.splice(i,1);localStorage.setItem('romi_history',JSON.stringify(h));renderHistory();}
-    function populateCmpDropdowns(){
-      const h=getHistory();
-      ['cmp-a','cmp-b'].forEach(id=>{const s=document.getElementById(id);if(s)s.innerHTML=h.map((r,i)=>`<option value="${i}">${r.label}</option>`).join('');});
-      const cb=document.getElementById('cmp-b');if(cb&&h.length>1)cb.selectedIndex=1;
-    }
-    function runComparison(){
-      const h=getHistory();
-      const ai=parseInt(document.getElementById('cmp-a').value),bi=parseInt(document.getElementById('cmp-b').value);
-      if(ai===bi){document.getElementById('compare-out').innerHTML='<div style="font-size:12px;color:var(--text-danger)">Select two different reports to compare.</div>';return;}
-      const A=h[ai],B=h[bi];
-      const mx=(r)=>{const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0),tc=r.channels.reduce((s,c)=>s+c.conv,0);return{spend:ts,revenue:tr,conversions:tc,roas:ts>0?tr/ts:0,romi:ts>0?(tr-ts)/ts:0};};
-      const ma=mx(A),mb=mx(B);
-      const DEFS=[{k:'spend',l:'Total spend',fmt:f$,hg:false},{k:'revenue',l:'Revenue',fmt:f$,hg:true},{k:'conversions',l:'Conversions',fmt:n=>Math.round(n).toLocaleString(),hg:true},{k:'roas',l:'ROAS',fmt:n=>fn(n,2)+'x',hg:true},{k:'romi',l:'ROMI',fmt:n=>fn(n,2)+'x',hg:true}];
-      let out=`<div class="compare-row hdr"><span>Metric</span><span>${A.label}</span><span>${B.label}</span><span>Change</span></div>`;
-      DEFS.forEach(d=>{
-        const va=ma[d.k],vb=mb[d.k],delta=vb-va,pc=va!==0?((delta/Math.abs(va))*100):0;
-        const imp=(delta>0&&d.hg)||(delta<0&&!d.hg);
-        const cls=delta===0?'delta-nc':imp?'delta-up':'delta-dn';
-        out+=`<div class="compare-row"><span style="font-weight:600">${d.l}</span><span>${d.fmt(va)}</span><span>${d.fmt(vb)}</span><span class="${cls}">${delta>0?'↑':delta<0?'↓':'→'} ${pct(Math.abs(pc))}</span></div>`;
-      });
-      document.getElementById('compare-out').innerHTML=out;
-    }
+function launchTool(tool){
+  currentTool=tool;
+  document.getElementById('landing').style.display='none';
+  document.getElementById('tool-optimizer').classList.toggle('active',tool==='optimizer');
+  document.getElementById('tool-planner').classList.toggle('active',tool==='planner');
+  document.getElementById('back-btn').classList.add('visible');
+  document.getElementById('header-sub').textContent=tool==='optimizer'?'ROMI Optimizer':'Campaign Planner';
+  if(tool==='planner'){plnSuggestMix();plnUpdateAlloc();}
+}
+function goHome(){
+  document.getElementById('landing').style.display='flex';
+  document.getElementById('tool-optimizer').classList.remove('active');
+  document.getElementById('tool-planner').classList.remove('active');
+  document.getElementById('back-btn').classList.remove('visible');
+  document.getElementById('header-sub').textContent='Optimizer & Campaign Planner';
+}
 
-    // ── NAVIGATION ────────────────────────────────────────────────────────────
-    function switchTab(n){['channels','keywords','csv'].forEach(t=>{document.getElementById('tab-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-'+t)?.classList.toggle('active',t===n);});}
-    function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElementById('tab4-'+t).classList.toggle('active',t===n);document.getElementById('panel4-'+t).classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();}
-    function goStep(n){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById('step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('p'+i).classList.toggle('done',i<=n);}
-    function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';goStep(1);}
+// ── OPTIMIZER DEMOS ──
+const DEMOS=[
+  {icon:'🛍️',name:'E-commerce DTC',tag:'Healthy mix',
+   meta:{name:'Spring Sale Campaign',period:'Q2 2025',goal:'Direct sales / ROAS',vertical:'E-commerce / DTC',budget:85000,audience:'Women 25–44, fashion-forward, mobile-first',geo:'US National',rationale:'Seasonal push to capture spring apparel demand and clear winter inventory before Q3 refresh.',kpis:'CAC payback, repeat purchase rate, email list growth'},
+   channels:[{type:'Paid Search',spend:22000,impr:420000,clicks:18900,conv:567,rev:85000},{type:'Paid Social',spend:28000,impr:1200000,clicks:13200,conv:330,rev:52000},{type:'Email',spend:3200,impr:95000,clicks:7600,conv:380,rev:44000},{type:'Display',spend:8000,impr:2100000,clicks:4200,conv:63,rev:9800}],
+   keywords:[{term:'spring dresses 2025',impr:18000,clicks:1260,conv:63,rank:3},{term:'women fashion sale',impr:42000,clicks:1680,conv:42,rank:7}]},
+  {icon:'💼',name:'B2B SaaS',tag:'Lead gen focus',
+   meta:{name:'Q2 Pipeline Push',period:'Q2 2025',goal:'Lead generation',vertical:'B2B SaaS',budget:120000,audience:'Marketing directors & VPs, 200–2000 employee companies',geo:'US & Canada',rationale:'Accelerate pipeline to hit Q3 ARR target. Competitor raised prices — window to capture churning customers.',kpis:'MQL volume, SQL conversion rate, CAC, pipeline coverage ratio'},
+   channels:[{type:'Paid Search',spend:38000,impr:280000,clicks:8960,conv:224,rev:168000},{type:'Paid Social',spend:31000,impr:650000,clicks:5850,conv:88,rev:61600},{type:'Email',spend:4500,impr:42000,clicks:3360,conv:134,rev:93800},{type:'SEO / Organic',spend:12000,impr:190000,clicks:15200,conv:152,rev:106400},{type:'Display',spend:9500,impr:1800000,clicks:3600,conv:18,rev:12600}],
+   keywords:[{term:'marketing analytics software',impr:8400,clicks:336,conv:17,rank:5},{term:'best romi calculator',impr:2200,clicks:154,conv:12,rank:2}]},
+  {icon:'⚠️',name:'Struggling campaign',tag:'See flags & fixes',
+   meta:{name:'Brand Awareness Drive',period:'Q1 2025',goal:'Brand awareness',vertical:'Consumer services',budget:60000,audience:'Adults 30–55, homeowners, income $75k+',geo:'Southeast US',rationale:'New market entry — building brand recognition ahead of local competitor acquisition.',kpis:'Brand search lift, direct traffic growth'},
+   channels:[{type:'Display',spend:24000,impr:3200000,clicks:3840,conv:0,rev:0},{type:'Paid Social',spend:18000,impr:480000,clicks:2016,conv:22,rev:17600},{type:'Influencer',spend:12000,impr:220000,clicks:1320,conv:18,rev:10800},{type:'Paid Search',spend:6000,impr:28000,clicks:308,conv:6,rev:3600}],
+   keywords:[]},
+  {icon:'📧',name:'Email-led retention',tag:'High ROMI example',
+   meta:{name:'Win-Back + Loyalty Q3',period:'Q3 2025',goal:'Customer retention',vertical:'E-commerce / DTC',budget:28000,audience:'Lapsed customers (90+ days) + loyalty tier members',geo:'US National',rationale:'Reactivate dormant customers before holiday season ramp-up.',kpis:'Reactivation rate, LTV uplift, unsubscribe rate'},
+   channels:[{type:'Email',spend:4200,impr:88000,clicks:7920,conv:792,rev:71280},{type:'Paid Social',spend:9800,impr:310000,clicks:2790,conv:84,rev:25200},{type:'Paid Search',spend:7400,impr:62000,clicks:3100,conv:93,rev:32550},{type:'Affiliate',spend:6600,impr:95000,clicks:3800,conv:114,rev:39900}],
+   keywords:[{term:'loyalty rewards program',impr:6200,clicks:434,conv:31,rank:4}]}
+];
 
-    // ── INIT ──────────────────────────────────────────────────────────────────
-    buildDemoGrid();
-    addChannel();
-    addChannel();
-    renderHistory();
-  </script>
+function buildDemoGrid(){
+  const grid=document.getElementById('demo-grid');
+  DEMOS.forEach((d,i)=>{const card=document.createElement('div');card.className='demo-card';card.innerHTML=`<div class="demo-icon">${d.icon}</div><div class="demo-name">${esc(d.name)}</div><div class="demo-desc">${esc(d.meta.audience.slice(0,60))}${d.meta.audience.length>60?'…':''}</div><span class="demo-tag">${esc(d.tag)}</span>`;card.onclick=()=>loadDemo(i);grid.appendChild(card);});
+}
+function loadDemo(i){
+  const d=DEMOS[i];
+  document.getElementById('camp-name').value=d.meta.name;document.getElementById('camp-period').value=d.meta.period;document.getElementById('camp-goal').value=d.meta.goal;document.getElementById('camp-vertical').value=d.meta.vertical;document.getElementById('camp-budget').value=d.meta.budget;document.getElementById('camp-audience').value=d.meta.audience;document.getElementById('camp-geo').value=d.meta.geo;document.getElementById('camp-rationale').value=d.meta.rationale;document.getElementById('camp-kpis').value=d.meta.kpis;
+  document.getElementById('ch-container').innerHTML='';chCount=0;d.channels.forEach(ch=>addChannel(ch));
+  document.getElementById('kw-container').innerHTML='';kwCount=0;d.keywords.forEach(kw=>addKeyword(kw));
+  optGoStep(2);switchTab('channels');
+}
+
+// ── OPTIMIZER FORM BUILDERS ──
+let chCount=0,kwCount=0,analysisData=[],kwData=[],campaignMeta={};
+
+function addChannel(p=null){
+  chCount++;const id=chCount;
+  const opts=TYPES.map(t=>`<option${p&&t===p.type?' selected':''}>${t}</option>`).join('');
+  const v=(k)=>p&&p[k]!==undefined?p[k]:'';
+  const d=document.createElement('div');d.className='card';d.id='ch-'+id;
+  d.innerHTML=`<div class="card-hdr"><span class="card-title">Channel ${id}</span><button class="rmv" onclick="document.getElementById('ch-${id}').remove()">Remove</button></div>
+  <div class="fgrid">
+    <div class="fg"><label class="fl">Channel type</label><select id="type-${id}">${opts}</select></div>
+    <div class="fg"><label class="fl">Spend ($)</label><input type="number" id="spend-${id}" placeholder="5000" value="${v('spend')}" min="0"></div>
+    <div class="fg"><label class="fl">Impressions</label><input type="number" id="impr-${id}" placeholder="100000" value="${v('impr')}" min="0"></div>
+    <div class="fg"><label class="fl">Clicks</label><input type="number" id="clicks-${id}" placeholder="3500" value="${v('clicks')}" min="0"></div>
+    <div class="fg"><label class="fl">Conversions</label><input type="number" id="conv-${id}" placeholder="120" value="${v('conv')}" min="0"></div>
+    <div class="fg"><label class="fl">Revenue ($)</label><input type="number" id="rev-${id}" placeholder="20000" value="${v('rev')}" min="0"></div>
+  </div>`;
+  document.getElementById('ch-container').appendChild(d);
+}
+
+function addKeyword(p=null){
+  kwCount++;const id=kwCount;const v=(k)=>p&&p[k]!==undefined?p[k]:'';
+  const d=document.createElement('div');d.className='card';d.id='kw-'+id;
+  d.innerHTML=`<div class="card-hdr"><span class="card-title" style="font-size:12px;color:var(--text-secondary)">Keyword ${id}</span><button class="rmv" onclick="document.getElementById('kw-${id}').remove()">Remove</button></div>
+  <div class="fgrid">
+    <div class="fg" style="grid-column:span 2"><label class="fl">Keyword / phrase</label><input type="text" id="kw-term-${id}" placeholder="e.g. best running shoes 2025" value="${esc(v('term'))}"></div>
+    <div class="fg"><label class="fl">Monthly impressions</label><input type="number" id="kw-impr-${id}" placeholder="12000" value="${v('impr')}" min="0"></div>
+    <div class="fg"><label class="fl">Clicks</label><input type="number" id="kw-clicks-${id}" placeholder="400" value="${v('clicks')}" min="0"></div>
+    <div class="fg"><label class="fl">Conversions</label><input type="number" id="kw-conv-${id}" placeholder="18" value="${v('conv')}" min="0"></div>
+    <div class="fg"><label class="fl">Current rank</label><input type="number" id="kw-rank-${id}" placeholder="4" value="${v('rank')}" min="1" max="100"></div>
+  </div>`;
+  document.getElementById('kw-container').appendChild(d);
+}
+
+// ── CSV IMPORT ──
+const FIELD_ALIASES={type:['channel','channel type','channel name','source','medium','campaign type'],spend:['spend','cost','budget','amount spent','total spend','ad spend','cost ($)','spend ($)'],impr:['impressions','impr','views','reach'],clicks:['clicks','link clicks','total clicks','click'],conv:['conversions','conv','leads','purchases','installs','signups','conversions (all)'],rev:['revenue','total revenue','conversion value','purchase value','revenue ($)','total value','amount']};
+function inferCol(headers,field){const aliases=FIELD_ALIASES[field]||[];for(const h of headers){const hl=h.toLowerCase().trim();if(aliases.some(a=>hl===a||hl.includes(a)))return h;}return '';}
+function parseCSV(text){const lines=text.trim().split(/\r?\n/);if(lines.length<2)return null;const headers=lines[0].split(',').map(h=>h.replace(/^"|"$/g,'').trim());const rows=lines.slice(1).map(l=>{const vals=[];let cur='',inQ=false;for(const c of l){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){vals.push(cur.trim());cur='';}else cur+=c;}vals.push(cur.trim());return Object.fromEntries(headers.map((h,i)=>[h,vals[i]||'']));}).filter(r=>Object.values(r).some(v=>v));return{headers,rows};}
+function handleDrop(e){e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f&&f.name.endsWith('.csv'))processCSVFile(f);}
+function handleCSVFile(e){const f=e.target.files[0];if(f)processCSVFile(f);}
+function processCSVFile(file){const reader=new FileReader();reader.onload=ev=>{const parsed=parseCSV(ev.target.result);if(!parsed||!parsed.rows.length){alert('Could not parse this CSV.');return;}renderCSVMapper(parsed);};reader.readAsText(file);}
+function renderCSVMapper(parsed){
+  const{headers,rows}=parsed;
+  const FIELDS=[{key:'type',label:'Channel type'},{key:'spend',label:'Spend ($)'},{key:'impr',label:'Impressions'},{key:'clicks',label:'Clicks'},{key:'conv',label:'Conversions'},{key:'rev',label:'Revenue ($)'}];
+  let html=`<div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px">Column mapping</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Auto-detected — confirm or adjust, then click Import.</div>`;
+  FIELDS.forEach(f=>{const sel=inferCol(headers,f.key)||'(skip)';const opts=['(skip)',...headers].map(h=>`<option value="${esc(h)}"${h===sel?' selected':''}>${esc(h)}</option>`).join('');html+=`<div class="map-row"><span class="map-label">${f.label}</span><span class="map-arrow">→</span><select id="map-${f.key}" style="font-size:12px;padding:4px 8px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary)">${opts}</select></div>`;});
+  html+=`<div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;color:var(--text-secondary)">${rows.length} row${rows.length!==1?'s':''} detected</span><button class="btn-p" onclick="importCSVRows()">Import ${rows.length} row${rows.length!==1?'s':''} →</button></div>`;
+  html+=`<div style="overflow-x:auto;margin-top:10px"><table class="preview-table"><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.slice(0,3).map(r=>`<tr>${headers.map(h=>`<td>${esc(r[h]||'')}</td>`).join('')}</tr>`).join('')}${rows.length>3?`<tr><td colspan="${headers.length}" style="color:var(--text-tertiary);text-align:center">+${rows.length-3} more rows</td></tr>`:''}</tbody></table></div>`;
+  const el=document.getElementById('csv-mapper');el.innerHTML=html;el.style.display='block';window._csvRows=rows;
+}
+function importCSVRows(){
+  const rows=window._csvRows||[];const gm=(k)=>document.getElementById('map-'+k)?.value||'(skip)';const nc=(s)=>parseFloat(String(s).replace(/[$,%\s]/g,''))||0;
+  const tm=(v)=>{const vl=(v||'').toLowerCase();if(vl.includes('search')||vl.includes('ppc'))return'Paid Search';if(vl.includes('social')||vl.includes('facebook')||vl.includes('instagram')||vl.includes('meta')||vl.includes('tiktok'))return'Paid Social';if(vl.includes('email'))return'Email';if(vl.includes('seo')||vl.includes('organic'))return'SEO / Organic';if(vl.includes('display')||vl.includes('banner'))return'Display';if(vl.includes('affiliate'))return'Affiliate';if(vl.includes('influencer'))return'Influencer';return'Other';};
+  document.getElementById('ch-container').innerHTML='';chCount=0;
+  rows.forEach(row=>{const t=gm('type'),sp=gm('spend'),im=gm('impr'),cl=gm('clicks'),co=gm('conv'),re=gm('rev');addChannel({type:t!=='(skip)'?tm(row[t]):'Other',spend:sp!=='(skip)'?nc(row[sp]):0,impr:im!=='(skip)'?nc(row[im]):0,clicks:cl!=='(skip)'?nc(row[cl]):0,conv:co!=='(skip)'?nc(row[co]):0,rev:re!=='(skip)'?nc(row[re]):0});});
+  switchTab('channels');document.getElementById('csv-mapper').style.display='none';
+  document.getElementById('upload-zone').innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text-success)">✓ ${rows.length} rows imported — review in the Channels tab</div>`;
+}
+function downloadTemplate(){const csv='channel,spend,impressions,clicks,conversions,revenue\nPaid Search,5000,120000,4200,126,18900\nPaid Social,8000,450000,5400,81,16200\nEmail,1200,32000,2560,154,21560\nDisplay,3000,800000,1600,16,2400';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='romi_template.csv';a.click();}
+
+// ── OPTIMIZER ANALYSIS ENGINE ──
+function getChIds(){return Array.from(document.querySelectorAll('#ch-container > [id^="ch-"]')).map(e=>e.id.replace('ch-',''));}
+function getKwIds(){return Array.from(document.querySelectorAll('#kw-container > [id^="kw-"]')).map(e=>e.id.replace('kw-',''));}
+
+function parseChannels(){
+  const ids=getChIds();if(ids.length<2)return null;
+  const channels=[];
+  for(const id of ids){
+    const typeEl=document.getElementById('type-'+id),spendEl=document.getElementById('spend-'+id),imprEl=document.getElementById('impr-'+id),clicksEl=document.getElementById('clicks-'+id),convEl=document.getElementById('conv-'+id),revEl=document.getElementById('rev-'+id);
+    if(!typeEl||!spendEl||!imprEl||!clicksEl||!convEl||!revEl)continue;
+    const type=typeEl.value,spend=parseFloat(spendEl.value),impr=parseFloat(imprEl.value),clicks=parseFloat(clicksEl.value),conv=parseFloat(convEl.value),rev=parseFloat(revEl.value);
+    if([spend,impr,clicks,conv,rev].some(v=>isNaN(v)||v<0)||clicks>impr)return null;
+    const b=BENCH[type]||BENCH['Other'];
+    const ctr=impr>0?(clicks/impr)*100:0,cpc=clicks>0?spend/clicks:spend,cpa=conv>0?spend/conv:spend,roas=spend>0?rev/spend:0,romi=spend>0?(rev-spend)/spend:0;
+    let tier;if(roas>=b.roas*1.1)tier='optimized';else if(roas>=b.roas*0.75)tier='attention';else tier='under';
+    channels.push({id,type,spend,impr,clicks,conv,rev,ctr,cpc,cpa,roas,romi,tier,bench:b});
+  }
+  return channels;
+}
+
+function parseKeywords(){
+  const ids=getKwIds();const kws=[];
+  for(const id of ids){
+    const term=document.getElementById('kw-term-'+id)?.value||'';const impr=parseFloat(document.getElementById('kw-impr-'+id)?.value)||0;const clicks=parseFloat(document.getElementById('kw-clicks-'+id)?.value)||0;const conv=parseFloat(document.getElementById('kw-conv-'+id)?.value)||0;const rank=parseFloat(document.getElementById('kw-rank-'+id)?.value)||10;
+    if(!term||impr<=0)continue;
+    const ctr=impr>0?(clicks/impr)*100:0,cvr=clicks>0?(conv/clicks)*100:0,benchCTR=posCTR(rank),oppClicks=Math.max(0,Math.round((benchCTR/100-ctr/100)*impr));
+    kws.push({term,impr,clicks,conv,rank,ctr,cvr,benchCTR,oppClicks});
+  }
+  return kws;
+}
+
+function runAnalysis(){
+  const channels=parseChannels();
+  if(!channels){const e=document.getElementById('step2-err');e.style.display='block';e.textContent='Add at least 2 channels with complete, valid data (clicks cannot exceed impressions).';return;}
+  document.getElementById('step2-err').style.display='none';
+  campaignMeta={name:document.getElementById('camp-name').value||'Unnamed Campaign',period:document.getElementById('camp-period').value||'',goal:document.getElementById('camp-goal').value,vertical:document.getElementById('camp-vertical').value,budget:parseFloat(document.getElementById('camp-budget').value)||0,audience:document.getElementById('camp-audience').value,geo:document.getElementById('camp-geo').value,rationale:document.getElementById('camp-rationale').value,kpis:document.getElementById('camp-kpis').value,date:new Date().toLocaleDateString()};
+  analysisData=channels;kwData=parseKeywords();
+  renderDashboard(channels,kwData,campaignMeta);optGoStep(3);
+}
+
+function renderDashboard(data,kws,meta){
+  document.getElementById('dash-sub').textContent=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
+  const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0),tc=data.reduce((s,c)=>s+c.conv,0);
+  const bROAS=ts>0?tr/ts:0,bROMI=ts>0?(tr-ts)/ts:0;
+  document.getElementById('summary-metrics').innerHTML=`<div class="mcard"><div class="mval">${f$(ts)}</div><div class="mlbl">Total spend</div></div><div class="mcard"><div class="mval">${f$(tr)}</div><div class="mlbl">Revenue</div></div><div class="mcard"><div class="mval">${tc.toLocaleString()}</div><div class="mlbl">Conversions</div></div><div class="mcard"><div class="mval">${fn(bROAS,1)}x</div><div class="mlbl">ROAS</div></div><div class="mcard"><div class="mval">${fn(bROMI,1)}x</div><div class="mlbl">ROMI</div></div>${meta.budget>0?`<div class="mcard"><div class="mval">${Math.round((ts/meta.budget)*100)}%</div><div class="mlbl">Budget used</div></div>`:''}`;
+  const rc=bROMI<0?'#E24B4A':bROMI<1?'#EF9F27':'#639922';const bw=Math.min(100,Math.max(2,(bROMI/5)*100));
+  document.getElementById('romi-gauge').innerHTML=`<div><div class="gval" style="color:${rc}">${fn(bROMI,2)}x</div><div class="glbl">Overall ROMI</div></div><div class="gbar" style="flex:1"><div class="gfill" style="width:${bw}%;background:${rc}"></div></div><div style="font-size:11px;color:var(--text-secondary);text-align:right;min-width:110px">${bROMI<0?'Below breakeven':bROMI<1?'Marginal return':bROMI<3?'Healthy return':'Strong return'}</div>`;
+  const tb=(t)=>{if(t==='optimized')return'<span class="badge b-ok">Optimized</span>';if(t==='attention')return'<span class="badge b-warn">Needs attention</span>';return'<span class="badge b-bad">Underperforming</span>';};
+  let tbl=`<div class="crow hdr"><span>Channel</span><span>Spend</span><span>ROAS</span><span>ROMI</span><span class="hide-mobile">CTR%</span><span>Status</span></div>`;
+  data.forEach(c=>{tbl+=`<div class="crow"><span style="font-weight:600">${esc(c.type)}</span><span>${f$(c.spend)}</span><span>${fn(c.roas,1)}x</span><span>${fn(c.romi,1)}x</span><span class="hide-mobile">${pct(c.ctr)}</span><span>${tb(c.tier)}</span></div>`;});
+  document.getElementById('ch-table').innerHTML=tbl;
+  if(optChartInst){optChartInst.destroy();optChartInst=null;}
+  optChartInst=new Chart(document.getElementById('roasChart'),{type:'bar',data:{labels:data.map(c=>c.type),datasets:[{label:'ROAS',data:data.map(c=>parseFloat(c.roas.toFixed(2))),backgroundColor:'#85B7EB',borderColor:'#378ADD',borderWidth:1},{label:'ROMI',data:data.map(c=>parseFloat(c.romi.toFixed(2))),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+  if(kws.length>0){let ks=`<div class="slbl">Keyword performance</div><div class="krow hdr"><span>Keyword</span><span>Rank</span><span>CTR%</span><span>Conv rate</span><span>Bench CTR</span><span>Opp. clicks</span></div>`;kws.forEach(k=>{const ok=k.ctr>=k.benchCTR*0.8;ks+=`<div class="krow"><span style="font-weight:600">${esc(k.term)}</span><span>#${k.rank}</span><span style="color:${ok?'var(--text-success)':'var(--text-danger)'}">${pct(k.ctr)}</span><span>${pct(k.cvr)}</span><span>${pct(k.benchCTR)}</span><span style="color:${k.oppClicks>50?'var(--text-warning)':'var(--text-secondary)'}">${k.oppClicks>0?'+'+k.oppClicks.toLocaleString():'-'}</span></div>`;});document.getElementById('kw-section').innerHTML=ks;}
+  else document.getElementById('kw-section').innerHTML='';
+  renderRecs(data,kws,meta);
+}
+
+function renderRecs(data,kws,meta){
+  const flags=[],recs=[];const top=[...data].sort((a,b)=>b.roas-a.roas)[0],bot=[...data].sort((a,b)=>a.roas-b.roas)[0];
+  data.forEach(c=>{
+    if(c.romi<0){flags.push({l:'d',t:`${c.type} is below breakeven`,d:`ROMI ${fn(c.romi,2)}x — losing ${f$(Math.abs(c.rev-c.spend))} on this channel.`});recs.push({ch:c.type,a:`Pause or significantly reduce ${c.type} spend until creative and targeting are revised.`,i:`Could recover up to ${f$(Math.abs(c.rev-c.spend))} currently being lost.`});}
+    else if(c.roas<c.bench.roas*0.75){flags.push({l:'w',t:`${c.type} underperforming vs. benchmark`,d:`ROAS ${fn(c.roas,1)}x vs. ${c.bench.roas}x benchmark.`});recs.push({ch:c.type,a:`Audit targeting and creative for ${c.type}. A/B test 2–3 ad variations.`,i:`Reaching benchmark ROAS adds ~${f$((c.bench.roas-c.roas)*c.spend)} in recovered revenue.`});}
+    if(c.ctr<c.bench.ctr*0.5){flags.push({l:'w',t:`${c.type} CTR signals creative fatigue`,d:`CTR ${pct(c.ctr)} vs. ${c.bench.ctr}% channel average.`});recs.push({ch:c.type,a:`Refresh creative assets for ${c.type}. Rotate new copy and visuals.`,i:'Improving CTR to benchmark typically reduces CPC by 20–40%.'});}
+    if(c.conv===0&&c.clicks>0){flags.push({l:'d',t:`${c.type} — zero conversions`,d:`${c.clicks.toLocaleString()} clicks, 0 conversions. Funnel may be broken.`});recs.push({ch:c.type,a:`Audit ${c.type} conversion path: verify tracking pixels, test landing page, confirm offer clarity.`,i:'Even 0.5% conversion on current clicks would add meaningful revenue.'});}
+  });
+  if(data.length>=2&&top.roas>bot.roas*1.5){const r=Math.round(bot.spend*0.2);flags.push({l:'w',t:'Budget efficiency gap across channels',d:`${top.type} (${fn(top.roas,1)}x) vs. ${bot.type} (${fn(bot.roas,1)}x).`});recs.push({ch:'Budget allocation',a:`Reallocate ~${f$(r)} (20% of ${bot.type} spend) into ${top.type}, your highest-efficiency channel.`,i:`Estimated uplift ~${f$(Math.round(r*(top.roas-bot.roas)))} based on ROAS delta.`});}
+  kws.forEach(k=>{if(k.ctr<k.benchCTR*0.7&&k.oppClicks>100){flags.push({l:'w',t:`Keyword "${k.term}" underperforming`,d:`Rank #${k.rank}, CTR ${pct(k.ctr)} vs. ${pct(k.benchCTR)} expected.`});recs.push({ch:'SEO',a:`Optimize title tag and meta description for "${k.term}".`,i:`+${k.oppClicks.toLocaleString()} monthly clicks at current conversion rate.`});}});
+  if(!flags.length)flags.push({l:'',t:'No critical issues detected',d:'All channels are performing at or above benchmark thresholds.'});
+  document.getElementById('flags-out').innerHTML=flags.map(f=>`<div class="flag-item"><div class="fdot ${f.l}"></div><div><div class="ftitle">${esc(f.t)}</div><div class="fdesc">${esc(f.d)}</div></div></div>`).join('');
+  document.getElementById('recs-out').innerHTML=recs.length?recs.map(r=>`<div class="rec"><div class="rch">${esc(r.ch).toUpperCase()}</div><div class="ract">${esc(r.a)}</div><div class="rimp">${esc(r.i)}</div></div>`).join(''):'<div style="font-size:13px;color:var(--text-secondary);padding:8px 0">No specific recommendations — campaigns are healthy.</div>';
+  const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0);const bROAS=parseFloat((tr/ts).toFixed(2)),bROMI=parseFloat(((tr-ts)/ts).toFixed(2));const uc=data.filter(c=>c.tier==='under').length;
+  document.getElementById('exec-out').innerHTML=`<strong>${esc(meta.name)}</strong>${meta.period?' ('+esc(meta.period)+')':''} | Goal: ${esc(meta.goal)}${meta.audience?' | Audience: '+esc(meta.audience):''} | Vertical: ${esc(meta.vertical)}<br><br>Across ${data.length} channels and ${f$(ts)} total spend, this campaign generated ${f$(tr)} in revenue — a blended ROAS of ${bROAS}x and ROMI of ${bROMI}x. ${bROMI>=1?'Overall performance is above breakeven.':'Total spend is not yet returning profit.'} ${top.type} is the highest-efficiency channel at ${fn(top.roas,1)}x ROAS. ${uc>0?`${uc} channel${uc>1?'s':''} underperforming vs. benchmark.`:'No channels critically underperforming.'}${meta.rationale?'<br><br><em>Campaign context:</em> '+esc(meta.rationale.slice(0,200))+(meta.rationale.length>200?'…':''):''}`;
+  document.getElementById('save-label').value=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
+}
+
+// ── OPTIMIZER HISTORY ──
+function saveReport(){
+  const label=document.getElementById('save-label').value.trim()||campaignMeta.name;
+  const report={label,date:new Date().toLocaleDateString(),meta:campaignMeta,channels:analysisData,keywords:kwData};
+  let h=JSON.parse(localStorage.getItem('romi_history')||'[]');h.unshift(report);if(h.length>10)h=h.slice(0,10);localStorage.setItem('romi_history',JSON.stringify(h));
+  const sc=document.getElementById('save-confirm');sc.textContent='Saved: "'+label+'"';sc.style.display='block';setTimeout(()=>sc.style.display='none',3000);renderHistory();populateCmpDropdowns();
+}
+function getHistory(){return JSON.parse(localStorage.getItem('romi_history')||'[]');}
+function renderHistory(){
+  const h=getHistory();const el=document.getElementById('history-list');
+  if(!h.length){el.innerHTML='<div style="font-size:13px;color:var(--text-secondary);padding:1rem 0">No saved reports yet. Run an analysis and click "Save report."</div>';return;}
+  el.innerHTML=h.map((r,i)=>{const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0);const romi=ts>0?parseFloat(((tr-ts)/ts).toFixed(2)):0;return`<div class="hist-item"><div><div class="hist-name">${esc(r.label)}</div><div class="hist-meta">${r.date} · ${r.channels.length} channels · ROMI ${romi}x · ${f$(ts)} spend</div></div><button class="rmv" onclick="deleteReport(${i})">Delete</button></div>`;}).join('');
+  populateCmpDropdowns();
+}
+function deleteReport(i){let h=getHistory();h.splice(i,1);localStorage.setItem('romi_history',JSON.stringify(h));renderHistory();}
+function populateCmpDropdowns(){const h=getHistory();['cmp-a','cmp-b'].forEach(id=>{const s=document.getElementById(id);if(s)s.innerHTML=h.map((r,i)=>`<option value="${i}">${esc(r.label)}</option>`).join('');});const cb=document.getElementById('cmp-b');if(cb&&h.length>1)cb.selectedIndex=1;}
+function runComparison(){
+  const h=getHistory();const ai=parseInt(document.getElementById('cmp-a').value),bi=parseInt(document.getElementById('cmp-b').value);
+  if(ai===bi){document.getElementById('compare-out').innerHTML='<div style="font-size:12px;color:var(--text-danger)">Select two different reports.</div>';return;}
+  const A=h[ai],B=h[bi];const mx=(r)=>{const ts=r.channels.reduce((s,c)=>s+c.spend,0),tr=r.channels.reduce((s,c)=>s+c.rev,0),tc=r.channels.reduce((s,c)=>s+c.conv,0);return{spend:ts,revenue:tr,conversions:tc,roas:ts>0?tr/ts:0,romi:ts>0?(tr-ts)/ts:0};};
+  const ma=mx(A),mb=mx(B);const DEFS=[{k:'spend',l:'Total spend',fmt:f$,hg:false},{k:'revenue',l:'Revenue',fmt:f$,hg:true},{k:'conversions',l:'Conversions',fmt:n=>Math.round(n).toLocaleString(),hg:true},{k:'roas',l:'ROAS',fmt:n=>fn(n,2)+'x',hg:true},{k:'romi',l:'ROMI',fmt:n=>fn(n,2)+'x',hg:true}];
+  let out=`<div class="compare-row hdr"><span>Metric</span><span>${esc(A.label)}</span><span>${esc(B.label)}</span><span>Change</span></div>`;
+  DEFS.forEach(d=>{const va=ma[d.k],vb=mb[d.k],delta=vb-va,pc=va!==0?((delta/Math.abs(va))*100):0;const imp=(delta>0&&d.hg)||(delta<0&&!d.hg);const cls=delta===0?'delta-nc':imp?'delta-up':'delta-dn';out+=`<div class="compare-row"><span style="font-weight:600">${d.l}</span><span>${d.fmt(va)}</span><span>${d.fmt(vb)}</span><span class="${cls}">${delta>0?'↑':delta<0?'↓':'→'} ${pct(Math.abs(pc))}</span></div>`;});
+  document.getElementById('compare-out').innerHTML=out;
+}
+
+// ── CAMPAIGN PLANNER ──
+const MIX_PRESETS={
+  'sales-ecom':[['Paid Search',30],['Paid Social',30],['Email',20],['SEO / Organic',10],['Display',10]],
+  'sales-saas':[['Paid Search',35],['Email',25],['SEO / Organic',20],['Paid Social',15],['Display',5]],
+  'sales-services':[['Paid Search',35],['Paid Social',25],['Email',20],['Display',15],['Affiliate',5]],
+  'sales-healthcare':[['Paid Search',40],['Email',25],['SEO / Organic',20],['Display',15]],
+  'sales-finance':[['Paid Search',40],['Email',25],['SEO / Organic',20],['Display',15]],
+  'sales-other':[['Paid Search',35],['Paid Social',25],['Email',20],['Display',15],['Other',5]],
+  'leads-ecom':[['Paid Search',35],['Paid Social',25],['Email',20],['SEO / Organic',15],['Display',5]],
+  'leads-saas':[['Paid Search',40],['SEO / Organic',25],['Email',20],['Paid Social',15]],
+  'leads-services':[['Paid Search',40],['Paid Social',20],['Email',20],['SEO / Organic',15],['Display',5]],
+  'leads-other':[['Paid Search',35],['Paid Social',25],['Email',25],['Display',15]],
+  'awareness-ecom':[['Paid Social',35],['Display',25],['Influencer',20],['Paid Search',20]],
+  'awareness-saas':[['Paid Social',30],['Display',25],['SEO / Organic',25],['Paid Search',20]],
+  'awareness-services':[['Paid Social',35],['Display',30],['Influencer',20],['Paid Search',15]],
+  'awareness-other':[['Paid Social',35],['Display',30],['Influencer',20],['Paid Search',15]],
+  'retention-ecom':[['Email',45],['Paid Social',25],['Paid Search',15],['Affiliate',15]],
+  'retention-saas':[['Email',50],['Paid Search',20],['Paid Social',20],['Display',10]],
+  'retention-services':[['Email',40],['Paid Social',30],['Paid Search',20],['Display',10]],
+  'retention-other':[['Email',45],['Paid Social',25],['Paid Search',20],['Display',10]],
+};
+const MIX_RATIONALES={
+  'sales-ecom':'For e-commerce direct sales, Paid Search captures high-intent buyers, Paid Social drives discovery and retargeting, and Email converts your existing list at the highest ROAS of any channel.',
+  'sales-saas':'B2B SaaS sales cycles are longer — Paid Search captures active evaluators, Email nurtures leads, and SEO builds durable pipeline that compounds over time.',
+  'leads-saas':'Lead gen for SaaS benefits heavily from Paid Search (buyers actively searching) and SEO (long-term cost efficiency). Email converts existing traffic into pipeline.',
+  'awareness-ecom':'Brand awareness campaigns lean on Paid Social for broad reach, Display for sustained visibility, and Influencer for authentic audience trust.',
+  'retention-ecom':'Retention campaigns are email-dominant — existing customers convert at 5–10x the rate of cold audiences. Paid Social reinforces brand presence for lapsed users.',
+  'retention-saas':'SaaS retention is driven by lifecycle email — onboarding, feature announcements, and re-engagement sequences. Paid channels play a supporting role only.',
+  'default':'This mix is optimized for your goal and vertical based on cross-industry benchmark data. Higher-ROMI channels receive more budget weight.'
+};
+
+let plnAllocData=[];
+
+function plnSuggestMix(){
+  const goal=document.getElementById('pln-goal')?.value||'sales';
+  const vertical=document.getElementById('pln-vertical')?.value||'ecom';
+  const key=`${goal}-${vertical}`;
+  const mix=MIX_PRESETS[key]||MIX_PRESETS[`${goal}-other`]||MIX_PRESETS['sales-other'];
+  const rationale=MIX_RATIONALES[key]||MIX_RATIONALES['default'];
+  const infoEl=document.getElementById('pln-mix-rationale');
+  if(infoEl)infoEl.textContent=rationale;
+  plnAllocData=mix.map(([ch,p])=>({ch,pct:p}));
+  renderAllocRows();
+}
+
+function renderAllocRows(){
+  const budget=parseFloat(document.getElementById('pln-budget')?.value)||0;
+  const container=document.getElementById('alloc-rows');if(!container)return;
+  container.innerHTML=plnAllocData.map((row,i)=>{
+    const spend=budget>0?Math.round(budget*(row.pct/100)):0;
+    return`<div class="alloc-row"><span class="alloc-name">${esc(row.ch)}</span><input type="range" min="0" max="100" step="1" value="${row.pct}" oninput="plnSliderChange(${i},this.value)" style="width:100%"><span class="alloc-pct" id="alloc-pct-${i}">${row.pct}%</span><span style="font-size:12px;color:var(--text-secondary)" id="alloc-spend-${i}">${budget>0?f$(spend):'—'}</span></div>`;
+  }).join('');
+  plnUpdateTotalIndicator();
+}
+
+function plnSliderChange(i,val){
+  plnAllocData[i].pct=parseInt(val);
+  document.getElementById('alloc-pct-'+i).textContent=val+'%';
+  const budget=parseFloat(document.getElementById('pln-budget')?.value)||0;
+  if(budget>0)document.getElementById('alloc-spend-'+i).textContent=f$(Math.round(budget*(val/100)));
+  plnUpdateTotalIndicator();
+}
+
+function plnUpdateAlloc(){
+  const budget=parseFloat(document.getElementById('pln-budget')?.value)||0;
+  plnAllocData.forEach((row,i)=>{const el=document.getElementById('alloc-spend-'+i);if(el)el.textContent=budget>0?f$(Math.round(budget*(row.pct/100))):'—';});
+}
+
+function plnUpdateTotalIndicator(){
+  const total=plnAllocData.reduce((s,r)=>s+r.pct,0);
+  const el=document.getElementById('alloc-total-indicator');if(!el)return;
+  const ok=Math.abs(total-100)<=1;
+  el.textContent=`Total: ${total}%${ok?'':(total>100?' — over by '+(total-100)+'%':' — under by '+(100-total)+'%')}`;
+  el.className='total-pct '+(ok?'total-ok':'total-bad');
+}
+
+function plnRunForecast(){
+  const total=plnAllocData.reduce((s,r)=>s+r.pct,0);
+  if(Math.abs(total-100)>1){const e=document.getElementById('pln-step2-err');e.style.display='block';e.textContent=`Allocations sum to ${total}% — adjust sliders to reach 100%.`;return;}
+  document.getElementById('pln-step2-err').style.display='none';
+  const budget=parseFloat(document.getElementById('pln-budget')?.value)||0;
+  const aov=parseFloat(document.getElementById('pln-aov')?.value)||80;
+  const name=document.getElementById('pln-name')?.value||'New Campaign';
+  const duration=parseInt(document.getElementById('pln-duration')?.value)||3;
+  const audience=document.getElementById('pln-audience')?.value||'';
+  const rationale=document.getElementById('pln-rationale')?.value||'';
+  if(budget<=0){const e=document.getElementById('pln-step2-err');e.style.display='block';e.textContent='Please enter a total budget on the previous step.';return;}
+
+  const channelProjs=plnAllocData.filter(r=>r.pct>0).map(row=>{
+    const b=BENCH[row.ch]||BENCH['Other'];const spend=budget*(row.pct/100);
+    const revMid=spend*b.roas,revLow=spend*b.roas*0.65,revHigh=spend*b.roas*1.35;
+    const convMid=aov>0?Math.round(revMid/aov):0,convLow=aov>0?Math.round(revLow/aov):0,convHigh=aov>0?Math.round(revHigh/aov):0;
+    const cpc=b.cpc_avg,clicks=Math.round(spend/cpc),impr=b.ctr>0?Math.round(clicks/(b.ctr/100)):clicks*100;
+    return{ch:row.ch,pct:row.pct,spend,revLow,revMid,revHigh,convLow,convMid,convHigh,clicks,impr,roas:b.roas,romi:b.romi};
+  });
+
+  const totSpend=budget,totRevLow=channelProjs.reduce((s,c)=>s+c.revLow,0),totRevMid=channelProjs.reduce((s,c)=>s+c.revMid,0),totRevHigh=channelProjs.reduce((s,c)=>s+c.revHigh,0),totConvMid=channelProjs.reduce((s,c)=>s+c.convMid,0);
+  const romiLow=(totRevLow-totSpend)/totSpend,romiMid=(totRevMid-totSpend)/totSpend,romiHigh=(totRevHigh-totSpend)/totSpend;
+
+  document.getElementById('pln-dash-sub').textContent=esc(name)+' — Projected over '+duration+' month'+(duration>1?'s':'');
+  document.getElementById('pln-proj-grid').innerHTML=`
+    <div class="proj-card"><div class="proj-main">${f$(totRevMid)}</div><div class="proj-range">${f$(totRevLow)} – ${f$(totRevHigh)}</div><div class="proj-label">Projected revenue</div></div>
+    <div class="proj-card"><div class="proj-main" style="color:${romiMid>=1?'var(--text-success)':romiMid>=0?'var(--text-warning)':'var(--text-danger)'}">${fn(romiMid,1)}x</div><div class="proj-range">${fn(romiLow,1)}x – ${fn(romiHigh,1)}x</div><div class="proj-label">Projected ROMI</div></div>
+    <div class="proj-card"><div class="proj-main">${totConvMid.toLocaleString()}</div><div class="proj-range">Based on ${f$(aov)} AOV</div><div class="proj-label">Est. conversions</div></div>
+    <div class="proj-card"><div class="proj-main">${f$(budget)}</div><div class="proj-range">${duration} month${duration>1?'s':''}</div><div class="proj-label">Total budget</div></div>`;
+  document.getElementById('pln-confidence-note').textContent='Projections are based on cross-industry benchmark ROAS per channel. Actual results vary by creative quality, audience fit, competitive landscape, and execution. Use as planning ranges, not guarantees.';
+
+  const maxRev=totRevHigh*1.1;
+  document.getElementById('pln-forecast-band').innerHTML=`<div class="forecast-band-title">Revenue forecast range</div>
+    <div class="band-row"><span class="band-label">Conservative</span><div class="band-bar-wrap"><div class="band-bar" style="width:${Math.round((totRevLow/maxRev)*100)}%;background:#EF9F27"></div></div><span class="band-val">${f$(totRevLow)}</span></div>
+    <div class="band-row"><span class="band-label">Expected</span><div class="band-bar-wrap"><div class="band-bar" style="width:${Math.round((totRevMid/maxRev)*100)}%;background:#1D9E75"></div></div><span class="band-val">${f$(totRevMid)}</span></div>
+    <div class="band-row"><span class="band-label">Optimistic</span><div class="band-bar-wrap"><div class="band-bar" style="width:${Math.round((totRevHigh/maxRev)*100)}%;background:#378ADD"></div></div><span class="band-val">${f$(totRevHigh)}</span></div>`;
+
+  let ctbl=`<div class="crow hdr"><span>Channel</span><span>Budget</span><span>ROAS</span><span>Est. revenue</span><span class="hide-mobile">Est. conv.</span><span>Share</span></div>`;
+  channelProjs.forEach(c=>{ctbl+=`<div class="crow"><span style="font-weight:600">${esc(c.ch)}</span><span>${f$(c.spend)}</span><span>${fn(c.roas,1)}x</span><span>${f$(c.revMid)}</span><span class="hide-mobile">${c.convMid.toLocaleString()}</span><span>${c.pct}%</span></div>`;});
+  document.getElementById('pln-channel-table').innerHTML=ctbl;
+
+  if(plnChartInst){plnChartInst.destroy();plnChartInst=null;}
+  plnChartInst=new Chart(document.getElementById('plnChart'),{type:'bar',data:{labels:channelProjs.map(c=>c.ch),datasets:[{label:'Budget',data:channelProjs.map(c=>Math.round(c.spend)),backgroundColor:'#B5D4F4',borderColor:'#378ADD',borderWidth:1},{label:'Est. revenue',data:channelProjs.map(c=>Math.round(c.revMid)),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11},callback:v=>'$'+Math.round(v).toLocaleString()}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+  const sorted=[...channelProjs].sort((a,b)=>b.roas-a.roas);const bestCh=sorted[0],worstCh=sorted[sorted.length-1];
+  const insights=[];
+  insights.push({t:`${bestCh.ch} is your highest-efficiency channel`,s:`At a ${bestCh.roas}x benchmark ROAS, it should generate ${f$(bestCh.revMid)} from ${f$(bestCh.spend)} in spend. Consider over-indexing here if early results confirm benchmark performance.`});
+  if(channelProjs.length>1&&bestCh.roas>worstCh.roas*1.5)insights.push({t:`Large efficiency gap between ${bestCh.ch} and ${worstCh.ch}`,s:`${bestCh.ch} projects ${fn(bestCh.roas,1)}x ROAS vs. ${fn(worstCh.roas,1)}x for ${worstCh.ch}. If ${worstCh.ch} underperforms in early weeks, reallocate its budget to ${bestCh.ch}.`});
+  if(romiMid<1)insights.push({t:'Projected ROMI is below breakeven on expected scenario',s:`Your channel mix projects a ${fn(romiMid,1)}x ROMI. To improve this, shift more budget toward higher-ROAS channels or reduce spend on awareness channels.`});
+  else if(romiMid>=3)insights.push({t:'Strong projected return — consider scaling budget',s:`A ${fn(romiMid,1)}x ROMI projection suggests this mix is efficient. If early results confirm benchmark performance, this campaign warrants budget expansion.`});
+  insights.push({t:`Set a ${Math.max(1,Math.round(duration/2))}-month review checkpoint`,s:`Pause and assess at the halfway mark. Channels hitting benchmark ROAS should receive additional budget; channels below 75% of benchmark should be paused or restructured.`});
+  document.getElementById('pln-insights').innerHTML=insights.map(ins=>`<div class="insight-item"><div class="insight-dot"></div><div><div class="insight-text">${esc(ins.t)}</div><div class="insight-sub">${esc(ins.s)}</div></div></div>`).join('');
+
+  document.getElementById('pln-summary').innerHTML=`<strong>${esc(name)}</strong> | ${duration}-month plan | ${channelProjs.length} channels<br><br>With a ${f$(budget)} budget across ${channelProjs.length} channels, this campaign projects ${f$(totRevMid)} in revenue (range: ${f$(totRevLow)}–${f$(totRevHigh)}) and a blended ROMI of ${fn(romiMid,1)}x. ${romiMid>=1?'The expected scenario is above breakeven.':'The expected scenario is below breakeven — consider adjusting the channel mix toward higher-ROAS channels.'} ${bestCh.ch} is the most efficient channel in this plan at ${bestCh.roas}x ROAS.${audience?'<br><br>Target audience: '+esc(audience)+'.':''}${rationale?'<br><br><em>Rationale:</em> '+esc(rationale.slice(0,200))+(rationale.length>200?'…':''):''}`;
+  plnGoStep(3);
+}
+
+// ── NAVIGATION ──
+function optGoStep(n){document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);}
+function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';}
+function switchTab(n){['channels','keywords','csv'].forEach(t=>{document.getElementById('tab-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-'+t)?.classList.toggle('active',t===n);});}
+function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElementById('tab4-'+t).classList.toggle('active',t===n);document.getElementById('panel4-'+t).classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();}
+function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';optGoStep(1);}
+
+// ── INIT ──
+buildDemoGrid();addChannel();addChannel();renderHistory();plnSuggestMix();
+</script>
 </body>
 </html>
