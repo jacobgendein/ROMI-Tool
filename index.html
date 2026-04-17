@@ -40,12 +40,18 @@
     }
     html{font-size:16px;-webkit-font-smoothing:antialiased}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg-tertiary);color:var(--text-primary);min-height:100vh}
-    .site-header{background:var(--accent);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .site-header{background:var(--accent);padding:0.9rem 2rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+    .site-header-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.75)}
+    .site-header-center{text-align:center}
     .site-header-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.01em}
     .site-header-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:1px}
+    .site-header-right{display:flex;justify-content:flex-end;align-items:center;gap:8px}
     .back-btn{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);background:transparent;cursor:pointer;display:none}
     .back-btn:hover{background:rgba(255,255,255,0.1)}
     .back-btn.visible{display:block}
+    .export-btn{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);background:transparent;cursor:pointer;display:none}
+    .export-btn:hover{background:rgba(255,255,255,0.1)}
+    .export-btn.visible{display:block}
     #landing{display:flex;min-height:calc(100vh - 56px)}
     .half{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3rem 2.5rem;cursor:pointer;transition:background 0.2s;position:relative;overflow:hidden}
     .half-left{background:var(--bg-primary);border-right:0.5px solid var(--border-light)}
@@ -188,6 +194,22 @@
     .site-footer{text-align:center;padding:2rem;font-size:12px;color:var(--text-tertiary);border-top:0.5px solid var(--border-light);margin-top:3rem}
     .site-footer a{color:var(--text-secondary);text-decoration:none}
     .site-footer a:hover{text-decoration:underline}
+
+    /* ── PRINT / PDF ── */
+    @media print{
+      .site-header,.back-btn,.export-btn,.btn-p,.btn-s,.btn-g,.add-btn,.rmv,.nav,.tab-row,.prog,.half{display:none!important}
+      body{background:#fff!important;color:#000!important}
+      .step{display:block!important}
+      .card,.exec,.rec,.forecast-band,.proj-card,.channel-alloc{break-inside:avoid;border:0.5px solid #ccc!important;background:#fff!important}
+      .mcard{background:#f5f5f5!important;border:0.5px solid #ccc}
+      .print-header{display:block!important}
+      canvas{max-width:100%}
+      .app-wrap{padding:0!important;max-width:100%!important}
+      #tool-optimizer,#tool-planner{display:block!important}
+    }
+    .print-header{display:none;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1.5px solid #1F3864}
+    .print-header-title{font-size:20px;font-weight:700;color:#1F3864}
+    .print-header-meta{font-size:12px;color:#666;margin-top:4px}
     @media(max-width:700px){
       #landing{flex-direction:column}
       .half{padding:2.5rem 1.5rem}
@@ -201,11 +223,15 @@
 <body>
 
 <header class="site-header">
-  <div>
+  <div class="site-header-name">Jacob Gendein</div>
+  <div class="site-header-center">
     <div class="site-header-logo">ROMI Suite</div>
     <div class="site-header-sub" id="header-sub">Optimizer &amp; Campaign Planner</div>
   </div>
-  <button class="back-btn" id="back-btn" onclick="goHome()">← Back to home</button>
+  <div class="site-header-right">
+    <button class="export-btn" id="export-btn" onclick="exportPDF()">⬇ Export PDF</button>
+    <button class="back-btn" id="back-btn" onclick="goHome()">← Back to home</button>
+  </div>
 </header>
 
 <!-- ══ LANDING ══ -->
@@ -304,6 +330,10 @@
 
     <div class="step" id="opt-step3">
       <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div></div>
+      <div class="print-header" id="opt-print-header">
+        <div class="print-header-title" id="opt-print-title">ROMI Optimizer Report</div>
+        <div class="print-header-meta" id="opt-print-meta"></div>
+      </div>
       <div class="mgrid" id="summary-metrics"></div>
       <div class="gauge" id="romi-gauge"></div>
       <div class="slbl">Channel breakdown</div>
@@ -407,6 +437,10 @@
 
     <div class="step" id="pln-step3">
       <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div></div>
+      <div class="print-header" id="pln-print-header">
+        <div class="print-header-title" id="pln-print-title">Campaign Planner Forecast</div>
+        <div class="print-header-meta" id="pln-print-meta"></div>
+      </div>
       <div class="slbl">Projected outcomes</div>
       <div class="projection-grid" id="pln-proj-grid"></div>
       <p class="confidence-note" id="pln-confidence-note"></p>
@@ -462,7 +496,30 @@ function goHome(){
   document.getElementById('tool-optimizer').classList.remove('active');
   document.getElementById('tool-planner').classList.remove('active');
   document.getElementById('back-btn').classList.remove('visible');
+  document.getElementById('export-btn').classList.remove('visible');
   document.getElementById('header-sub').textContent='Optimizer & Campaign Planner';
+}
+function exportPDF(){
+  if(currentTool==='optimizer'){
+    const meta=campaignMeta;
+    document.getElementById('opt-print-title').textContent=(meta.name||'ROMI Optimizer Report');
+    document.getElementById('opt-print-meta').textContent='Generated '+new Date().toLocaleDateString()+(meta.period?' · '+meta.period:'')+(meta.vertical?' · '+meta.vertical:'');
+    // Ensure we're on the right steps for printing
+    document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.style.display='none');
+    document.getElementById('opt-step3').style.display='block';
+    document.getElementById('opt-step4').style.display='block';
+  } else {
+    const name=document.getElementById('pln-name')?.value||'Campaign Forecast';
+    const budget=document.getElementById('pln-budget')?.value||'';
+    document.getElementById('pln-print-title').textContent=name+' — Campaign Forecast';
+    document.getElementById('pln-print-meta').textContent='Generated '+new Date().toLocaleDateString()+(budget?' · Budget: $'+parseInt(budget).toLocaleString():'');
+  }
+  window.print();
+  // Restore step visibility after print dialog closes
+  if(currentTool==='optimizer'){
+    document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.style.display='');
+    optGoStep(currentOptStep||4);
+  }
 }
 
 // ── OPTIMIZER DEMOS ──
@@ -793,8 +850,8 @@ function plnRunForecast(){
 }
 
 // ── NAVIGATION ──
-function optGoStep(n){document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);}
-function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';}
+let currentOptStep=1;function optGoStep(n){currentOptStep=n;document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);if(n>=3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
+function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';if(n===3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
 function switchTab(n){['channels','keywords','csv'].forEach(t=>{document.getElementById('tab-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-'+t)?.classList.toggle('active',t===n);});}
 function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElementById('tab4-'+t).classList.toggle('active',t===n);document.getElementById('panel4-'+t).classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();}
 function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';optGoStep(1);}
