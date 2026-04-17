@@ -197,6 +197,29 @@
 
 
     .ai-section-lbl{font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin:1rem 0 0.5rem}
+
+    .attr-btn{font-size:11px;padding:4px 12px;border-radius:var(--radius-md);border:0.5px solid var(--border-medium);background:transparent;color:var(--text-secondary);cursor:pointer;transition:all 0.15s}
+    .attr-btn.active{background:var(--bg-info);color:var(--text-info);border-color:var(--border-info);font-weight:600}
+    .ltv-panel{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+    .ltv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:8px}
+    .ltv-card{background:var(--bg-secondary);border-radius:var(--radius-md);padding:10px;text-align:center}
+    .ltv-val{font-size:18px;font-weight:600;color:var(--text-primary)}
+    .ltv-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .ltv-good{color:var(--text-success)}.ltv-warn{color:var(--text-warning)}.ltv-bad{color:var(--text-danger)}
+    .scenario-wrap{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin-top:1.25rem}
+    .scenario-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+    .scenario-sub{font-size:12px;color:var(--text-secondary);margin-bottom:1rem;line-height:1.5}
+    .scenario-row{display:grid;grid-template-columns:130px 1fr 75px 90px;gap:10px;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--border-light);font-size:12px}
+    .scenario-row.hdr{font-size:11px;color:var(--text-secondary);font-weight:600}
+    .scenario-ch{font-weight:500;color:var(--text-primary)}
+    .scenario-pct{font-weight:600;color:var(--text-info);text-align:right}
+    .scenario-result{background:var(--bg-secondary);border-radius:var(--radius-lg);padding:1rem;margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+    .scen-card{text-align:center}
+    .scen-val{font-size:18px;font-weight:600}
+    .scen-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+    .scen-delta{font-size:11px;font-weight:600;margin-top:3px}
+    .scen-up{color:var(--text-success)}.scen-dn{color:var(--text-danger)}.scen-nc{color:var(--text-secondary)}
+    .reset-scen{font-size:11px;color:var(--text-secondary);cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block}
     /* ── PRINT / PDF ── */
     @media print{
       .site-header,.back-btn,.export-btn,.btn-p,.btn-s,.btn-g,.add-btn,.rmv,.nav,.tab-row,.prog,.half{display:none!important}
@@ -281,8 +304,8 @@
           <div class="fg"><label class="fl">Reporting period</label><input id="camp-period" placeholder="e.g. Q2 2025 / June 1–30"></div>
         </div>
         <div class="fgrid3" style="margin-bottom:10px">
-          <div class="fg"><label class="fl">Primary goal</label><select id="camp-goal"><option>Brand awareness</option><option>Lead generation</option><option>Direct sales / ROAS</option><option>Customer retention</option><option>App installs</option><option>Event registrations</option></select></div>
-          <div class="fg"><label class="fl">Industry / vertical</label><select id="camp-vertical"><option>E-commerce / DTC</option><option>B2B SaaS</option><option>Consumer services</option><option>Healthcare</option><option>Finance</option><option>Education</option><option>Non-profit</option><option>Other</option></select></div>
+          <div class="fg"><label class="fl">Primary goal</label><select id="camp-goal"><option>Brand awareness</option><option>Lead generation</option><option>Direct sales / ROAS</option><option>Customer retention</option><option>App installs</option><option>Event registrations</option><option>Product launch</option><option>Market expansion</option><option>Re-engagement / win-back</option><option>Upsell / cross-sell</option><option>Thought leadership / content</option></select></div>
+          <div class="fg"><label class="fl">Industry / vertical</label><select id="camp-vertical"><option>E-commerce / DTC</option><option>B2B SaaS</option><option>B2B Services</option><option>Consumer services</option><option>Healthcare &amp; Wellness</option><option>Finance &amp; Fintech</option><option>Education &amp; EdTech</option><option>Real Estate</option><option>Travel &amp; Hospitality</option><option>Media &amp; Entertainment</option><option>Food &amp; Beverage</option><option>Retail (brick &amp; mortar)</option><option>Non-profit</option><option>Agency</option><option>Other</option></select></div>
           <div class="fg"><label class="fl">Total budget ($)</label><input id="camp-budget" type="number" placeholder="50000"></div>
         </div>
         <div class="fgrid2" style="margin-bottom:10px">
@@ -290,6 +313,11 @@
           <div class="fg"><label class="fl">Geographic focus</label><input id="camp-geo" placeholder="e.g. US National, Northeast, Global"></div>
         </div>
         <div class="fg" style="margin-bottom:10px"><label class="fl">Campaign rationale</label><textarea id="camp-rationale" placeholder="Why this campaign, why now?"></textarea></div>
+        <div class="fgrid3" style="margin-bottom:10px">
+          <div class="fg"><label class="fl">Customer LTV ($) <span style="font-weight:400;color:var(--text-tertiary)">optional</span></label><input id="camp-ltv" type="number" placeholder="e.g. 420"></div>
+          <div class="fg"><label class="fl">Target CAC ($) <span style="font-weight:400;color:var(--text-tertiary)">optional</span></label><input id="camp-target-cac" type="number" placeholder="e.g. 85"></div>
+          <div class="fg"><label class="fl">Avg. order / deal value ($)</label><input id="camp-aov" type="number" placeholder="e.g. 120"></div>
+        </div>
         <div class="fg"><label class="fl">Additional KPIs being tracked</label><input id="camp-kpis" placeholder="e.g. Email list growth, branded search volume, NPS"></div>
       </div>
       <div class="nav"><button class="btn-p" onclick="optGoStep(2)">Channel data →</button></div>
@@ -336,12 +364,22 @@
         <div class="print-header-title" id="opt-print-title">ROMI Optimizer Report</div>
         <div class="print-header-meta" id="opt-print-meta"></div>
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase">Attribution model</div>
+        <div style="display:flex;gap:4px" id="attr-toggle">
+          <button class="attr-btn active" onclick="setAttribution('last')" id="attr-last">Last click</button>
+          <button class="attr-btn" onclick="setAttribution('linear')" id="attr-linear">Linear</button>
+          <button class="attr-btn" onclick="setAttribution('first')" id="attr-first">First click</button>
+        </div>
+      </div>
       <div class="mgrid" id="summary-metrics"></div>
       <div class="gauge" id="romi-gauge"></div>
+      <div id="ltv-panel"></div>
       <div class="slbl">Channel breakdown</div>
       <div id="ch-table"></div>
       <div style="position:relative;width:100%;height:260px;margin-top:1.25rem"><canvas id="roasChart" role="img" aria-label="Bar chart comparing ROAS and ROMI per channel"></canvas></div>
       <div id="kw-section"></div>
+      <div id="scenario-section"></div>
       <div class="nav"><button class="btn-s" onclick="optGoStep(2)">← Back</button><button class="btn-p" onclick="optGoStep(4)">Recommendations →</button></div>
     </div>
 
@@ -396,15 +434,28 @@
               <option value="leads">Lead generation</option>
               <option value="awareness">Brand awareness</option>
               <option value="retention">Customer retention</option>
+              <option value="launch">Product launch</option>
+              <option value="expand">Market expansion</option>
+              <option value="winback">Re-engagement / win-back</option>
+              <option value="upsell">Upsell / cross-sell</option>
             </select>
           </div>
           <div class="fg"><label class="fl">Industry vertical</label>
             <select id="pln-vertical" onchange="plnSuggestMix()">
               <option value="ecom">E-commerce / DTC</option>
               <option value="saas">B2B SaaS</option>
+              <option value="b2bsvc">B2B Services</option>
               <option value="services">Consumer services</option>
-              <option value="healthcare">Healthcare</option>
-              <option value="finance">Finance</option>
+              <option value="health">Healthcare &amp; Wellness</option>
+              <option value="finance">Finance &amp; Fintech</option>
+              <option value="edu">Education &amp; EdTech</option>
+              <option value="realestate">Real Estate</option>
+              <option value="travel">Travel &amp; Hospitality</option>
+              <option value="media">Media &amp; Entertainment</option>
+              <option value="food">Food &amp; Beverage</option>
+              <option value="retail">Retail (brick &amp; mortar)</option>
+              <option value="nonprofit">Non-profit</option>
+              <option value="agency">Agency</option>
               <option value="other">Other</option>
             </select>
           </div>
@@ -464,17 +515,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const TYPES=['Paid Search','Paid Social','Email','SEO / Organic','Display','Affiliate','Influencer','Direct Mail','Other'];
-const BENCH={
-  'Paid Search':{roas:4,romi:3,ctr:3.5,cpc_avg:2.5},
-  'Paid Social':{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.2},
-  'Email':{roas:10,romi:9,ctr:2.5,cpc_avg:0.05},
-  'SEO / Organic':{roas:8,romi:7,ctr:4.0,cpc_avg:0.1},
-  'Display':{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8},
-  'Affiliate':{roas:5,romi:4,ctr:2.0,cpc_avg:1.5},
-  'Influencer':{roas:3,romi:2,ctr:1.5,cpc_avg:2.0},
-  'Direct Mail':{roas:3,romi:2,ctr:0.5,cpc_avg:1.0},
-  'Other':{roas:3,romi:2,ctr:1.5,cpc_avg:1.5}
+
+// Vertical-specific benchmark matrix: [roas, romi, ctr, cpc_avg]
+// Verticals: ecom, saas, b2bsvc, services, health, finance, edu, realestate, travel, media, food, retail, nonprofit, agency, other
+const VBENCH={
+  'Paid Search':{ecom:{roas:4.5,romi:3.5,ctr:4.0,cpc_avg:1.8},saas:{roas:3.2,romi:2.2,ctr:2.8,cpc_avg:4.5},b2bsvc:{roas:3.0,romi:2.0,ctr:2.5,cpc_avg:5.0},services:{roas:3.5,romi:2.5,ctr:3.0,cpc_avg:3.5},health:{roas:3.8,romi:2.8,ctr:3.2,cpc_avg:3.0},finance:{roas:2.8,romi:1.8,ctr:2.5,cpc_avg:6.0},edu:{roas:3.5,romi:2.5,ctr:3.0,cpc_avg:2.5},realestate:{roas:3.0,romi:2.0,ctr:2.8,cpc_avg:4.0},travel:{roas:5.0,romi:4.0,ctr:4.2,cpc_avg:2.0},media:{roas:3.5,romi:2.5,ctr:3.5,cpc_avg:1.5},food:{roas:4.0,romi:3.0,ctr:3.8,cpc_avg:1.5},retail:{roas:4.2,romi:3.2,ctr:3.8,cpc_avg:1.6},nonprofit:{roas:2.5,romi:1.5,ctr:2.5,cpc_avg:2.0},agency:{roas:3.5,romi:2.5,ctr:3.0,cpc_avg:3.0},other:{roas:4.0,romi:3.0,ctr:3.5,cpc_avg:2.5}},
+  'Paid Social':{ecom:{roas:3.0,romi:2.0,ctr:1.2,cpc_avg:1.0},saas:{roas:2.0,romi:1.0,ctr:0.8,cpc_avg:2.5},b2bsvc:{roas:1.8,romi:0.8,ctr:0.7,cpc_avg:3.0},services:{roas:2.2,romi:1.2,ctr:1.0,cpc_avg:1.8},health:{roas:2.5,romi:1.5,ctr:1.1,cpc_avg:1.5},finance:{roas:1.8,romi:0.8,ctr:0.8,cpc_avg:3.5},edu:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.5},realestate:{roas:2.0,romi:1.0,ctr:0.9,cpc_avg:2.0},travel:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:0.9},media:{roas:2.8,romi:1.8,ctr:1.3,cpc_avg:0.8},food:{roas:3.0,romi:2.0,ctr:1.3,cpc_avg:0.8},retail:{roas:3.2,romi:2.2,ctr:1.2,cpc_avg:0.9},nonprofit:{roas:2.0,romi:1.0,ctr:1.0,cpc_avg:1.2},agency:{roas:2.2,romi:1.2,ctr:1.0,cpc_avg:1.5},other:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.2}},
+  'Email':{ecom:{roas:12,romi:11,ctr:3.0,cpc_avg:0.04},saas:{roas:8,romi:7,ctr:2.0,cpc_avg:0.06},b2bsvc:{roas:7,romi:6,ctr:1.8,cpc_avg:0.07},services:{roas:9,romi:8,ctr:2.5,cpc_avg:0.05},health:{roas:10,romi:9,ctr:2.5,cpc_avg:0.05},finance:{roas:7,romi:6,ctr:2.0,cpc_avg:0.06},edu:{roas:9,romi:8,ctr:2.5,cpc_avg:0.05},realestate:{roas:6,romi:5,ctr:1.8,cpc_avg:0.07},travel:{roas:11,romi:10,ctr:3.0,cpc_avg:0.04},media:{roas:8,romi:7,ctr:2.8,cpc_avg:0.05},food:{roas:10,romi:9,ctr:2.8,cpc_avg:0.04},retail:{roas:11,romi:10,ctr:2.8,cpc_avg:0.04},nonprofit:{roas:8,romi:7,ctr:2.5,cpc_avg:0.05},agency:{roas:7,romi:6,ctr:2.0,cpc_avg:0.06},other:{roas:10,romi:9,ctr:2.5,cpc_avg:0.05}},
+  'SEO / Organic':{ecom:{roas:10,romi:9,ctr:4.5,cpc_avg:0.08},saas:{roas:9,romi:8,ctr:3.5,cpc_avg:0.10},b2bsvc:{roas:8,romi:7,ctr:3.2,cpc_avg:0.12},services:{roas:8,romi:7,ctr:4.0,cpc_avg:0.10},health:{roas:8,romi:7,ctr:3.8,cpc_avg:0.10},finance:{roas:7,romi:6,ctr:3.0,cpc_avg:0.12},edu:{roas:9,romi:8,ctr:4.0,cpc_avg:0.09},realestate:{roas:7,romi:6,ctr:3.5,cpc_avg:0.11},travel:{roas:10,romi:9,ctr:4.5,cpc_avg:0.08},media:{roas:9,romi:8,ctr:5.0,cpc_avg:0.07},food:{roas:8,romi:7,ctr:4.0,cpc_avg:0.09},retail:{roas:9,romi:8,ctr:4.2,cpc_avg:0.09},nonprofit:{roas:7,romi:6,ctr:3.5,cpc_avg:0.11},agency:{roas:8,romi:7,ctr:3.5,cpc_avg:0.10},other:{roas:8,romi:7,ctr:4.0,cpc_avg:0.10}},
+  'Display':{ecom:{roas:2.2,romi:1.2,ctr:0.35,cpc_avg:0.7},saas:{roas:1.5,romi:0.5,ctr:0.2,cpc_avg:1.2},b2bsvc:{roas:1.4,romi:0.4,ctr:0.18,cpc_avg:1.3},services:{roas:1.8,romi:0.8,ctr:0.3,cpc_avg:0.9},health:{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8},finance:{roas:1.5,romi:0.5,ctr:0.2,cpc_avg:1.2},edu:{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8},realestate:{roas:1.8,romi:0.8,ctr:0.25,cpc_avg:1.0},travel:{roas:2.8,romi:1.8,ctr:0.45,cpc_avg:0.6},media:{roas:2.5,romi:1.5,ctr:0.4,cpc_avg:0.6},food:{roas:2.2,romi:1.2,ctr:0.38,cpc_avg:0.65},retail:{roas:2.3,romi:1.3,ctr:0.38,cpc_avg:0.65},nonprofit:{roas:1.5,romi:0.5,ctr:0.25,cpc_avg:0.9},agency:{roas:1.8,romi:0.8,ctr:0.3,cpc_avg:0.8},other:{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8}},
+  'Affiliate':{ecom:{roas:6,romi:5,ctr:2.5,cpc_avg:1.2},saas:{roas:4,romi:3,ctr:1.5,cpc_avg:2.0},b2bsvc:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:2.0},services:{roas:4.5,romi:3.5,ctr:2.0,cpc_avg:1.5},health:{roas:5,romi:4,ctr:2.0,cpc_avg:1.5},finance:{roas:4,romi:3,ctr:1.8,cpc_avg:2.0},edu:{roas:4.5,romi:3.5,ctr:2.0,cpc_avg:1.5},realestate:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:2.0},travel:{roas:6,romi:5,ctr:2.5,cpc_avg:1.2},media:{roas:4,romi:3,ctr:2.0,cpc_avg:1.5},food:{roas:5,romi:4,ctr:2.2,cpc_avg:1.3},retail:{roas:5.5,romi:4.5,ctr:2.3,cpc_avg:1.2},nonprofit:{roas:3,romi:2,ctr:1.5,cpc_avg:1.5},agency:{roas:4,romi:3,ctr:1.8,cpc_avg:1.8},other:{roas:5,romi:4,ctr:2.0,cpc_avg:1.5}},
+  'Influencer':{ecom:{roas:3.5,romi:2.5,ctr:1.8,cpc_avg:1.8},saas:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:3.0},b2bsvc:{roas:2.0,romi:1.0,ctr:0.8,cpc_avg:3.5},services:{roas:2.8,romi:1.8,ctr:1.5,cpc_avg:2.0},health:{roas:3.0,romi:2.0,ctr:1.5,cpc_avg:2.0},finance:{roas:2.0,romi:1.0,ctr:0.9,cpc_avg:3.0},edu:{roas:2.8,romi:1.8,ctr:1.4,cpc_avg:2.0},realestate:{roas:2.0,romi:1.0,ctr:1.0,cpc_avg:2.5},travel:{roas:4.0,romi:3.0,ctr:2.0,cpc_avg:1.5},media:{roas:3.5,romi:2.5,ctr:2.0,cpc_avg:1.5},food:{roas:3.5,romi:2.5,ctr:1.8,cpc_avg:1.5},retail:{roas:3.2,romi:2.2,ctr:1.7,cpc_avg:1.7},nonprofit:{roas:2.5,romi:1.5,ctr:1.2,cpc_avg:2.0},agency:{roas:2.5,romi:1.5,ctr:1.2,cpc_avg:2.5},other:{roas:3.0,romi:2.0,ctr:1.5,cpc_avg:2.0}},
+  'Direct Mail':{ecom:{roas:3.5,romi:2.5,ctr:0.6,cpc_avg:0.9},saas:{roas:2.5,romi:1.5,ctr:0.4,cpc_avg:1.5},b2bsvc:{roas:2.8,romi:1.8,ctr:0.5,cpc_avg:1.2},services:{roas:3.0,romi:2.0,ctr:0.5,cpc_avg:1.0},health:{roas:3.0,romi:2.0,ctr:0.5,cpc_avg:1.0},finance:{roas:2.5,romi:1.5,ctr:0.4,cpc_avg:1.5},edu:{roas:2.8,romi:1.8,ctr:0.5,cpc_avg:1.2},realestate:{roas:3.5,romi:2.5,ctr:0.6,cpc_avg:0.9},travel:{roas:3.0,romi:2.0,ctr:0.5,cpc_avg:1.0},media:{roas:2.5,romi:1.5,ctr:0.4,cpc_avg:1.3},food:{roas:3.2,romi:2.2,ctr:0.55,cpc_avg:0.95},retail:{roas:3.5,romi:2.5,ctr:0.6,cpc_avg:0.9},nonprofit:{roas:3.0,romi:2.0,ctr:0.5,cpc_avg:1.0},agency:{roas:2.5,romi:1.5,ctr:0.4,cpc_avg:1.3},other:{roas:3.0,romi:2.0,ctr:0.5,cpc_avg:1.0}},
+  'Other':{ecom:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:1.5},saas:{roas:2.8,romi:1.8,ctr:1.2,cpc_avg:2.0},b2bsvc:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:2.2},services:{roas:3.0,romi:2.0,ctr:1.3,cpc_avg:1.8},health:{roas:3.0,romi:2.0,ctr:1.3,cpc_avg:1.8},finance:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:2.5},edu:{roas:3.0,romi:2.0,ctr:1.3,cpc_avg:1.8},realestate:{roas:2.8,romi:1.8,ctr:1.2,cpc_avg:2.0},travel:{roas:4.0,romi:3.0,ctr:1.8,cpc_avg:1.2},media:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:1.2},food:{roas:3.2,romi:2.2,ctr:1.4,cpc_avg:1.4},retail:{roas:3.5,romi:2.5,ctr:1.5,cpc_avg:1.4},nonprofit:{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.5},agency:{roas:3.0,romi:2.0,ctr:1.3,cpc_avg:1.8},other:{roas:3.0,romi:2.0,ctr:1.5,cpc_avg:1.5}}
 };
+
+// Map vertical dropdown value to VBENCH key
+function vertKey(v){
+  const map={'E-commerce / DTC':'ecom','B2B SaaS':'saas','B2B Services':'b2bsvc','Consumer services':'services','Healthcare & Wellness':'health','Finance & Fintech':'finance','Education & EdTech':'edu','Real Estate':'realestate','Travel & Hospitality':'travel','Media & Entertainment':'media','Food & Beverage':'food','Retail (brick & mortar)':'retail','Non-profit':'nonprofit','Agency':'agency'};
+  return map[v]||'other';
+}
+function getBench(channelType, vertical){
+  const vk=vertKey(vertical||'');
+  const vb=VBENCH[channelType];
+  if(vb&&vb[vk])return vb[vk];
+  // fallback to 'other' vertical
+  if(vb&&vb['other'])return vb['other'];
+  return {roas:3,romi:2,ctr:1.5,cpc_avg:1.5};
+}
+
+// Flat BENCH kept for planner backwards-compat (planner uses getBench now too)
+const BENCH={'Paid Search':{roas:4,romi:3,ctr:3.5,cpc_avg:2.5},'Paid Social':{roas:2.5,romi:1.5,ctr:1.0,cpc_avg:1.2},'Email':{roas:10,romi:9,ctr:2.5,cpc_avg:0.05},'SEO / Organic':{roas:8,romi:7,ctr:4.0,cpc_avg:0.1},'Display':{roas:2.0,romi:1.0,ctr:0.3,cpc_avg:0.8},'Affiliate':{roas:5,romi:4,ctr:2.0,cpc_avg:1.5},'Influencer':{roas:3,romi:2,ctr:1.5,cpc_avg:2.0},'Direct Mail':{roas:3,romi:2,ctr:0.5,cpc_avg:1.0},'Other':{roas:3,romi:2,ctr:1.5,cpc_avg:1.5}};
 const CTR_BY_POS={1:27.6,2:15.8,3:11.0,4:8.0,5:7.2,6:5.0,7:4.2,8:3.8,9:3.5,10:3.0};
 function posCTR(p){return p<=10?(CTR_BY_POS[p]||3.0):p<=20?1.5:0.5;}
 function f$(n){return '$'+Math.round(n).toLocaleString('en-US');}
@@ -482,7 +553,8 @@ function fn(n,d=2){return parseFloat(n.toFixed(d)).toString();}
 function pct(n){return fn(n,1)+'%';}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-let currentTool=null,optChartInst=null,plnChartInst=null;
+let currentTool=null,optChartInst=null,plnChartInst=null,currentAttribution='last';
+function setAttribution(model){currentAttribution=model;['last','linear','first'].forEach(m=>document.getElementById('attr-'+m).classList.toggle('active',m===model));if(analysisData.length){const channels=parseChannels(model);if(channels){analysisData=channels;renderDashboard(channels,kwData,campaignMeta);}}}
 
 function launchTool(tool){
   currentTool=tool;
@@ -527,11 +599,11 @@ function exportPDF(){
 // ── OPTIMIZER DEMOS ──
 const DEMOS=[
   {icon:'🛍️',name:'E-commerce DTC',tag:'Healthy mix',
-   meta:{name:'Spring Sale Campaign',period:'Q2 2025',goal:'Direct sales / ROAS',vertical:'E-commerce / DTC',budget:85000,audience:'Women 25–44, fashion-forward, mobile-first',geo:'US National',rationale:'Seasonal push to capture spring apparel demand and clear winter inventory before Q3 refresh.',kpis:'CAC payback, repeat purchase rate, email list growth'},
-   channels:[{type:'Paid Search',spend:22000,impr:420000,clicks:18900,conv:567,rev:85000},{type:'Paid Social',spend:28000,impr:1200000,clicks:13200,conv:330,rev:52000},{type:'Email',spend:3200,impr:95000,clicks:7600,conv:380,rev:44000},{type:'Display',spend:8000,impr:2100000,clicks:4200,conv:63,rev:9800}],
+   meta:{name:'Spring Sale Campaign',period:'Q2 2025',goal:'Direct sales / ROAS',vertical:'E-commerce / DTC',budget:85000,audience:'Women 25–44, fashion-forward, mobile-first',geo:'US National',rationale:'Seasonal push to capture spring apparel demand and clear winter inventory before Q3 refresh.',kpis:'CAC payback, repeat purchase rate, email list growth',ltv:320,targetCac:65,aov:85},
+   channels:[{type:'Paid Search',spend:22000,impr:420000,clicks:18900,conv:567,rev:85000},{type:'Paid Social',spend:28000,impr:1200000,clicks:13200,conv:330,rev:52000,reach:280000},{type:'Email',spend:3200,impr:95000,clicks:7600,conv:380,rev:44000},{type:'Display',spend:8000,impr:2100000,clicks:4200,conv:63,rev:9800,reach:950000}],
    keywords:[{term:'spring dresses 2025',impr:18000,clicks:1260,conv:63,rank:3},{term:'women fashion sale',impr:42000,clicks:1680,conv:42,rank:7}]},
   {icon:'💼',name:'B2B SaaS',tag:'Lead gen focus',
-   meta:{name:'Q2 Pipeline Push',period:'Q2 2025',goal:'Lead generation',vertical:'B2B SaaS',budget:120000,audience:'Marketing directors & VPs, 200–2000 employee companies',geo:'US & Canada',rationale:'Accelerate pipeline to hit Q3 ARR target. Competitor raised prices — window to capture churning customers.',kpis:'MQL volume, SQL conversion rate, CAC, pipeline coverage ratio'},
+   meta:{name:'Q2 Pipeline Push',period:'Q2 2025',goal:'Lead generation',vertical:'B2B SaaS',budget:120000,audience:'Marketing directors & VPs, 200–2000 employee companies',geo:'US & Canada',rationale:'Accelerate pipeline to hit Q3 ARR target. Competitor raised prices — window to capture churning customers.',kpis:'MQL volume, SQL conversion rate, CAC, pipeline coverage ratio',ltv:8400,targetCac:420,aov:600},
    channels:[{type:'Paid Search',spend:38000,impr:280000,clicks:8960,conv:224,rev:168000},{type:'Paid Social',spend:31000,impr:650000,clicks:5850,conv:88,rev:61600},{type:'Email',spend:4500,impr:42000,clicks:3360,conv:134,rev:93800},{type:'SEO / Organic',spend:12000,impr:190000,clicks:15200,conv:152,rev:106400},{type:'Display',spend:9500,impr:1800000,clicks:3600,conv:18,rev:12600}],
    keywords:[{term:'marketing analytics software',impr:8400,clicks:336,conv:17,rank:5},{term:'best romi calculator',impr:2200,clicks:154,conv:12,rank:2}]},
   {icon:'⚠️',name:'Struggling campaign',tag:'See flags & fixes',
@@ -550,7 +622,7 @@ function buildDemoGrid(){
 }
 function loadDemo(i){
   const d=DEMOS[i];
-  document.getElementById('camp-name').value=d.meta.name;document.getElementById('camp-period').value=d.meta.period;document.getElementById('camp-goal').value=d.meta.goal;document.getElementById('camp-vertical').value=d.meta.vertical;document.getElementById('camp-budget').value=d.meta.budget;document.getElementById('camp-audience').value=d.meta.audience;document.getElementById('camp-geo').value=d.meta.geo;document.getElementById('camp-rationale').value=d.meta.rationale;document.getElementById('camp-kpis').value=d.meta.kpis;
+  document.getElementById('camp-name').value=d.meta.name;document.getElementById('camp-period').value=d.meta.period;document.getElementById('camp-goal').value=d.meta.goal;document.getElementById('camp-vertical').value=d.meta.vertical;document.getElementById('camp-budget').value=d.meta.budget;document.getElementById('camp-audience').value=d.meta.audience;document.getElementById('camp-geo').value=d.meta.geo;document.getElementById('camp-rationale').value=d.meta.rationale;document.getElementById('camp-kpis').value=d.meta.kpis;document.getElementById('camp-ltv').value=d.meta.ltv||'';document.getElementById('camp-target-cac').value=d.meta.targetCac||'';document.getElementById('camp-aov').value=d.meta.aov||'';
   document.getElementById('ch-container').innerHTML='';chCount=0;d.channels.forEach(ch=>addChannel(ch));
   document.getElementById('kw-container').innerHTML='';kwCount=0;d.keywords.forEach(kw=>addKeyword(kw));
   optGoStep(2);switchTab('channels');
@@ -572,6 +644,7 @@ function addChannel(p=null){
     <div class="fg"><label class="fl">Clicks</label><input type="number" id="clicks-${id}" placeholder="3500" value="${v('clicks')}" min="0"></div>
     <div class="fg"><label class="fl">Conversions</label><input type="number" id="conv-${id}" placeholder="120" value="${v('conv')}" min="0"></div>
     <div class="fg"><label class="fl">Revenue ($)</label><input type="number" id="rev-${id}" placeholder="20000" value="${v('rev')}" min="0"></div>
+    <div class="fg"><label class="fl">Reach (unique) <span style="font-size:10px;color:var(--text-tertiary)">optional</span></label><input type="number" id="reach-${id}" placeholder="e.g. 280000" value="${v('reach')}" min="0"></div>
   </div>`;
   document.getElementById('ch-container').appendChild(d);
 }
@@ -620,19 +693,42 @@ function downloadTemplate(){const csv='channel,spend,impressions,clicks,conversi
 function getChIds(){return Array.from(document.querySelectorAll('#ch-container > [id^="ch-"]')).map(e=>e.id.replace('ch-',''));}
 function getKwIds(){return Array.from(document.querySelectorAll('#kw-container > [id^="kw-"]')).map(e=>e.id.replace('kw-',''));}
 
-function parseChannels(){
+function parseChannels(attrModel){
   const ids=getChIds();if(ids.length<2)return null;
-  const channels=[];
+  const rawChannels=[];
   for(const id of ids){
-    const typeEl=document.getElementById('type-'+id),spendEl=document.getElementById('spend-'+id),imprEl=document.getElementById('impr-'+id),clicksEl=document.getElementById('clicks-'+id),convEl=document.getElementById('conv-'+id),revEl=document.getElementById('rev-'+id);
+    const typeEl=document.getElementById('type-'+id),spendEl=document.getElementById('spend-'+id),imprEl=document.getElementById('impr-'+id),clicksEl=document.getElementById('clicks-'+id),convEl=document.getElementById('conv-'+id),revEl=document.getElementById('rev-'+id),reachEl=document.getElementById('reach-'+id);
     if(!typeEl||!spendEl||!imprEl||!clicksEl||!convEl||!revEl)continue;
     const type=typeEl.value,spend=parseFloat(spendEl.value),impr=parseFloat(imprEl.value),clicks=parseFloat(clicksEl.value),conv=parseFloat(convEl.value),rev=parseFloat(revEl.value);
+    const reach=reachEl&&reachEl.value?parseFloat(reachEl.value):null;
     if([spend,impr,clicks,conv,rev].some(v=>isNaN(v)||v<0)||clicks>impr)return null;
-    const b=BENCH[type]||BENCH['Other'];
-    const ctr=impr>0?(clicks/impr)*100:0,cpc=clicks>0?spend/clicks:spend,cpa=conv>0?spend/conv:spend,roas=spend>0?rev/spend:0,romi=spend>0?(rev-spend)/spend:0;
-    let tier;if(roas>=b.roas*1.1)tier='optimized';else if(roas>=b.roas*0.75)tier='attention';else tier='under';
-    channels.push({id,type,spend,impr,clicks,conv,rev,ctr,cpc,cpa,roas,romi,tier,bench:b});
+    rawChannels.push({id,type,spend,impr,clicks,conv,rev,reach});
   }
+  // Apply attribution model to revenue
+  const model=attrModel||currentAttribution||'last';
+  const totalClicks=rawChannels.reduce((s,c)=>s+c.clicks,0);
+  const totalConv=rawChannels.reduce((s,c)=>s+c.conv,0);
+  const vertical=campaignMeta.vertical||document.getElementById('camp-vertical')?.value||'';
+  const channels=rawChannels.map((ch,i)=>{
+    let attrRev=ch.rev;
+    if(model==='linear'&&totalConv>0){
+      const totalRev=rawChannels.reduce((s,c)=>s+c.rev,0);
+      attrRev=totalRev*(ch.conv/totalConv);
+    } else if(model==='first'&&totalClicks>0){
+      const totalRev=rawChannels.reduce((s,c)=>s+c.rev,0);
+      // Weight by clicks as proxy for first-touch
+      attrRev=totalRev*(ch.clicks/totalClicks);
+    }
+    const b=getBench(ch.type,vertical);
+    const ctr=ch.impr>0?(ch.clicks/ch.impr)*100:0;
+    const frequency=ch.reach&&ch.reach>0?parseFloat((ch.impr/ch.reach).toFixed(2)):null;
+    const cpc=ch.clicks>0?ch.spend/ch.clicks:ch.spend;
+    const cpa=ch.conv>0?ch.spend/ch.conv:ch.spend;
+    const roas=ch.spend>0?attrRev/ch.spend:0;
+    const romi=ch.spend>0?(attrRev-ch.spend)/ch.spend:0;
+    let tier;if(roas>=b.roas*1.1)tier='optimized';else if(roas>=b.roas*0.75)tier='attention';else tier='under';
+    return{...ch,rev:attrRev,origRev:ch.rev,ctr,cpc,cpa,roas,romi,tier,bench:b,frequency};
+  });
   return channels;
 }
 
@@ -651,27 +747,110 @@ function runAnalysis(){
   const channels=parseChannels();
   if(!channels){const e=document.getElementById('step2-err');e.style.display='block';e.textContent='Add at least 2 channels with complete, valid data (clicks cannot exceed impressions).';return;}
   document.getElementById('step2-err').style.display='none';
-  campaignMeta={name:document.getElementById('camp-name').value||'Unnamed Campaign',period:document.getElementById('camp-period').value||'',goal:document.getElementById('camp-goal').value,vertical:document.getElementById('camp-vertical').value,budget:parseFloat(document.getElementById('camp-budget').value)||0,audience:document.getElementById('camp-audience').value,geo:document.getElementById('camp-geo').value,rationale:document.getElementById('camp-rationale').value,kpis:document.getElementById('camp-kpis').value,date:new Date().toLocaleDateString()};
+  campaignMeta={name:document.getElementById('camp-name').value||'Unnamed Campaign',period:document.getElementById('camp-period').value||'',goal:document.getElementById('camp-goal').value,vertical:document.getElementById('camp-vertical').value,budget:parseFloat(document.getElementById('camp-budget').value)||0,audience:document.getElementById('camp-audience').value,geo:document.getElementById('camp-geo').value,rationale:document.getElementById('camp-rationale').value,kpis:document.getElementById('camp-kpis').value,ltv:parseFloat(document.getElementById('camp-ltv').value)||0,targetCac:parseFloat(document.getElementById('camp-target-cac').value)||0,aov:parseFloat(document.getElementById('camp-aov').value)||0,date:new Date().toLocaleDateString()};
   analysisData=channels;kwData=parseKeywords();
   renderDashboard(channels,kwData,campaignMeta);optGoStep(3);
 }
 
 function renderDashboard(data,kws,meta){
   document.getElementById('dash-sub').textContent=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
+  renderLTVPanel(data,meta);
   const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0),tc=data.reduce((s,c)=>s+c.conv,0);
   const bROAS=ts>0?tr/ts:0,bROMI=ts>0?(tr-ts)/ts:0;
   document.getElementById('summary-metrics').innerHTML=`<div class="mcard"><div class="mval">${f$(ts)}</div><div class="mlbl">Total spend</div></div><div class="mcard"><div class="mval">${f$(tr)}</div><div class="mlbl">Revenue</div></div><div class="mcard"><div class="mval">${tc.toLocaleString()}</div><div class="mlbl">Conversions</div></div><div class="mcard"><div class="mval">${fn(bROAS,1)}x</div><div class="mlbl">ROAS</div></div><div class="mcard"><div class="mval">${fn(bROMI,1)}x</div><div class="mlbl">ROMI</div></div>${meta.budget>0?`<div class="mcard"><div class="mval">${Math.round((ts/meta.budget)*100)}%</div><div class="mlbl">Budget used</div></div>`:''}`;
   const rc=bROMI<0?'#E24B4A':bROMI<1?'#EF9F27':'#639922';const bw=Math.min(100,Math.max(2,(bROMI/5)*100));
   document.getElementById('romi-gauge').innerHTML=`<div><div class="gval" style="color:${rc}">${fn(bROMI,2)}x</div><div class="glbl">Overall ROMI</div></div><div class="gbar" style="flex:1"><div class="gfill" style="width:${bw}%;background:${rc}"></div></div><div style="font-size:11px;color:var(--text-secondary);text-align:right;min-width:110px">${bROMI<0?'Below breakeven':bROMI<1?'Marginal return':bROMI<3?'Healthy return':'Strong return'}</div>`;
   const tb=(t)=>{if(t==='optimized')return'<span class="badge b-ok">Optimized</span>';if(t==='attention')return'<span class="badge b-warn">Needs attention</span>';return'<span class="badge b-bad">Underperforming</span>';};
-  let tbl=`<div class="crow hdr"><span>Channel</span><span>Spend</span><span>ROAS</span><span>ROMI</span><span class="hide-mobile">CTR%</span><span>Status</span></div>`;
-  data.forEach(c=>{tbl+=`<div class="crow"><span style="font-weight:600">${esc(c.type)}</span><span>${f$(c.spend)}</span><span>${fn(c.roas,1)}x</span><span>${fn(c.romi,1)}x</span><span class="hide-mobile">${pct(c.ctr)}</span><span>${tb(c.tier)}</span></div>`;});
+  let tbl=`<div class="crow hdr"><span>Channel</span><span>Spend</span><span>ROAS</span><span>ROMI</span><span class="hide-mobile">CTR%</span><span class="hide-mobile">Freq.</span><span>Status</span></div>`.replace('<div class="crow hdr">','<div class="crow hdr" style="grid-template-columns:1fr 75px 72px 72px 72px 55px 112px">');
+  data.forEach(row=>{const freqCell=row.frequency!==null?`<span class="hide-mobile" style="color:${row.frequency>4?'var(--text-danger)':row.frequency>2.5?'var(--text-warning)':'var(--text-secondary)'}">${fn(row.frequency,1)}x</span>`:'<span class="hide-mobile" style="color:var(--text-tertiary)">—</span>';tbl+=`<div class="crow" style="grid-template-columns:1fr 75px 72px 72px 72px 55px 112px"><span style="font-weight:600">${esc(row.type)}</span><span>${f$(row.spend)}</span><span>${fn(row.roas,1)}x</span><span>${fn(row.romi,1)}x</span><span class="hide-mobile">${pct(row.ctr)}</span>${freqCell}<span>${tb(row.tier)}</span></div>`;});
   document.getElementById('ch-table').innerHTML=tbl;
   if(optChartInst){optChartInst.destroy();optChartInst=null;}
   optChartInst=new Chart(document.getElementById('roasChart'),{type:'bar',data:{labels:data.map(c=>c.type),datasets:[{label:'ROAS',data:data.map(c=>parseFloat(c.roas.toFixed(2))),backgroundColor:'#85B7EB',borderColor:'#378ADD',borderWidth:1},{label:'ROMI',data:data.map(c=>parseFloat(c.romi.toFixed(2))),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+  renderScenarioSim(data,meta);
   if(kws.length>0){let ks=`<div class="slbl">Keyword performance</div><div class="krow hdr"><span>Keyword</span><span>Rank</span><span>CTR%</span><span>Conv rate</span><span>Bench CTR</span><span>Opp. clicks</span></div>`;kws.forEach(k=>{const ok=k.ctr>=k.benchCTR*0.8;ks+=`<div class="krow"><span style="font-weight:600">${esc(k.term)}</span><span>#${k.rank}</span><span style="color:${ok?'var(--text-success)':'var(--text-danger)'}">${pct(k.ctr)}</span><span>${pct(k.cvr)}</span><span>${pct(k.benchCTR)}</span><span style="color:${k.oppClicks>50?'var(--text-warning)':'var(--text-secondary)'}">${k.oppClicks>0?'+'+k.oppClicks.toLocaleString():'-'}</span></div>`;});document.getElementById('kw-section').innerHTML=ks;}
   else document.getElementById('kw-section').innerHTML='';
   renderRecs(data,kws,meta);
+}
+
+
+function renderLTVPanel(data,meta){
+  const el=document.getElementById('ltv-panel');
+  if(!meta.ltv&&!meta.targetCac&&!meta.aov){el.innerHTML='';return;}
+  const ts=data.reduce((s,c)=>s+c.spend,0);
+  const tc=data.reduce((s,c)=>s+c.conv,0);
+  const tr=data.reduce((s,c)=>s+c.rev,0);
+  const actualCac=tc>0?ts/tc:0;
+  const ltv=meta.ltv||0;
+  const targetCac=meta.targetCac||0;
+  const aov=meta.aov||0;
+  let cards='';
+  if(ltv&&actualCac){
+    const ratio=ltv/actualCac;
+    const cls=ratio>=3?'ltv-good':ratio>=1.5?'ltv-warn':'ltv-bad';
+    const payback=actualCac&&tr>0?parseFloat((ts/tr*12).toFixed(1)):null;
+    cards+=`<div class="ltv-card"><div class="ltv-val ${cls}">${fn(ratio,1)}x</div><div class="ltv-lbl">LTV : CAC ratio</div></div>`;
+    cards+=`<div class="ltv-card"><div class="ltv-val">${f$(actualCac)}</div><div class="ltv-lbl">Actual CAC</div></div>`;
+    if(payback)cards+=`<div class="ltv-card"><div class="ltv-val ${payback<=6?'ltv-good':payback<=12?'ltv-warn':'ltv-bad'}">${payback}mo</div><div class="ltv-lbl">Payback period</div></div>`;
+    if(ltv&&tc)cards+=`<div class="ltv-card"><div class="ltv-val">${f$(ltv*tc)}</div><div class="ltv-lbl">Total lifetime value</div></div>`;
+  }
+  if(targetCac&&actualCac){
+    const diff=actualCac-targetCac;
+    const cls=diff<=0?'ltv-good':diff/targetCac<=0.2?'ltv-warn':'ltv-bad';
+    cards+=`<div class="ltv-card"><div class="ltv-val ${cls}">${diff<=0?'✓ On target':'↑ '+f$(diff)+' over'}</div><div class="ltv-lbl">vs. target CAC (${f$(targetCac)})</div></div>`;
+  }
+  if(!cards){el.innerHTML='';return;}
+  el.innerHTML=`<div class="ltv-panel" style="margin-bottom:1rem"><div style="font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px">Customer economics</div><div class="ltv-grid">${cards}</div></div>`;
+}
+
+
+function renderScenarioSim(data,meta){
+  const el=document.getElementById('scenario-section');
+  if(!el||data.length<2){if(el)el.innerHTML='';return;}
+  const ts=data.reduce((s,c)=>s+c.spend,0);
+  const origROMI=ts>0?(data.reduce((s,c)=>s+c.rev,0)-ts)/ts:0;
+  let rows=data.map((ch,i)=>`<div class="scenario-row"><span class="scenario-ch">${esc(ch.type)}</span><input type="range" min="0" max="${Math.round(ts)}" step="100" value="${Math.round(ch.spend)}" oninput="updateScenario()" id="scen-slider-${i}" style="width:100%"><span class="scenario-pct" id="scen-pct-${i}">${Math.round(ch.spend/ts*100)}%</span><span style="font-size:12px;color:var(--text-secondary)" id="scen-spend-${i}">${f$(ch.spend)}</span></div>`).join('');
+  el.innerHTML=`<div class="scenario-wrap"><div class="scenario-title">Budget scenario simulator</div><div class="scenario-sub">Drag the sliders to reallocate budget between channels and see projected ROMI update in real time — based on each channel's actual ROAS performance in this campaign.</div><div class="scenario-row hdr"><span>Channel</span><span>Reallocate</span><span>%</span><span>Spend</span></div>${rows}<div class="scenario-result" id="scen-result"></div><span class="reset-scen" onclick="resetScenario()">Reset to actual spend</span></div>`;
+  window._scenData=data.map(ch=>({...ch}));
+  window._scenTotal=ts;
+  updateScenario();
+}
+
+function updateScenario(){
+  const data=window._scenData;if(!data)return;
+  const total=window._scenTotal;
+  let newSpends=data.map((_,i)=>parseFloat(document.getElementById('scen-slider-'+i)?.value||0));
+  const newTotal=newSpends.reduce((s,v)=>s+v,0);
+  data.forEach((ch,i)=>{
+    const pctEl=document.getElementById('scen-pct-'+i);
+    const spEl=document.getElementById('scen-spend-'+i);
+    const pct=newTotal>0?Math.round(newSpends[i]/newTotal*100):0;
+    if(pctEl)pctEl.textContent=pct+'%';
+    if(spEl)spEl.textContent=f$(newSpends[i]);
+  });
+  // Project revenue using each channel's actual ROAS but with new spend
+  const projRevs=data.map((ch,i)=>newSpends[i]*ch.roas);
+  const projTotal=projRevs.reduce((s,v)=>s+v,0);
+  const projROMI=newTotal>0?(projTotal-newTotal)/newTotal:0;
+  const origTotal=data.reduce((s,c)=>s+c.spend,0);
+  const origProjRev=data.reduce((s,c)=>s+c.spend*c.roas,0);
+  const origROMI=origTotal>0?(origProjRev-origTotal)/origTotal:0;
+  const delta=projROMI-origROMI;
+  const revDelta=projTotal-origProjRev;
+  const romiCls=delta>0.05?'scen-up':delta<-0.05?'scen-dn':'scen-nc';
+  const romiArrow=delta>0.05?'↑':delta<-0.05?'↓':'→';
+  const spendDiff=newTotal-origTotal;
+  const spendCls=Math.abs(spendDiff)<100?'scen-nc':spendDiff<0?'scen-up':'scen-dn';
+  document.getElementById('scen-result').innerHTML=`
+    <div class="scen-card"><div class="scen-val">${f$(newTotal)}</div><div class="scen-lbl">Total spend</div><div class="scen-delta ${spendCls}">${spendDiff>0?'+':''}${f$(spendDiff)} vs. actual</div></div>
+    <div class="scen-card"><div class="scen-val">${f$(projTotal)}</div><div class="scen-lbl">Projected revenue</div><div class="scen-delta ${revDelta>=0?'scen-up':'scen-dn'}">${revDelta>=0?'+':''}${f$(revDelta)} vs. actual</div></div>
+    <div class="scen-card"><div class="scen-val" style="color:${projROMI>=1?'var(--text-success)':projROMI>=0?'var(--text-warning)':'var(--text-danger)'}">${fn(projROMI,2)}x</div><div class="scen-lbl">Projected ROMI</div><div class="scen-delta ${romiCls}">${romiArrow} ${Math.abs(delta)>0.01?fn(Math.abs(delta),2)+'x':'no change'} vs. actual</div></div>
+    <div class="scen-card"><div class="scen-val">${data.reduce((s,_,i)=>s+(newSpends[i]!==data[i].spend?1:0),0)}</div><div class="scen-lbl">Channels modified</div><div class="scen-delta scen-nc">${newTotal!==origTotal?'Budget '+(newTotal>origTotal?'increased':'decreased'):'Same total budget'}</div></div>`;
+}
+
+function resetScenario(){
+  const data=window._scenData;if(!data)return;
+  data.forEach((ch,i)=>{const sl=document.getElementById('scen-slider-'+i);if(sl)sl.value=ch.spend;});
+  updateScenario();
 }
 
 function renderRecs(data,kws,meta){
@@ -683,6 +862,8 @@ function renderRecs(data,kws,meta){
     if(c.conv===0&&c.clicks>0){flags.push({l:'d',t:`${c.type} — zero conversions`,d:`${c.clicks.toLocaleString()} clicks, 0 conversions. Funnel may be broken.`});recs.push({ch:c.type,a:`Audit ${c.type} conversion path: verify tracking pixels, test landing page, confirm offer clarity.`,i:'Even 0.5% conversion on current clicks would add meaningful revenue.'});}
   });
   if(data.length>=2&&top.roas>bot.roas*1.5){const r=Math.round(bot.spend*0.2);flags.push({l:'w',t:'Budget efficiency gap across channels',d:`${top.type} (${fn(top.roas,1)}x) vs. ${bot.type} (${fn(bot.roas,1)}x).`});recs.push({ch:'Budget allocation',a:`Reallocate ~${f$(r)} (20% of ${bot.type} spend) into ${top.type}, your highest-efficiency channel.`,i:`Estimated uplift ~${f$(Math.round(r*(top.roas-bot.roas)))} based on ROAS delta.`});}
+  // Frequency fatigue flags
+  data.forEach(c=>{if(c.frequency&&c.frequency>4){flags.push({l:'w',t:`${c.type} — high ad frequency (${fn(c.frequency,1)}x)`,d:`Audience may be experiencing ad fatigue. Consider expanding reach or refreshing creative.`});recs.push({ch:c.type,a:`Expand ${c.type} audience targeting or rotate creative to reduce frequency below 3x.`,i:'High frequency (4x+) typically increases CPM and reduces CTR by 20–40%.'});}});
   kws.forEach(k=>{if(k.ctr<k.benchCTR*0.7&&k.oppClicks>100){flags.push({l:'w',t:`Keyword "${k.term}" underperforming`,d:`Rank #${k.rank}, CTR ${pct(k.ctr)} vs. ${pct(k.benchCTR)} expected.`});recs.push({ch:'SEO',a:`Optimize title tag and meta description for "${k.term}".`,i:`+${k.oppClicks.toLocaleString()} monthly clicks at current conversion rate.`});}});
   if(!flags.length)flags.push({l:'',t:'No critical issues detected',d:'All channels are performing at or above benchmark thresholds.'});
   document.getElementById('flags-out').innerHTML=flags.map(f=>`<div class="flag-item"><div class="fdot ${f.l}"></div><div><div class="ftitle">${esc(f.t)}</div><div class="fdesc">${esc(f.d)}</div></div></div>`).join('');
@@ -738,6 +919,20 @@ const MIX_PRESETS={
   'retention-saas':[['Email',50],['Paid Search',20],['Paid Social',20],['Display',10]],
   'retention-services':[['Email',40],['Paid Social',30],['Paid Search',20],['Display',10]],
   'retention-other':[['Email',45],['Paid Social',25],['Paid Search',20],['Display',10]],
+  'launch-ecom':[['Paid Social',30],['Paid Search',25],['Influencer',20],['Display',15],['Email',10]],
+  'launch-saas':[['Paid Search',35],['Paid Social',25],['Email',20],['SEO / Organic',15],['Display',5]],
+  'launch-b2bsvc':[['Paid Search',35],['Paid Social',25],['Email',20],['SEO / Organic',15],['Display',5]],
+  'launch-services':[['Paid Social',30],['Paid Search',25],['Influencer',20],['Display',15],['Email',10]],
+  'launch-other':[['Paid Social',30],['Paid Search',25],['Influencer',20],['Display',15],['Email',10]],
+  'expand-ecom':[['Paid Search',30],['Paid Social',30],['Display',20],['Influencer',10],['SEO / Organic',10]],
+  'expand-saas':[['Paid Search',40],['Paid Social',25],['SEO / Organic',20],['Display',15]],
+  'expand-other':[['Paid Search',35],['Paid Social',30],['Display',20],['Email',15]],
+  'winback-ecom':[['Email',50],['Paid Social',25],['Paid Search',15],['Display',10]],
+  'winback-saas':[['Email',55],['Paid Search',25],['Paid Social',20]],
+  'winback-other':[['Email',50],['Paid Social',25],['Paid Search',25]],
+  'upsell-ecom':[['Email',50],['Paid Social',20],['Paid Search',15],['Display',15]],
+  'upsell-saas':[['Email',60],['Paid Search',20],['Paid Social',20]],
+  'upsell-other':[['Email',50],['Paid Social',25],['Paid Search',25]],
 };
 const MIX_RATIONALES={
   'sales-ecom':'For e-commerce direct sales, Paid Search captures high-intent buyers, Paid Social drives discovery and retargeting, and Email converts your existing list at the highest ROAS of any channel.',
@@ -746,6 +941,12 @@ const MIX_RATIONALES={
   'awareness-ecom':'Brand awareness campaigns lean on Paid Social for broad reach, Display for sustained visibility, and Influencer for authentic audience trust.',
   'retention-ecom':'Retention campaigns are email-dominant — existing customers convert at 5–10x the rate of cold audiences. Paid Social reinforces brand presence for lapsed users.',
   'retention-saas':'SaaS retention is driven by lifecycle email — onboarding, feature announcements, and re-engagement sequences. Paid channels play a supporting role only.',
+  'launch-ecom':'Product launches need reach and buzz first. Paid Social and Influencer build awareness fast, while Paid Search captures the intent that awareness generates.',
+  'launch-saas':'SaaS product launches should front-load Paid Search to capture active evaluators, with Paid Social for retargeting and Email to activate your existing audience.',
+  'winback-ecom':'Win-back campaigns are email-dominant — you already have permission to reach these customers, and email converts at a fraction of the cost of paid channels.',
+  'winback-saas':'For SaaS re-engagement, lifecycle email sequences are the most cost-effective channel. Paid Search can capture churned users who are actively shopping alternatives.',
+  'upsell-ecom':'Upsell and cross-sell campaigns run cheapest through email to existing customers, supported by retargeting on Paid Social to re-engage recent purchasers.',
+  'upsell-saas':'Email drives SaaS upsell most efficiently — in-app messaging and targeted email sequences to existing users outperform any paid channel for expansion revenue.',
   'default':'This mix is optimized for your goal and vertical based on cross-industry benchmark data. Higher-ROMI channels receive more budget weight.'
 };
 
@@ -807,7 +1008,7 @@ function plnRunForecast(){
   if(budget<=0){const e=document.getElementById('pln-step2-err');e.style.display='block';e.textContent='Please enter a total budget on the previous step.';return;}
 
   const channelProjs=plnAllocData.filter(r=>r.pct>0).map(row=>{
-    const b=BENCH[row.ch]||BENCH['Other'];const spend=budget*(row.pct/100);
+    const plnVertRaw=document.getElementById('pln-vertical')?.value||'other';const plnVertMap={'ecom':'E-commerce / DTC','saas':'B2B SaaS','b2bsvc':'B2B Services','services':'Consumer services','health':'Healthcare & Wellness','finance':'Finance & Fintech','edu':'Education & EdTech','realestate':'Real Estate','travel':'Travel & Hospitality','media':'Media & Entertainment','food':'Food & Beverage','retail':'Retail (brick & mortar)','nonprofit':'Non-profit','agency':'Agency','other':'Other'};const b=getBench(row.ch,plnVertMap[plnVertRaw]||'Other');const spend=budget*(row.pct/100);
     const revMid=spend*b.roas,revLow=spend*b.roas*0.65,revHigh=spend*b.roas*1.35;
     const convMid=aov>0?Math.round(revMid/aov):0,convLow=aov>0?Math.round(revLow/aov):0,convHigh=aov>0?Math.round(revHigh/aov):0;
     const cpc=b.cpc_avg,clicks=Math.round(spend/cpc),impr=b.ctr>0?Math.round(clicks/(b.ctr/100)):clicks*100;
