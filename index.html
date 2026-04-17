@@ -196,22 +196,6 @@
     .site-footer a:hover{text-decoration:underline}
 
 
-    .ai-key-box{background:var(--bg-secondary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin-bottom:1rem}
-    .ai-key-box h3{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px}
-    .ai-key-box p{font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px}
-    .ai-key-box ol{font-size:12px;color:var(--text-secondary);line-height:1.8;padding-left:1.2rem;margin-bottom:10px}
-    .ai-key-box a{color:var(--text-info);text-decoration:none}
-    .ai-key-box a:hover{text-decoration:underline}
-    .ai-key-row{display:flex;gap:8px;align-items:center}
-    .ai-key-input{flex:1;font-size:13px;padding:7px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);font-family:monospace}
-    .ai-key-input:focus{outline:none;border-color:var(--accent-mid)}
-    .ai-key-saved{font-size:11px;color:var(--text-success);margin-top:5px;display:none}
-    .ai-stream{background:var(--bg-primary);border:0.5px solid var(--border-light);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;font-size:13px;line-height:1.8;color:var(--text-primary);min-height:120px;white-space:pre-wrap;word-wrap:break-word}
-    .ai-stream.loading{color:var(--text-secondary);font-style:italic}
-    .ai-stream.error{color:var(--text-danger);background:var(--bg-danger)}
-    .ai-run-btn{font-size:13px;font-weight:600;padding:8px 20px;border-radius:var(--radius-md);background:var(--bg-info);color:var(--text-info);border:0.5px solid var(--border-info);cursor:pointer;transition:opacity 0.15s}
-    .ai-run-btn:hover{opacity:0.82}
-    .ai-run-btn:disabled{opacity:0.45;cursor:not-allowed}
     .ai-section-lbl{font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin:1rem 0 0.5rem}
     /* ── PRINT / PDF ── */
     @media print{
@@ -365,7 +349,6 @@
       <div class="step-header"><div class="step-num">4</div><div><div class="step-title">Flags, recommendations &amp; history</div><div class="step-sub">Optimizations and report archive</div></div></div>
       <div class="tab-row">
         <div class="tab active" onclick="switchTab4('recs')" id="tab4-recs">Recommendations</div>
-        <div class="tab" onclick="switchTab4('ai')" id="tab4-ai">AI Analysis</div>
         <div class="tab" onclick="switchTab4('history')" id="tab4-history">Report history</div>
         <div class="tab" onclick="switchTab4('compare')" id="tab4-compare">Compare reports</div>
       </div>
@@ -378,24 +361,6 @@
           <button class="btn-g" onclick="saveReport()">Save report</button>
         </div>
         <div id="save-confirm" style="font-size:12px;color:var(--text-success);margin-top:6px;display:none"></div>
-      </div>
-      <div class="tab-panel" id="panel4-ai">
-        <div class="ai-key-box" id="opt-key-box">
-          <h3>Connect to Claude AI</h3>
-          <p>Get an AI-written analysis of your campaign — deeper than the rule-based recommendations, written like a real analyst would.</p>
-          <ol>
-            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and create a free account</li>
-            <li>Navigate to <strong>API Keys</strong> and create a new key</li>
-            <li>Paste it below — it's stored only in your browser, never sent anywhere except Anthropic's API</li>
-          </ol>
-          <div class="ai-key-row">
-            <input class="ai-key-input" id="opt-api-key" type="password" placeholder="sk-ant-..." oninput="aiKeySaved('opt')">
-            <button class="ai-run-btn" onclick="runAIAnalysis('opt')">Run AI Analysis</button>
-          </div>
-          <div class="ai-key-saved" id="opt-key-saved">Key saved locally</div>
-        </div>
-        <div class="ai-section-lbl" id="opt-ai-response-lbl" style="display:none">AI analysis</div>
-        <div class="ai-stream" id="opt-ai-stream" style="display:none"></div>
       </div>
       <div class="tab-panel" id="panel4-history"><div id="history-list"></div><div style="margin-top:1rem"><button class="btn-s" onclick="resetTool()">Start new analysis</button></div></div>
       <div class="tab-panel" id="panel4-compare">
@@ -474,11 +439,6 @@
 
     <div class="step" id="pln-step3">
       <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div></div>
-      <div class="tab-row">
-        <div class="tab active" onclick="switchTabPln('forecast')" id="tab-pln-forecast">Forecast</div>
-        <div class="tab" onclick="switchTabPln('ai')" id="tab-pln-ai">AI Analysis</div>
-      </div>
-      <div class="tab-panel active" id="panel-pln-forecast">
       <div class="print-header" id="pln-print-header">
         <div class="print-header-title" id="pln-print-title">Campaign Planner Forecast</div>
         <div class="print-header-meta" id="pln-print-meta"></div>
@@ -495,25 +455,6 @@
       <div id="pln-insights"></div>
       <div class="slbl">Planning summary</div>
       <div class="exec" id="pln-summary"></div>
-      </div><!-- end panel-pln-forecast -->
-      <div class="tab-panel" id="panel-pln-ai">
-        <div class="ai-key-box" id="pln-key-box">
-          <h3>Connect to Claude AI</h3>
-          <p>Get a strategic AI-written assessment of your planned campaign — risks, opportunities, and tactical suggestions based on your specific mix.</p>
-          <ol>
-            <li>Go to <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> and create a free account</li>
-            <li>Navigate to <strong>API Keys</strong> and create a new key</li>
-            <li>Paste it below — stored only in your browser, never sent anywhere except Anthropic's API</li>
-          </ol>
-          <div class="ai-key-row">
-            <input class="ai-key-input" id="pln-api-key" type="password" placeholder="sk-ant-..." oninput="aiKeySaved('pln')">
-            <button class="ai-run-btn" onclick="runAIAnalysis('pln')">Run AI Analysis</button>
-          </div>
-          <div class="ai-key-saved" id="pln-key-saved">Key saved locally</div>
-        </div>
-        <div class="ai-section-lbl" id="pln-ai-response-lbl" style="display:none">AI analysis</div>
-        <div class="ai-stream" id="pln-ai-stream" style="display:none"></div>
-      </div>
       <div class="nav"><button class="btn-s" onclick="plnGoStep(2)">← Adjust mix</button><button class="btn-p" onclick="plnGoStep(1)">Plan another campaign</button></div>
     </div>
   </main>
@@ -913,168 +854,10 @@ function plnRunForecast(){
 // ── NAVIGATION ──
 let currentOptStep=1;function optGoStep(n){currentOptStep=n;document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);if(n>=3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
 function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';if(n===3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
-function switchTabPln(n){['forecast','ai'].forEach(t=>{document.getElementById('tab-pln-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-pln-'+t)?.classList.toggle('active',t===n);});if(n==='ai')aiLoadKey('pln');}
 function switchTab(n){['channels','keywords','csv'].forEach(t=>{document.getElementById('tab-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-'+t)?.classList.toggle('active',t===n);});}
-function switchTab4(n){['recs','ai','history','compare'].forEach(t=>{document.getElementById('tab4-'+t)?.classList.toggle('active',t===n);document.getElementById('panel4-'+t)?.classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();if(n==='ai')aiLoadKey('opt');}
+function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElementById('tab4-'+t)?.classList.toggle('active',t===n);document.getElementById('panel4-'+t)?.classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();}
 function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';optGoStep(1);}
 
-
-// ── AI ANALYSIS ENGINE ──────────────────────────────────────────────────
-function aiLoadKey(tool){
-  const stored=localStorage.getItem('romi_api_key_'+tool)||localStorage.getItem('romi_api_key')||'';
-  const el=document.getElementById(tool+'-api-key');
-  if(el&&stored){el.value=stored;document.getElementById(tool+'-key-saved').style.display='block';}
-}
-function aiKeySaved(tool){
-  const val=document.getElementById(tool+'-api-key').value.trim();
-  if(val.startsWith('sk-ant-')){localStorage.setItem('romi_api_key_'+tool,val);document.getElementById(tool+'-key-saved').style.display='block';}
-  else{document.getElementById(tool+'-key-saved').style.display='none';}
-}
-
-function buildOptPrompt(){
-  const m=campaignMeta;
-  const channels=analysisData.map(c=>`  - ${c.type}: $${Math.round(c.spend).toLocaleString()} spend, ${fn(c.roas,2)}x ROAS, ${fn(c.romi,2)}x ROMI, ${pct(c.ctr)} CTR, ${c.conv} conversions, $${Math.round(c.rev).toLocaleString()} revenue`).join('\n');
-  const kws=kwData.length?'\n\nKeyword data:\n'+kwData.map(k=>`  - "${k.term}": rank #${k.rank}, ${pct(k.ctr)} CTR vs ${pct(k.benchCTR)} benchmark, ${k.oppClicks} opportunity clicks`).join('\n'):'';
-  const ts=analysisData.reduce((s,c)=>s+c.spend,0),tr=analysisData.reduce((s,c)=>s+c.rev,0);
-  const bROMI=ts>0?((tr-ts)/ts):0,bROAS=ts>0?(tr/ts):0;
-  return `You are a senior marketing analyst. Analyze this campaign and provide a clear, actionable assessment written in plain English — no bullet-point lists, write in flowing paragraphs like a real analyst memo.
-
-Campaign: ${m.name||'Unnamed'}
-Period: ${m.period||'Not specified'}
-Goal: ${m.goal}
-Vertical: ${m.vertical}
-Audience: ${m.audience||'Not specified'}
-Total spend: $${Math.round(ts).toLocaleString()}
-Total revenue: $${Math.round(tr).toLocaleString()}
-Blended ROAS: ${fn(bROAS,2)}x
-Blended ROMI: ${fn(bROMI,2)}x
-${m.rationale?'Rationale: '+m.rationale:''}
-
-Channel breakdown:
-${channels}${kws}
-
-Write a 3–4 paragraph analyst memo covering: (1) overall campaign health and what the ROMI/ROAS numbers actually mean in context, (2) which channels are working and why, (3) what's underperforming and the likely root causes, (4) the two or three highest-leverage actions they should take next. Be specific with numbers. Be direct. Do not hedge every sentence.`;
-}
-
-function buildPlnPrompt(){
-  const name=document.getElementById('pln-name')?.value||'Campaign';
-  const budget=parseFloat(document.getElementById('pln-budget')?.value)||0;
-  const aov=parseFloat(document.getElementById('pln-aov')?.value)||80;
-  const duration=document.getElementById('pln-duration')?.value||'3';
-  const audience=document.getElementById('pln-audience')?.value||'Not specified';
-  const rationale=document.getElementById('pln-rationale')?.value||'';
-  const goalEl=document.getElementById('pln-goal');
-  const vertEl=document.getElementById('pln-vertical');
-  const goal=goalEl?.options[goalEl.selectedIndex]?.text||'';
-  const vert=vertEl?.options[vertEl.selectedIndex]?.text||'';
-  const channels=plnAllocData.filter(r=>r.pct>0).map(r=>{
-    const b=BENCH[r.ch]||BENCH['Other'];
-    const spend=budget*(r.pct/100);
-    return `  - ${r.ch}: ${r.pct}% ($${Math.round(spend).toLocaleString()}), benchmark ROAS ${b.roas}x, est. revenue $${Math.round(spend*b.roas).toLocaleString()}`;
-  }).join('\n');
-  return `You are a senior marketing strategist. Review this planned campaign and give a candid strategic assessment — written as flowing paragraphs, like an advisor memo, not a bullet list.
-
-Campaign: ${name}
-Goal: ${goal}
-Vertical: ${vert}
-Total budget: $${Math.round(budget).toLocaleString()}
-Duration: ${duration} month(s)
-Average order/deal value: $${aov}
-Target audience: ${audience}
-${rationale?'Rationale: '+rationale:''}
-
-Proposed channel allocation:
-${channels}
-
-Write 3–4 paragraphs covering: (1) whether this budget allocation makes strategic sense for the stated goal and vertical, (2) which channel choices are strong and why, (3) where the mix has risk or weakness, (4) specific adjustments you'd recommend and why. Be direct and specific. Reference actual numbers and percentages from the plan.`;
-}
-
-async function runAIAnalysis(tool){
-  const keyEl=document.getElementById(tool+'-api-key');
-  const key=(keyEl?.value||'').trim();
-  if(!key||!key.startsWith('sk-ant-')){
-    keyEl.style.borderColor='var(--text-danger)';
-    setTimeout(()=>keyEl.style.borderColor='',2000);
-    return;
-  }
-  localStorage.setItem('romi_api_key_'+tool,key);
-
-  const streamEl=document.getElementById(tool+'-ai-stream');
-  const lblEl=document.getElementById(tool+'-ai-response-lbl');
-  const btn=document.querySelector('#'+(tool==='opt'?'panel4-ai':'panel-pln-ai')+' .ai-run-btn');
-  const keyBox=document.getElementById(tool+'-key-box');
-
-  streamEl.style.display='block';
-  lblEl.style.display='block';
-  streamEl.className='ai-stream loading';
-  streamEl.textContent='Analyzing your campaign...';
-  if(btn)btn.disabled=true;
-
-  const prompt=tool==='opt'?buildOptPrompt():buildPlnPrompt();
-
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':key,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1024,
-        stream:true,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-
-    if(!resp.ok){
-      const err=await resp.json();
-      streamEl.className='ai-stream error';
-      streamEl.textContent='API error: '+(err?.error?.message||resp.statusText)+'. Check your API key and try again.';
-      if(btn)btn.disabled=false;
-      return;
-    }
-
-    streamEl.className='ai-stream';
-    streamEl.textContent='';
-    keyBox.style.display='none';
-
-    const reader=resp.body.getReader();
-    const decoder=new TextDecoder();
-    let buffer='';
-
-    while(true){
-      const{done,value}=await reader.read();
-      if(done)break;
-      buffer+=decoder.decode(value,{stream:true});
-      const lines=buffer.split('\n');
-      buffer=lines.pop();
-      for(const line of lines){
-        if(!line.startsWith('data: '))continue;
-        const data=line.slice(6).trim();
-        if(data==='[DONE]')break;
-        try{
-          const parsed=JSON.parse(data);
-          const delta=parsed?.delta?.text||'';
-          if(delta)streamEl.textContent+=delta;
-        }catch(e){}
-      }
-    }
-    if(btn)btn.disabled=false;
-    // Show edit key link after successful run
-    const editLink=document.createElement('div');
-    editLink.style.cssText='font-size:11px;color:var(--text-secondary);margin-top:8px;cursor:pointer;text-decoration:underline';
-    editLink.textContent='Run again / change API key';
-    editLink.onclick=()=>{keyBox.style.display='block';streamEl.textContent='';lblEl.style.display='none';editLink.remove();};
-    streamEl.after(editLink);
-  }catch(err){
-    streamEl.className='ai-stream error';
-    streamEl.textContent='Request failed: '+err.message+'. This may be a CORS issue — try refreshing or check your key.';
-    if(btn)btn.disabled=false;
-  }
-}
 
 // ── INIT ──
 buildDemoGrid();addChannel();addChannel();renderHistory();plnSuggestMix();
