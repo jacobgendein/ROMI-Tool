@@ -7,27 +7,27 @@
   <!-- ── Primary Meta ── -->
   <title>ROMI Optimization System — Marketing Campaign Analyzer</title>
   <meta name="description" content="A free, browser-based marketing analytics tool for campaign managers. Input channel data, get ROMI/ROAS scores, risk flags, and actionable recommendations instantly. No login required." />
-  <meta name="author" content="Jacob Gendein" />
+  <meta name="author" content="Your Name" />
   <meta name="keywords" content="ROMI calculator, ROAS calculator, marketing analytics, campaign optimization, marketing ROI, paid search analysis, marketing dashboard, channel performance" />
 
   <!-- ── Open Graph (LinkedIn, Slack, iMessage previews) ── -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ROMI Optimization System" />
   <meta property="og:description" content="Enter your campaign data — get instant ROMI scoring, channel benchmarks, risk flags, and optimization recommendations. Built with rule-based intelligence." />
-  <meta property="og:url" content="https://jacobgendein.github.io/romi-tool/" />
-  <meta property="og:image" content="https://jacobgendein.github.io/romi-tool/og-preview.png" />
+  <meta property="og:url" content="https://yourusername.github.io/romi-tool/" />
+  <meta property="og:image" content="https://yourusername.github.io/romi-tool/og-preview.png" />
 
   <!-- ── Twitter / X Card ── -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ROMI Optimization System" />
   <meta name="twitter:description" content="Free marketing analytics tool. Score your campaigns, surface risks, get recommendations — all in the browser." />
-  <meta name="twitter:image" content="https://jacobgendein.github.io/romi-tool/og-preview.png" />
+  <meta name="twitter:image" content="https://yourusername.github.io/romi-tool/og-preview.png" />
 
   <!-- ── Favicon (inline SVG as data URI — no extra files needed) ── -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231F3864'/><text y='68' x='50' text-anchor='middle' font-size='58' font-family='Arial' fill='white' font-weight='bold'>R</text></svg>" />
 
   <!-- ── Canonical ── -->
-  <link rel="canonical" href="https://jacobgendein.github.io/romi-tool/" />
+  <link rel="canonical" href="https://yourusername.github.io/romi-tool/" />
 
   <style>
     /* ── Reset & Base ── */
@@ -790,19 +790,26 @@
     }
 
     // ── ANALYSIS ENGINE ───────────────────────────────────────────────────────
-    function getChIds(){return Array.from(document.querySelectorAll('[id^="ch-"]')).map(e=>e.id.replace('ch-',''));}
-    function getKwIds(){return Array.from(document.querySelectorAll('[id^="kw-"]')).map(e=>e.id.replace('kw-',''));}
+    function getChIds(){return Array.from(document.querySelectorAll('#ch-container > [id^="ch-"]')).map(e=>e.id.replace('ch-',''));}
+    function getKwIds(){return Array.from(document.querySelectorAll('#kw-container > [id^="kw-"]')).map(e=>e.id.replace('kw-',''));}
 
     function parseChannels(){
       const ids=getChIds();if(ids.length<2)return null;
       const channels=[];
       for(const id of ids){
-        const type=document.getElementById('type-'+id).value;
-        const spend=parseFloat(document.getElementById('spend-'+id).value);
-        const impr=parseFloat(document.getElementById('impr-'+id).value);
-        const clicks=parseFloat(document.getElementById('clicks-'+id).value);
-        const conv=parseFloat(document.getElementById('conv-'+id).value);
-        const rev=parseFloat(document.getElementById('rev-'+id).value);
+        const typeEl=document.getElementById('type-'+id);
+        const spendEl=document.getElementById('spend-'+id);
+        const imprEl=document.getElementById('impr-'+id);
+        const clicksEl=document.getElementById('clicks-'+id);
+        const convEl=document.getElementById('conv-'+id);
+        const revEl=document.getElementById('rev-'+id);
+        if(!typeEl||!spendEl||!imprEl||!clicksEl||!convEl||!revEl)continue;
+        const type=typeEl.value;
+        const spend=parseFloat(spendEl.value);
+        const impr=parseFloat(imprEl.value);
+        const clicks=parseFloat(clicksEl.value);
+        const conv=parseFloat(convEl.value);
+        const rev=parseFloat(revEl.value);
         if([spend,impr,clicks,conv,rev].some(v=>isNaN(v)||v<0)||clicks>impr)return null;
         const b=BENCH[type]||BENCH['Other'];
         const ctr=impr>0?(clicks/impr)*100:0;
