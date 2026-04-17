@@ -344,6 +344,7 @@
             <span style="font-size:11px;color:var(--text-info);opacity:0.7;margin-top:3px;display:block">Used to estimate conversion volume from revenue</span>
           </div>
         </div>
+      </div><!-- end LTV card -->
       <div class="nav"><button class="btn-p" onclick="optGoStep(2)">Channel data →</button></div>
     </div>
 
@@ -536,7 +537,32 @@
   <footer class="site-footer">Built with vanilla JS &amp; <a href="https://www.chartjs.org" target="_blank" rel="noopener">Chart.js</a> &nbsp;·&nbsp; No data leaves your browser &nbsp;·&nbsp; <a href="https://github.com/jacobgendein/romi-tool" target="_blank" rel="noopener">View source on GitHub</a></footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// Resilient Chart.js loader — tries multiple CDNs, falls back gracefully
+(function(){
+  var cdns=[
+    'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js',
+    'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
+    'https://unpkg.com/chart.js@4.4.1/dist/chart.umd.js'
+  ];
+  var idx=0;
+  function tryNext(){
+    if(idx>=cdns.length){
+      window._chartUnavailable=true;
+      document.querySelectorAll('canvas').forEach(function(c){
+        var p=c.parentElement;
+        p.innerHTML='<div style="padding:1rem;font-size:12px;color:var(--text-secondary);border:0.5px solid var(--border-light);border-radius:var(--radius-md);text-align:center">Chart unavailable — your browser blocked the charting library CDN.<br>All data tables and analysis are fully functional above.</div>';
+      });
+      return;
+    }
+    var s=document.createElement('script');
+    s.src=cdns[idx++];
+    s.onerror=function(){tryNext();};
+    document.head.appendChild(s);
+  }
+  tryNext();
+})();
+</script>
 <script>
 const TYPES=['Paid Search','Paid Social','Email','SEO / Organic','Display','Affiliate','Influencer','Direct Mail','Other'];
 
@@ -723,17 +749,28 @@ function parseChannels(attrModel){
   for(const id of ids){
     const typeEl=document.getElementById('type-'+id),spendEl=document.getElementById('spend-'+id),imprEl=document.getElementById('impr-'+id),clicksEl=document.getElementById('clicks-'+id),convEl=document.getElementById('conv-'+id),revEl=document.getElementById('rev-'+id),reachEl=document.getElementById('reach-'+id);
     if(!typeEl||!spendEl||!imprEl||!clicksEl||!convEl||!revEl)continue;
-    const type=typeEl.value,spend=parseFloat(spendEl.value),impr=parseFloat(imprEl.value),clicks=parseFloat(clicksEl.value),conv=parseFloat(convEl.value),rev=parseFloat(revEl.value);
-    const reach=reachEl&&reachEl.value?parseFloat(reachEl.value):null;
-    if([spend,impr,clicks,conv,rev].some(v=>isNaN(v)||v<0)||clicks>impr)return null;
+    const type=typeEl.value;
+    const spend=parseFloat(spendEl.value)||0;
+    const impr=parseFloat(imprEl.value)||0;
+    const clicks=parseFloat(clicksEl.value)||0;
+    const conv=parseFloat(convEl.value)||0;
+    const rev=parseFloat(revEl.value)||0;
+    const reach=(reachEl&&reachEl.value&&reachEl.value.trim()!=='')?parseFloat(reachEl.value):null;
+    // Skip rows where spend is missing/zero — they're incomplete
+    if(spend<=0)continue;
+    // Validate: clicks can't exceed impressions (if impressions provided)
+    if(impr>0&&clicks>impr)continue;
     rawChannels.push({id,type,spend,impr,clicks,conv,rev,reach});
   }
+  if(rawChannels.length<2)return null;
   // Apply attribution model to revenue
   const model=attrModel||currentAttribution||'last';
   const totalClicks=rawChannels.reduce((s,c)=>s+c.clicks,0);
   const totalConv=rawChannels.reduce((s,c)=>s+c.conv,0);
-  const vertical=campaignMeta.vertical||document.getElementById('camp-vertical')?.value||'';
-  const channels=rawChannels.map((ch,i)=>{
+  const vertical=document.getElementById('camp-vertical')?.value||campaignMeta.vertical||'';
+  let channels;
+  try{
+  channels=rawChannels.map((ch,i)=>{
     let attrRev=ch.rev;
     if(model==='linear'&&totalConv>0){
       const totalRev=rawChannels.reduce((s,c)=>s+c.rev,0);
@@ -753,6 +790,7 @@ function parseChannels(attrModel){
     let tier;if(roas>=b.roas*1.1)tier='optimized';else if(roas>=b.roas*0.75)tier='attention';else tier='under';
     return{...ch,rev:attrRev,origRev:ch.rev,ctr,cpc,cpa,roas,romi,tier,bench:b,frequency};
   });
+  }catch(e){console.error('parseChannels map error:',e);return null;}
   return channels;
 }
 
@@ -768,17 +806,18 @@ function parseKeywords(){
 }
 
 function runAnalysis(){
+  // Set campaignMeta FIRST so parseChannels has the vertical for benchmark lookup
+  campaignMeta={name:document.getElementById('camp-name').value||'Unnamed Campaign',period:document.getElementById('camp-period').value||'',goal:document.getElementById('camp-goal').value,vertical:document.getElementById('camp-vertical').value,budget:parseFloat(document.getElementById('camp-budget').value)||0,audience:document.getElementById('camp-audience').value,geo:document.getElementById('camp-geo').value,rationale:document.getElementById('camp-rationale').value,kpis:document.getElementById('camp-kpis').value,ltv:parseFloat(document.getElementById('camp-ltv').value)||0,targetCac:parseFloat(document.getElementById('camp-target-cac').value)||0,aov:parseFloat(document.getElementById('camp-aov').value)||0,date:new Date().toLocaleDateString()};
   const channels=parseChannels();
   if(!channels){const e=document.getElementById('step2-err');e.style.display='block';e.textContent='Add at least 2 channels with complete, valid data (clicks cannot exceed impressions).';return;}
   document.getElementById('step2-err').style.display='none';
-  campaignMeta={name:document.getElementById('camp-name').value||'Unnamed Campaign',period:document.getElementById('camp-period').value||'',goal:document.getElementById('camp-goal').value,vertical:document.getElementById('camp-vertical').value,budget:parseFloat(document.getElementById('camp-budget').value)||0,audience:document.getElementById('camp-audience').value,geo:document.getElementById('camp-geo').value,rationale:document.getElementById('camp-rationale').value,kpis:document.getElementById('camp-kpis').value,ltv:parseFloat(document.getElementById('camp-ltv').value)||0,targetCac:parseFloat(document.getElementById('camp-target-cac').value)||0,aov:parseFloat(document.getElementById('camp-aov').value)||0,date:new Date().toLocaleDateString()};
   analysisData=channels;kwData=parseKeywords();
   renderDashboard(channels,kwData,campaignMeta);optGoStep(3);
 }
 
 function renderDashboard(data,kws,meta){
   document.getElementById('dash-sub').textContent=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
-  renderLTVPanel(data,meta);
+  try{renderLTVPanel(data,meta);}catch(e){console.warn('LTV panel error:',e);}
   const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0),tc=data.reduce((s,c)=>s+c.conv,0);
   const bROAS=ts>0?tr/ts:0,bROMI=ts>0?(tr-ts)/ts:0;
   document.getElementById('summary-metrics').innerHTML=`<div class="mcard"><div class="mval">${f$(ts)}</div><div class="mlbl">Total spend</div></div><div class="mcard"><div class="mval">${f$(tr)}</div><div class="mlbl">Revenue</div></div><div class="mcard"><div class="mval">${tc.toLocaleString()}</div><div class="mlbl">Conversions</div></div><div class="mcard"><div class="mval">${fn(bROAS,1)}x</div><div class="mlbl">ROAS</div></div><div class="mcard"><div class="mval">${fn(bROMI,1)}x</div><div class="mlbl">ROMI</div></div>${meta.budget>0?`<div class="mcard"><div class="mval">${Math.round((ts/meta.budget)*100)}%</div><div class="mlbl">Budget used</div></div>`:''}`;
@@ -788,9 +827,15 @@ function renderDashboard(data,kws,meta){
   let tbl=`<div class="crow hdr"><span>Channel</span><span>Spend</span><span>ROAS</span><span>ROMI</span><span class="hide-mobile">CTR%</span><span class="hide-mobile">Freq.</span><span>Status</span></div>`.replace('<div class="crow hdr">','<div class="crow hdr" style="grid-template-columns:1fr 75px 72px 72px 72px 55px 112px">');
   data.forEach(row=>{const freqCell=row.frequency!==null?`<span class="hide-mobile" style="color:${row.frequency>4?'var(--text-danger)':row.frequency>2.5?'var(--text-warning)':'var(--text-secondary)'}">${fn(row.frequency,1)}x</span>`:'<span class="hide-mobile" style="color:var(--text-tertiary)">—</span>';tbl+=`<div class="crow" style="grid-template-columns:1fr 75px 72px 72px 72px 55px 112px"><span style="font-weight:600">${esc(row.type)}</span><span>${f$(row.spend)}</span><span>${fn(row.roas,1)}x</span><span>${fn(row.romi,1)}x</span><span class="hide-mobile">${pct(row.ctr)}</span>${freqCell}<span>${tb(row.tier)}</span></div>`;});
   document.getElementById('ch-table').innerHTML=tbl;
-  if(optChartInst){optChartInst.destroy();optChartInst=null;}
-  optChartInst=new Chart(document.getElementById('roasChart'),{type:'bar',data:{labels:data.map(c=>c.type),datasets:[{label:'ROAS',data:data.map(c=>parseFloat(c.roas.toFixed(2))),backgroundColor:'#85B7EB',borderColor:'#378ADD',borderWidth:1},{label:'ROMI',data:data.map(c=>parseFloat(c.romi.toFixed(2))),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
-  renderScenarioSim(data,meta);
+  try{
+    if(optChartInst){optChartInst.destroy();optChartInst=null;}
+    if(typeof Chart!=='undefined'){
+      optChartInst=new Chart(document.getElementById('roasChart'),{type:'bar',data:{labels:data.map(c=>c.type),datasets:[{label:'ROAS',data:data.map(c=>parseFloat(c.roas.toFixed(2))),backgroundColor:'#85B7EB',borderColor:'#378ADD',borderWidth:1},{label:'ROMI',data:data.map(c=>parseFloat(c.romi.toFixed(2))),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    } else {
+      document.getElementById('roasChart').parentElement.innerHTML='<div style="padding:1rem;font-size:12px;color:var(--text-secondary);text-align:center;border:0.5px solid var(--border-light);border-radius:var(--radius-md)">Chart blocked by browser — all data below is fully functional.</div>';
+    }
+  }catch(e){console.warn('Chart render error:',e);}
+  try{renderScenarioSim(data,meta);}catch(e){console.warn('Scenario sim error:',e);}
   if(kws.length>0){let ks=`<div class="slbl">Keyword performance</div><div class="krow hdr"><span>Keyword</span><span>Rank</span><span>CTR%</span><span>Conv rate</span><span>Bench CTR</span><span>Opp. clicks</span></div>`;kws.forEach(k=>{const ok=k.ctr>=k.benchCTR*0.8;ks+=`<div class="krow"><span style="font-weight:600">${esc(k.term)}</span><span>#${k.rank}</span><span style="color:${ok?'var(--text-success)':'var(--text-danger)'}">${pct(k.ctr)}</span><span>${pct(k.cvr)}</span><span>${pct(k.benchCTR)}</span><span style="color:${k.oppClicks>50?'var(--text-warning)':'var(--text-secondary)'}">${k.oppClicks>0?'+'+k.oppClicks.toLocaleString():'-'}</span></div>`;});document.getElementById('kw-section').innerHTML=ks;}
   else document.getElementById('kw-section').innerHTML='';
   renderRecs(data,kws,meta);
@@ -1060,8 +1105,14 @@ function plnRunForecast(){
   channelProjs.forEach(c=>{ctbl+=`<div class="crow"><span style="font-weight:600">${esc(c.ch)}</span><span>${f$(c.spend)}</span><span>${fn(c.roas,1)}x</span><span>${f$(c.revMid)}</span><span class="hide-mobile">${c.convMid.toLocaleString()}</span><span>${c.pct}%</span></div>`;});
   document.getElementById('pln-channel-table').innerHTML=ctbl;
 
-  if(plnChartInst){plnChartInst.destroy();plnChartInst=null;}
-  plnChartInst=new Chart(document.getElementById('plnChart'),{type:'bar',data:{labels:channelProjs.map(c=>c.ch),datasets:[{label:'Budget',data:channelProjs.map(c=>Math.round(c.spend)),backgroundColor:'#B5D4F4',borderColor:'#378ADD',borderWidth:1},{label:'Est. revenue',data:channelProjs.map(c=>Math.round(c.revMid)),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11},callback:v=>'$'+Math.round(v).toLocaleString()}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+  try{
+    if(plnChartInst){plnChartInst.destroy();plnChartInst=null;}
+    if(typeof Chart!=='undefined'){
+      plnChartInst=new Chart(document.getElementById('plnChart'),{type:'bar',data:{labels:channelProjs.map(c=>c.ch),datasets:[{label:'Budget',data:channelProjs.map(c=>Math.round(c.spend)),backgroundColor:'#B5D4F4',borderColor:'#378ADD',borderWidth:1},{label:'Est. revenue',data:channelProjs.map(c=>Math.round(c.revMid)),backgroundColor:'#9FE1CB',borderColor:'#1D9E75',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,0.1)'},ticks:{font:{size:11},callback:v=>'$'+Math.round(v).toLocaleString()}},x:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    } else {
+      document.getElementById('plnChart').parentElement.innerHTML='<div style="padding:1rem;font-size:12px;color:var(--text-secondary);text-align:center;border:0.5px solid var(--border-light);border-radius:var(--radius-md)">Chart blocked by browser — all data below is fully functional.</div>';
+    }
+  }catch(e){console.warn('Chart render error:',e);}
 
   const sorted=[...channelProjs].sort((a,b)=>b.roas-a.roas);const bestCh=sorted[0],worstCh=sorted[sorted.length-1];
   const insights=[];
