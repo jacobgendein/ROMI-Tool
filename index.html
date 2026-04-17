@@ -688,7 +688,7 @@
       <div id="pln-channel-table"></div>
       <div class="slbl">Strategic insights</div>
       <div id="pln-insights"></div>
-      <div class="slbl">Planning summary</div>
+      <div class="slbl">Summary of Plan</div>
       <div class="exec" id="pln-summary"></div>
       <div class="nav"><button class="btn-s" onclick="plnGoStep(2)">← Adjust mix</button><button class="btn-p" onclick="plnGoStep(1)">Plan another campaign</button></div>
     </div>
@@ -1534,16 +1534,127 @@ function plnRunForecast(){
     }
   }catch(e){console.warn('Chart render error:',e);}
 
-  const sorted=[...channelProjs].sort((a,b)=>b.roas-a.roas);const bestCh=sorted[0],worstCh=sorted[sorted.length-1];
-  const insights=[];
-  insights.push({t:`${bestCh.ch} is your highest-efficiency channel`,s:`At a ${bestCh.roas}x benchmark ROAS, it should generate ${f$(bestCh.revMid)} from ${f$(bestCh.spend)} in spend. Consider over-indexing here if early results confirm benchmark performance.`});
-  if(channelProjs.length>1&&bestCh.roas>worstCh.roas*1.5)insights.push({t:`Large efficiency gap between ${bestCh.ch} and ${worstCh.ch}`,s:`${bestCh.ch} projects ${fn(bestCh.roas,1)}x ROAS vs. ${fn(worstCh.roas,1)}x for ${worstCh.ch}. If ${worstCh.ch} underperforms in early weeks, reallocate its budget to ${bestCh.ch}.`});
-  if(romiMid<1)insights.push({t:'Projected ROMI is below breakeven on expected scenario',s:`Your channel mix projects a ${fn(romiMid,1)}x ROMI. To improve this, shift more budget toward higher-ROAS channels or reduce spend on awareness channels.`});
-  else if(romiMid>=3)insights.push({t:'Strong projected return — consider scaling budget',s:`A ${fn(romiMid,1)}x ROMI projection suggests this mix is efficient. If early results confirm benchmark performance, this campaign warrants budget expansion.`});
-  insights.push({t:`Set a ${Math.max(1,Math.round(duration/2))}-month review checkpoint`,s:`Pause and assess at the halfway mark. Channels hitting benchmark ROAS should receive additional budget; channels below 75% of benchmark should be paused or restructured.`});
-  document.getElementById('pln-insights').innerHTML=insights.map(ins=>`<div class="insight-item"><div class="insight-dot"></div><div><div class="insight-text">${esc(ins.t)}</div><div class="insight-sub">${esc(ins.s)}</div></div></div>`).join('');
+  const sorted=[...channelProjs].sort((a,b)=>b.roas-a.roas);
+  const bestCh=sorted[0],worstCh=sorted[sorted.length-1];
+  const goalRaw=document.getElementById('pln-goal')?.value||'sales';
+  const goalLabel=document.getElementById('pln-goal')?.options[document.getElementById('pln-goal')?.selectedIndex]?.text||'';
+  const vertRaw=document.getElementById('pln-vertical')?.value||'other';
 
-  document.getElementById('pln-summary').innerHTML=`<strong>${esc(name)}</strong> | ${duration}-month plan | ${channelProjs.length} channels<br><br>With a ${f$(budget)} budget across ${channelProjs.length} channels, this campaign projects ${f$(totRevMid)} in revenue (range: ${f$(totRevLow)}–${f$(totRevHigh)}) and a blended ROMI of ${fn(romiMid,1)}x. ${romiMid>=1?'The expected scenario is above breakeven.':'The expected scenario is below breakeven — consider adjusting the channel mix toward higher-ROAS channels.'} ${bestCh.ch} is the most efficient channel in this plan at ${bestCh.roas}x ROAS.${audience?'<br><br>Target audience: '+esc(audience)+'.':''}${rationale?'<br><br><em>Rationale:</em> '+esc(rationale.slice(0,200))+(rationale.length>200?'…':''):''}`;
+  // Goal-channel fit definitions
+  const GOAL_FIT={
+    sales:{strong:['Paid Search','Email','Affiliate','SEO / Organic'],weak:['Display','Influencer'],note:'Direct sales campaigns need high-intent channels. Paid Search captures buyers actively searching; Email converts your existing audience at the highest ROAS of any channel.'},
+    leads:{strong:['Paid Search','SEO / Organic','Email','Paid Social'],weak:['Display','Direct Mail'],note:'Lead gen requires channels where you can control audience targeting tightly and track form completions. Broad awareness channels waste budget on unqualified impressions.'},
+    awareness:{strong:['Paid Social','Display','Influencer'],weak:['Email','Affiliate'],note:'Brand awareness campaigns need reach and frequency over targeted intent. Paid Social and Display maximize unique impressions; Email and Affiliate are retention/conversion channels, not awareness drivers.'},
+    retention:{strong:['Email','Paid Social','Affiliate'],weak:['Display','Paid Search','Influencer','Direct Mail'],note:'Retention campaigns live and die on Email — your existing customers have already opted in and convert at 5-10x the rate of cold audiences. Paid channels for retention should be retargeting only, not prospecting.'},
+    launch:{strong:['Paid Social','Influencer','Paid Search'],weak:['Direct Mail','Affiliate'],note:'Product launches need fast reach and social momentum. Influencer and Paid Social build awareness quickly; Paid Search captures the intent those channels generate.'},
+    expand:{strong:['Paid Search','Paid Social','SEO / Organic'],weak:['Email','Affiliate'],note:'Market expansion requires prospecting channels, not retention ones. Email and Affiliate primarily reach existing audiences — wrong tool for entering a new market.'},
+    winback:{strong:['Email','Paid Social'],weak:['Display','Influencer','Paid Search'],note:'Re-engagement campaigns should be almost entirely Email to lapsed customers. Paid Social retargeting supports this. Prospecting channels like Display and Paid Search waste budget on cold audiences you already acquired.'},
+    upsell:{strong:['Email','Paid Social'],weak:['Display','Paid Search','Influencer'],note:'Upsell campaigns target existing customers — Email is by far the most efficient channel. Paid Social retargeting adds support. Cold prospecting channels have no role in an upsell strategy.'}
+  };
+  const fit=GOAL_FIT[goalRaw]||GOAL_FIT['sales'];
+  const strongSet=new Set(fit.strong);
+  const weakSet=new Set(fit.weak);
+
+  const misfitChannels=channelProjs.filter(c=>weakSet.has(c.ch)&&c.pct>=10);
+  const missingStrong=fit.strong.filter(ch=>!channelProjs.find(c=>c.ch===ch&&c.pct>=5)).slice(0,2);
+  const topSpendCh=[...channelProjs].sort((a,b)=>b.spend-a.spend)[0];
+  const topSpendIsWeak=topSpendCh&&weakSet.has(topSpendCh.ch);
+
+  const insights=[];
+
+  // Goal-channel fit check — this is the most important insight
+  if(misfitChannels.length>0){
+    const misfitSpend=misfitChannels.reduce((s,c)=>s+c.spend,0);
+    const misfitPct=Math.round(misfitSpend/budget*100);
+    insights.push({
+      warn:true,
+      t:'Channel mix misalignment with goal: '+goalLabel,
+      s:misfitChannels.map(c=>c.ch).join(', ')+' account'+(misfitChannels.length===1?'s':'')+' for '+misfitPct+'% of budget ('+f$(misfitSpend)+') but '+(misfitChannels.length===1?'is':'are')+' weak choices for '+goalLabel+'. '+fit.note+' Consider reallocating this spend to '+fit.strong.slice(0,2).join(' or ')+'.'
+    });
+  }
+
+  // Missing high-value channels for goal
+  if(missingStrong.length>0&&!misfitChannels.length){
+    insights.push({
+      warn:false,
+      t:'Consider adding '+missingStrong.join(' and ')+' for stronger '+goalLabel+' performance',
+      s:missingStrong.join(' and ')+' '+(missingStrong.length===1?'is':'are')+' among the highest-ROAS channels for '+goalLabel+' campaigns in '+goalLabel+' — currently absent or underweighted in this plan. Even a 10-15% allocation could meaningfully improve blended ROMI.'
+    });
+  }
+
+  // Top spend in a weak channel
+  if(topSpendIsWeak){
+    insights.push({
+      warn:true,
+      t:topSpendCh.ch+' is your largest spend allocation but a weak fit for '+goalLabel,
+      s:'With '+topSpendCh.pct+'% of budget ('+f$(topSpendCh.spend)+') going to '+topSpendCh.ch+', your biggest single investment is in a channel that typically underperforms for '+goalLabel+' goals. The projected '+fn(totRevMid/budget,1)+'x ROAS could likely be improved significantly by shifting even 20% of this to '+fit.strong[0]+'.'
+    });
+  }
+
+  // Best channel
+  insights.push({
+    warn:false,
+    t:bestCh.ch+' is your most efficient channel — '+fn(bestCh.roas,1)+'x projected ROAS',
+    s:'At '+f$(bestCh.spend)+' spend, '+bestCh.ch+' projects '+f$(bestCh.revMid)+' in revenue. '+
+      (strongSet.has(bestCh.ch)?'This is a strong fit for your '+goalLabel+' goal. If early results confirm benchmark performance, scale here first.':'Note: '+bestCh.ch+' is efficient but not a primary channel for '+goalLabel+' — confirm it is driving the right type of conversion before scaling.')
+  });
+
+  // Efficiency gap
+  if(channelProjs.length>1&&bestCh.roas>worstCh.roas*1.5){
+    insights.push({
+      warn:false,
+      t:'Large ROAS gap: '+bestCh.ch+' ('+fn(bestCh.roas,1)+'x) vs. '+worstCh.ch+' ('+fn(worstCh.roas,1)+'x)',
+      s:'If '+worstCh.ch+' underperforms against projections in the first 4 weeks, do not wait — reallocate its budget to '+bestCh.ch+'. A '+Math.round((bestCh.roas/worstCh.roas-1)*100)+'% ROAS gap justifies fast reallocation decisions.'
+    });
+  }
+
+  // ROMI health
+  if(romiMid<1){
+    insights.push({
+      warn:true,
+      t:'Expected ROMI is below breakeven — this plan needs adjustment before launch',
+      s:'At '+fn(romiMid,1)+'x projected ROMI, even the expected scenario does not return your investment. The fastest fix: cut or eliminate your weakest-ROAS channel ('+worstCh.ch+' at '+fn(worstCh.roas,1)+'x) and redistribute to '+bestCh.ch+'. Run this scenario in the Budget Simulator on the Optimizer tool before committing spend.'
+    });
+  } else if(romiMid>=3){
+    insights.push({
+      warn:false,
+      t:'Strong projected ROMI — budget has room to scale',
+      s:'A '+fn(romiMid,1)+'x expected ROMI indicates this mix is efficient. If month-1 results come in at or above conservative projections ('+f$(totRevLow)+'), consider increasing total budget by 30-50% before month 2.'
+    });
+  }
+
+  // Review checkpoint
+  insights.push({
+    warn:false,
+    t:'Set a '+Math.max(1,Math.round(duration/2))+'-month performance review before committing remaining budget',
+    s:'At the halfway mark: channels within 20% of projected ROAS get maintained or increased. Channels more than 30% below projection get paused and budget moved to top performers. Do not average down on underperformers hoping they improve — reallocate early.'
+  });
+
+  document.getElementById('pln-insights').innerHTML=insights.map(ins=>
+    '<div class="insight-item"><div class="insight-dot" style="background:'+(ins.warn?'#EF9F27':'#1D9E75')+'"></div><div><div class="insight-text" style="'+(ins.warn?'color:var(--text-warning)':'')+'">'+(ins.warn?'⚠ ':'')+esc(ins.t)+'</div><div class="insight-sub">'+esc(ins.s)+'</div></div></div>'
+  ).join('');
+
+  // Summary of Plan
+  const misfitNote=misfitChannels.length>0?' <strong>Warning:</strong> '+misfitChannels.map(c=>c.ch).join(', ')+' account for '+Math.round(misfitChannels.reduce((s,c)=>s+c.spend,0)/budget*100)+'% of budget but are weak fits for '+goalLabel+' — review channel mix before launching.':'';
+  const actions=[];
+  if(misfitChannels.length>0)actions.push('Reallocate budget from '+misfitChannels.map(c=>c.ch).join(', ')+' to '+fit.strong.slice(0,2).join(' or ')+' before launch');
+  actions.push('Set '+bestCh.ch+' as the primary channel to validate first — it carries the strongest projected ROAS at '+fn(bestCh.roas,1)+'x');
+  actions.push('Book a '+Math.max(1,Math.round(duration/2))+'-month review now — pause channels below 70% of projected ROAS, scale channels above it');
+  if(romiMid<1)actions.push('Reconsider total budget or channel mix — expected scenario is currently below breakeven');
+  if(missingStrong.length>0&&!misfitChannels.length)actions.push('Test a small allocation (10-15%) to '+missingStrong[0]+' — typically a high-performer for '+goalLabel+' goals');
+
+  const actionsHtml=actions.map((a,i)=>'<div style="display:flex;gap:8px;margin-bottom:5px"><span style="font-size:11px;font-weight:700;color:var(--text-info);min-width:16px">'+(i+1)+'.</span><span>'+esc(a)+'</span></div>').join('');
+
+  document.getElementById('pln-summary').innerHTML=
+    '<strong>'+esc(name)+'</strong> | '+duration+'-month plan | '+esc(goalLabel)+' | '+channelProjs.length+' channels<br><br>'+
+    f$(budget)+' budget projects '+f$(totRevMid)+' in revenue (range: '+f$(totRevLow)+'–'+f$(totRevHigh)+') and a blended ROMI of '+fn(romiMid,1)+'x. '+
+    (romiMid>=1?'Expected scenario is above breakeven.':'<strong>Expected scenario is below breakeven</strong> — adjust channel mix before committing full budget.')+
+    misfitNote+
+    (audience?'<br><br><em>Audience:</em> '+esc(audience)+'':'')+
+    (rationale?'<br><br><em>Rationale:</em> '+esc(rationale.slice(0,200))+(rationale.length>200?'…':''):'')+'<br><br>'+
+    '<div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px">Recommended actions</div>'+
+    actionsHtml;
+
   plnGoStep(3);
 }
 
