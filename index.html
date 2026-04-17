@@ -652,8 +652,36 @@
           </div>
         </div>
         <div class="fgrid2" style="margin-bottom:10px">
-          <div class="fg"><label class="fl">Target audience</label><input id="pln-audience" placeholder="e.g. SMB owners, 35–54, US"></div>
+          <div class="fg"><label class="fl">Target audience description</label><input id="pln-audience" placeholder="e.g. SMB owners, 35–54, US"></div>
           <div class="fg"><label class="fl">Average order / deal value ($)</label><input id="pln-aov" type="number" placeholder="120" oninput="plnUpdateAlloc()"></div>
+        </div>
+        <div class="fgrid3" style="margin-bottom:10px">
+          <div class="fg"><label class="fl">Age range</label>
+            <select id="pln-age" onchange="plnSuggestMix()">
+              <option value="all">All ages / mixed</option>
+              <option value="18-24">18–24 (Gen Z)</option>
+              <option value="25-34">25–34 (Younger millennial)</option>
+              <option value="35-44">35–44 (Older millennial)</option>
+              <option value="45-54">45–54 (Gen X)</option>
+              <option value="55+">55+ (Boomer+)</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Gender skew</label>
+            <select id="pln-gender" onchange="plnSuggestMix()">
+              <option value="all">No skew / balanced</option>
+              <option value="female">Skews female</option>
+              <option value="male">Skews male</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Location type</label>
+            <select id="pln-location" onchange="plnSuggestMix()">
+              <option value="all">Mixed / national</option>
+              <option value="urban">Urban / metro</option>
+              <option value="suburban">Suburban</option>
+              <option value="rural">Rural</option>
+              <option value="global">Global / international</option>
+            </select>
+          </div>
         </div>
         <div class="fg"><label class="fl">Campaign rationale &amp; context</label><textarea id="pln-rationale" placeholder="What's the strategic reason for this campaign? Any competitive context, timing factors, or constraints?"></textarea></div>
       </div>
@@ -667,6 +695,7 @@
         <div class="alloc-row hdr"><span>Channel</span><span>Allocation</span><span>%</span><span>Budget</span></div>
         <div id="alloc-rows"></div>
       </div>
+      <button class="add-btn" onclick="plnAddChannel()" style="margin-top:8px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Add channel</button>
       <div id="alloc-total-indicator" class="total-pct total-ok">Total: 100%</div>
       <div id="pln-step2-err" class="err"></div>
       <div class="nav"><button class="btn-s" onclick="plnGoStep(1)">← Back</button><button class="btn-p" onclick="plnRunForecast()">Generate forecast →</button></div>
@@ -1444,12 +1473,65 @@ let plnAllocData=[];
 function plnSuggestMix(){
   const goal=document.getElementById('pln-goal')?.value||'sales';
   const vertical=document.getElementById('pln-vertical')?.value||'ecom';
-  const key=`${goal}-${vertical}`;
-  const mix=MIX_PRESETS[key]||MIX_PRESETS[`${goal}-other`]||MIX_PRESETS['sales-other'];
-  const rationale=MIX_RATIONALES[key]||MIX_RATIONALES['default'];
+  const age=document.getElementById('pln-age')?.value||'all';
+  const gender=document.getElementById('pln-gender')?.value||'all';
+  const location=document.getElementById('pln-location')?.value||'all';
+
+  const key=goal+'-'+vertical;
+  const baseMix=MIX_PRESETS[key]||MIX_PRESETS[goal+'-other']||MIX_PRESETS['sales-other'];
+
+  // Demographic adjustments — modify base mix percentages
+  // Returns {channel: delta} where delta is percentage point shift
+  const adj={};
+
+  // Age adjustments
+  if(age==='18-24'){adj['Paid Social']=(adj['Paid Social']||0)+8;adj['Influencer']=(adj['Influencer']||0)+5;adj['Display']=(adj['Display']||0)-3;adj['Direct Mail']=(adj['Direct Mail']||0)-5;}
+  else if(age==='25-34'){adj['Paid Social']=(adj['Paid Social']||0)+5;adj['Email']=(adj['Email']||0)+3;adj['Influencer']=(adj['Influencer']||0)+2;adj['Direct Mail']=(adj['Direct Mail']||0)-5;}
+  else if(age==='35-44'){adj['Email']=(adj['Email']||0)+5;adj['Paid Search']=(adj['Paid Search']||0)+3;adj['Paid Social']=(adj['Paid Social']||0)-2;}
+  else if(age==='45-54'){adj['Email']=(adj['Email']||0)+7;adj['Paid Search']=(adj['Paid Search']||0)+5;adj['Paid Social']=(adj['Paid Social']||0)-5;adj['Influencer']=(adj['Influencer']||0)-5;}
+  else if(age==='55+'){adj['Email']=(adj['Email']||0)+8;adj['Paid Search']=(adj['Paid Search']||0)+5;adj['Direct Mail']=(adj['Direct Mail']||0)+5;adj['Paid Social']=(adj['Paid Social']||0)-8;adj['Influencer']=(adj['Influencer']||0)-8;}
+
+  // Gender adjustments
+  if(gender==='female'){adj['Paid Social']=(adj['Paid Social']||0)+4;adj['Influencer']=(adj['Influencer']||0)+3;adj['Email']=(adj['Email']||0)+2;}
+  else if(gender==='male'){adj['Paid Search']=(adj['Paid Search']||0)+4;adj['Display']=(adj['Display']||0)+2;adj['Influencer']=(adj['Influencer']||0)-3;}
+
+  // Location adjustments
+  if(location==='urban'){adj['Paid Social']=(adj['Paid Social']||0)+4;adj['Display']=(adj['Display']||0)+2;adj['Direct Mail']=(adj['Direct Mail']||0)-5;}
+  else if(location==='suburban'){adj['Email']=(adj['Email']||0)+3;adj['Direct Mail']=(adj['Direct Mail']||0)+2;}
+  else if(location==='rural'){adj['Direct Mail']=(adj['Direct Mail']||0)+8;adj['Email']=(adj['Email']||0)+5;adj['Paid Social']=(adj['Paid Social']||0)-5;adj['Display']=(adj['Display']||0)-3;}
+  else if(location==='global'){adj['Paid Search']=(adj['Paid Search']||0)+5;adj['Paid Social']=(adj['Paid Social']||0)+3;adj['Direct Mail']=(adj['Direct Mail']||0)-8;}
+
+  // Apply adjustments to base mix
+  const mixMap={};
+  baseMix.forEach(([ch,pct])=>{mixMap[ch]=(mixMap[ch]||0)+pct;});
+  Object.entries(adj).forEach(([ch,delta])=>{
+    if(mixMap[ch]!==undefined){mixMap[ch]=Math.max(0,mixMap[ch]+delta);}
+    else if(delta>0){mixMap[ch]=delta;} // add new channel if boosted
+  });
+
+  // Normalize to 100%
+  const rawTotal=Object.values(mixMap).reduce((s,v)=>s+v,0);
+  const normalised=Object.entries(mixMap)
+    .filter(([,v])=>v>0)
+    .map(([ch,v])=>({ch,pct:Math.round(v/rawTotal*100)}));
+  // Fix rounding drift
+  const normTotal=normalised.reduce((s,r)=>s+r.pct,0);
+  if(normalised.length&&normTotal!==100)normalised[0].pct+=100-normTotal;
+
+  // Build rationale note with demo context
+  const baseRationale=MIX_RATIONALES[key]||MIX_RATIONALES['default'];
+  const demoNotes=[];
+  if(age!=='all')demoNotes.push(age==='18-24'?'Gen Z audience — Paid Social and Influencer weighted up, Direct Mail removed':age==='25-34'?'Younger millennial — Social and Email boosted':age==='35-44'?'Older millennial — Email and Search weighted up':age==='45-54'?'Gen X — Email-heavy, Social reduced':age==='55+'?'Boomer+ — Email, Search, and Direct Mail weighted up, Social/Influencer reduced':'');
+  if(gender==='female')demoNotes.push('Female skew — Social and Influencer boosted');
+  else if(gender==='male')demoNotes.push('Male skew — Search and Display boosted');
+  if(location==='urban')demoNotes.push('Urban audience — Social and Display boosted, Direct Mail removed');
+  else if(location==='rural')demoNotes.push('Rural audience — Direct Mail and Email boosted, Social reduced');
+  else if(location==='global')demoNotes.push('Global audience — Search boosted, Direct Mail removed');
+
   const infoEl=document.getElementById('pln-mix-rationale');
-  if(infoEl)infoEl.textContent=rationale;
-  plnAllocData=mix.map(([ch,p])=>({ch,pct:p}));
+  if(infoEl)infoEl.textContent=baseRationale+(demoNotes.length?' Demographic adjustments: '+demoNotes.join('; ')+'.':('' ));
+
+  plnAllocData=normalised;
   renderAllocRows();
 }
 
@@ -1458,9 +1540,50 @@ function renderAllocRows(){
   const container=document.getElementById('alloc-rows');if(!container)return;
   container.innerHTML=plnAllocData.map((row,i)=>{
     const spend=budget>0?Math.round(budget*(row.pct/100)):0;
-    return`<div class="alloc-row"><span class="alloc-name">${esc(row.ch)}</span><input type="range" min="0" max="100" step="1" value="${row.pct}" oninput="plnSliderChange(${i},this.value)" style="width:100%"><span class="alloc-pct" id="alloc-pct-${i}">${row.pct}%</span><span style="font-size:12px;color:var(--text-secondary)" id="alloc-spend-${i}">${budget>0?f$(spend):'—'}</span></div>`;
+    return'<div class="alloc-row" id="alloc-row-'+i+'">'+
+      '<span class="alloc-name">'+esc(row.ch)+'</span>'+
+      '<input type="range" min="0" max="100" step="1" value="'+row.pct+'" oninput="plnSliderChange('+i+',this.value)" style="width:100%">'+
+      '<span class="alloc-pct" id="alloc-pct-'+i+'">'+row.pct+'%</span>'+
+      '<span style="font-size:12px;color:var(--text-secondary)" id="alloc-spend-'+i+'">'+(budget>0?f$(spend):'—')+'</span>'+
+      '<button class="rmv" onclick="plnRemoveChannel('+i+')" title="Remove">✕</button>'+
+    '</div>';
   }).join('');
   plnUpdateTotalIndicator();
+}
+
+function plnAddChannel(){
+  // Find channels not already in the mix
+  const existing=new Set(plnAllocData.map(r=>r.ch));
+  const available=TYPES.filter(t=>!existing.has(t));
+  if(!available.length){
+    const e=document.getElementById('pln-step2-err');
+    e.style.display='block';e.textContent='All available channels are already in the mix.';
+    setTimeout(()=>e.style.display='none',3000);return;
+  }
+  // Show a small inline picker
+  const picker=document.createElement('div');
+  picker.style.cssText='display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border-light);flex-wrap:wrap';
+  const sel=document.createElement('select');
+  sel.style.cssText='font-size:13px;padding:6px 10px;border:0.5px solid var(--border-medium);border-radius:var(--radius-md);background:var(--bg-primary);color:var(--text-primary);flex:1';
+  sel.innerHTML=available.map(t=>'<option value="'+t+'">'+t+'</option>').join('');
+  const addBtn=document.createElement('button');
+  addBtn.className='btn-p';addBtn.style.fontSize='12px';addBtn.style.padding='6px 14px';addBtn.textContent='Add';
+  const cancelBtn=document.createElement('button');
+  cancelBtn.className='btn-s';cancelBtn.style.fontSize='12px';cancelBtn.style.padding='6px 14px';cancelBtn.textContent='Cancel';
+  addBtn.onclick=()=>{
+    plnAllocData.push({ch:sel.value,pct:0});
+    picker.remove();
+    renderAllocRows();
+  };
+  cancelBtn.onclick=()=>picker.remove();
+  picker.appendChild(sel);picker.appendChild(addBtn);picker.appendChild(cancelBtn);
+  document.getElementById('alloc-rows').appendChild(picker);
+}
+
+function plnRemoveChannel(i){
+  if(plnAllocData.length<=1)return;
+  plnAllocData.splice(i,1);
+  renderAllocRows();
 }
 
 function plnSliderChange(i,val){
@@ -1539,6 +1662,20 @@ function plnRunForecast(){
   const goalRaw=document.getElementById('pln-goal')?.value||'sales';
   const goalLabel=document.getElementById('pln-goal')?.options[document.getElementById('pln-goal')?.selectedIndex]?.text||'';
   const vertRaw=document.getElementById('pln-vertical')?.value||'other';
+  const demoAge=document.getElementById('pln-age')?.value||'all';
+  const demoGender=document.getElementById('pln-gender')?.value||'all';
+  const demoLocation=document.getElementById('pln-location')?.value||'all';
+
+  // Channels that are strong/weak for specific demographics
+  const DEMO_WEAK={
+    '55+':['Influencer','Paid Social'],'18-24':['Direct Mail'],'rural':['Display','Paid Social'],
+    'global':['Direct Mail'],'female':[],'male':['Influencer']
+  };
+  const demoWeakChannels=new Set([
+    ...(DEMO_WEAK[demoAge]||[]),
+    ...(DEMO_WEAK[demoGender]||[]),
+    ...(DEMO_WEAK[demoLocation]||[])
+  ]);
 
   // Goal-channel fit definitions
   const GOAL_FIT={
@@ -1570,6 +1707,19 @@ function plnRunForecast(){
       warn:true,
       t:'Channel mix misalignment with goal: '+goalLabel,
       s:misfitChannels.map(c=>c.ch).join(', ')+' account'+(misfitChannels.length===1?'s':'')+' for '+misfitPct+'% of budget ('+f$(misfitSpend)+') but '+(misfitChannels.length===1?'is':'are')+' weak choices for '+goalLabel+'. '+fit.note+' Consider reallocating this spend to '+fit.strong.slice(0,2).join(' or ')+'.'
+    });
+  }
+
+  // Demographic-channel mismatch
+  const demoMisfits=channelProjs.filter(c=>demoWeakChannels.has(c.ch)&&c.pct>=10);
+  if(demoMisfits.length>0){
+    const ageLabel={'18-24':'Gen Z (18-24)','25-34':'younger millennials (25-34)','35-44':'older millennials (35-44)','45-54':'Gen X (45-54)','55+':'55+ / Boomer+','all':''}[demoAge]||'';
+    const locLabel={'urban':'urban','rural':'rural','suburban':'suburban','global':'global','all':''}[demoLocation]||'';
+    const demoDesc=[ageLabel,demoGender!=='all'?(demoGender==='female'?'female-skewing':'male-skewing'):'',locLabel].filter(Boolean).join(', ');
+    insights.push({
+      warn:true,
+      t:'Channel-demographic mismatch: '+demoMisfits.map(c=>c.ch).join(', ')+' are weak fits for your audience',
+      s:(demoDesc?'For a '+demoDesc+' audience, ':'')+demoMisfits.map(c=>c.ch).join(' and ')+(demoMisfits.length===1?' tends':' tend')+' to underperform significantly. '+(demoAge==='55+'?'This demographic has low social media engagement and very low influencer trust — Email, Paid Search, and Direct Mail will dramatically outperform.':demoAge==='18-24'?'Direct Mail has near-zero effectiveness with Gen Z. Reallocate to Paid Social, Influencer, or short-form video placements.':demoLocation==='rural'?'Rural audiences are harder to reach via Display and Social — Email and Direct Mail have significantly higher engagement rates in this segment.':demoGender==='male'&&demoMisfits.find(c=>c.ch==='Influencer')?'Influencer marketing skews heavily female in both creator demographics and audience receptivity — reconsider this allocation for a male-skewing audience.':'Reallocate to channels better matched to your audience profile.')
     });
   }
 
