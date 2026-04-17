@@ -41,8 +41,10 @@
     html{font-size:16px;-webkit-font-smoothing:antialiased}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg-tertiary);color:var(--text-primary);min-height:100vh}
     .site-header{background:var(--accent);padding:0.9rem 2rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+    .site-header-left{display:flex;align-items:center}
     .site-header-name{font-size:13px;font-weight:600;color:rgba(255,255,255,0.75)}
-    .site-header-center{text-align:center}
+    .site-header-center{text-align:center;transition:opacity 0.15s}
+    .site-header-center:hover{opacity:0.8}
     .site-header-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.01em}
     .site-header-sub{font-size:11px;color:rgba(255,255,255,0.55);margin-top:1px}
     .site-header-right{display:flex;justify-content:flex-end;align-items:center;gap:8px}
@@ -248,14 +250,16 @@
 <body>
 
 <header class="site-header">
-  <div class="site-header-name">Jacob Gendein</div>
-  <div class="site-header-center">
+  <div class="site-header-left">
+    <button class="back-btn" id="back-btn" onclick="goHome()">← Back to home</button>
+  </div>
+  <div class="site-header-center" onclick="goHome()" style="cursor:pointer" title="Back to home">
     <div class="site-header-logo">ROMI Suite</div>
     <div class="site-header-sub" id="header-sub">Optimizer &amp; Campaign Planner</div>
   </div>
   <div class="site-header-right">
     <button class="export-btn" id="export-btn" onclick="exportPDF()">⬇ Export PDF</button>
-    <button class="back-btn" id="back-btn" onclick="goHome()">← Back to home</button>
+    <div class="site-header-name">Jacob Gendein</div>
   </div>
 </header>
 
@@ -313,13 +317,33 @@
           <div class="fg"><label class="fl">Geographic focus</label><input id="camp-geo" placeholder="e.g. US National, Northeast, Global"></div>
         </div>
         <div class="fg" style="margin-bottom:10px"><label class="fl">Campaign rationale</label><textarea id="camp-rationale" placeholder="Why this campaign, why now?"></textarea></div>
-        <div class="fgrid3" style="margin-bottom:10px">
-          <div class="fg"><label class="fl">Customer LTV ($) <span style="font-weight:400;color:var(--text-tertiary)">optional</span></label><input id="camp-ltv" type="number" placeholder="e.g. 420"></div>
-          <div class="fg"><label class="fl">Target CAC ($) <span style="font-weight:400;color:var(--text-tertiary)">optional</span></label><input id="camp-target-cac" type="number" placeholder="e.g. 85"></div>
-          <div class="fg"><label class="fl">Avg. order / deal value ($)</label><input id="camp-aov" type="number" placeholder="e.g. 120"></div>
-        </div>
         <div class="fg"><label class="fl">Additional KPIs being tracked</label><input id="camp-kpis" placeholder="e.g. Email list growth, branded search volume, NPS"></div>
       </div>
+
+      <div class="card" style="border-color:var(--border-info);background:var(--bg-info)">
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:12px">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-info)">Customer economics <span style="font-size:11px;font-weight:400;opacity:0.7">— optional</span></div>
+            <div style="font-size:12px;color:var(--text-info);opacity:0.8;margin-top:2px">Fill in any of these to unlock LTV:CAC ratio, payback period, and true profitability analysis on the dashboard. The tool calculates your actual CAC from campaign data — you just supply the context.</div>
+          </div>
+        </div>
+        <div class="fgrid3">
+          <div class="fg">
+            <label class="fl" style="color:var(--text-info)">Customer LTV ($)</label>
+            <input id="camp-ltv" type="number" placeholder="e.g. 420" style="background:var(--bg-primary)">
+            <span style="font-size:11px;color:var(--text-info);opacity:0.7;margin-top:3px;display:block">Avg. lifetime revenue per customer</span>
+          </div>
+          <div class="fg">
+            <label class="fl" style="color:var(--text-info)">Target CAC ($)</label>
+            <input id="camp-target-cac" type="number" placeholder="e.g. 85" style="background:var(--bg-primary)">
+            <span style="font-size:11px;color:var(--text-info);opacity:0.7;margin-top:3px;display:block">Your goal cost to acquire one customer</span>
+          </div>
+          <div class="fg">
+            <label class="fl" style="color:var(--text-info)">Avg. order / deal value ($)</label>
+            <input id="camp-aov" type="number" placeholder="e.g. 120" style="background:var(--bg-primary)">
+            <span style="font-size:11px;color:var(--text-info);opacity:0.7;margin-top:3px;display:block">Used to estimate conversion volume from revenue</span>
+          </div>
+        </div>
       <div class="nav"><button class="btn-p" onclick="optGoStep(2)">Channel data →</button></div>
     </div>
 
