@@ -1210,25 +1210,151 @@ function resetScenario(){
 }
 
 function renderRecs(data,kws,meta){
-  const flags=[],recs=[];const top=[...data].sort((a,b)=>b.roas-a.roas)[0],bot=[...data].sort((a,b)=>a.roas-b.roas)[0];
+  const flags=[],recs=[];
+  const ts=data.reduce((s,c)=>s+c.spend,0);
+  const tr=data.reduce((s,c)=>s+c.rev,0);
+  const tc=data.reduce((s,c)=>s+c.conv,0);
+  const bROAS=ts>0?tr/ts:0;
+  const bROMI=ts>0?(tr-ts)/ts:0;
+  const sorted=[...data].sort((a,b)=>b.roas-a.roas);
+  const top=sorted[0],bot=sorted[sorted.length-1];
+  const ltv=meta.ltv||0;
+  const targetCac=meta.targetCac||0;
+  const actualCac=tc>0?ts/tc:0;
+  const lowConf=(c)=>c.conv<20;
+  const confNote=(c)=>lowConf(c)?' (low confidence — only '+c.conv+' conversion'+(c.conv!==1?'s':'')+'; treat directionally)':'';
+
+  // 1. BELOW BREAKEVEN
   data.forEach(c=>{
-    if(c.romi<0){flags.push({l:'d',t:`${c.type} is below breakeven`,d:`ROMI ${fn(c.romi,2)}x — losing ${f$(Math.abs(c.rev-c.spend))} on this channel.`});recs.push({ch:c.type,a:`Pause or significantly reduce ${c.type} spend until creative and targeting are revised.`,i:`Could recover up to ${f$(Math.abs(c.rev-c.spend))} currently being lost.`});}
-    else if(c.roas<c.bench.roas*0.75){flags.push({l:'w',t:`${c.type} underperforming vs. benchmark`,d:`ROAS ${fn(c.roas,1)}x vs. ${c.bench.roas}x benchmark.`});recs.push({ch:c.type,a:`Audit targeting and creative for ${c.type}. A/B test 2–3 ad variations.`,i:`Reaching benchmark ROAS adds ~${f$((c.bench.roas-c.roas)*c.spend)} in recovered revenue.`});}
-    if(c.ctr<c.bench.ctr*0.5){flags.push({l:'w',t:`${c.type} CTR signals creative fatigue`,d:`CTR ${pct(c.ctr)} vs. ${c.bench.ctr}% channel average.`});recs.push({ch:c.type,a:`Refresh creative assets for ${c.type}. Rotate new copy and visuals.`,i:'Improving CTR to benchmark typically reduces CPC by 20–40%.'});}
-    if(c.conv===0&&c.clicks>0){flags.push({l:'d',t:`${c.type} — zero conversions`,d:`${c.clicks.toLocaleString()} clicks, 0 conversions. Funnel may be broken.`});recs.push({ch:c.type,a:`Audit ${c.type} conversion path: verify tracking pixels, test landing page, confirm offer clarity.`,i:'Even 0.5% conversion on current clicks would add meaningful revenue.'});}
+    if(c.romi<0){
+      const loss=Math.abs(c.rev-c.spend);
+      const hypothesis=c.conv===0
+        ?'You have zero conversions on '+f$(c.spend)+' in spend. Most likely cause: broken conversion tracking, landing page not loading, or offer not visible above the fold.'
+        :c.ctr<c.bench.ctr*0.5
+          ?'CTR of '+pct(c.ctr)+' vs. '+pct(c.bench.ctr)+' benchmark suggests the ad creative or audience is misaligned — clicks cost too much relative to what converts.'
+          :'Clicks are coming through but conversion rate is too low. Problem is likely post-click: landing page relevance, offer clarity, or checkout friction.';
+      flags.push({l:'d',t:c.type+' is losing money — ROMI '+fn(c.romi,2)+'x',d:'Spending '+f$(c.spend)+', returning '+f$(c.rev)+'. Net loss: '+f$(loss)+'.'});
+      recs.push({ch:c.type,pri:'high',a:'Pause '+c.type+' spend or cut to a 10% test budget.'+confNote(c)+' '+hypothesis,i:'Stopping spend recovers '+f$(loss)+' in losses. Do not scale until conversion path is validated.'});
+    }
   });
-  if(data.length>=2&&top.roas>bot.roas*1.5){const r=Math.round(bot.spend*0.2);flags.push({l:'w',t:'Budget efficiency gap across channels',d:`${top.type} (${fn(top.roas,1)}x) vs. ${bot.type} (${fn(bot.roas,1)}x).`});recs.push({ch:'Budget allocation',a:`Reallocate ~${f$(r)} (20% of ${bot.type} spend) into ${top.type}, your highest-efficiency channel.`,i:`Estimated uplift ~${f$(Math.round(r*(top.roas-bot.roas)))} based on ROAS delta.`});}
-  // Frequency fatigue flags
-  data.forEach(c=>{if(c.frequency&&c.frequency>4){flags.push({l:'w',t:`${c.type} — high ad frequency (${fn(c.frequency,1)}x)`,d:`Audience may be experiencing ad fatigue. Consider expanding reach or refreshing creative.`});recs.push({ch:c.type,a:`Expand ${c.type} audience targeting or rotate creative to reduce frequency below 3x.`,i:'High frequency (4x+) typically increases CPM and reduces CTR by 20–40%.'});}});
-  kws.forEach(k=>{if(k.ctr<k.benchCTR*0.7&&k.oppClicks>100){flags.push({l:'w',t:`Keyword "${k.term}" underperforming`,d:`Rank #${k.rank}, CTR ${pct(k.ctr)} vs. ${pct(k.benchCTR)} expected.`});recs.push({ch:'SEO',a:`Optimize title tag and meta description for "${k.term}".`,i:`+${k.oppClicks.toLocaleString()} monthly clicks at current conversion rate.`});}});
-  if(!flags.length)flags.push({l:'',t:'No critical issues detected',d:'All channels are performing at or above benchmark thresholds.'});
-  document.getElementById('flags-out').innerHTML=flags.map(f=>`<div class="flag-item"><div class="fdot ${f.l}"></div><div><div class="ftitle">${esc(f.t)}</div><div class="fdesc">${esc(f.d)}</div></div></div>`).join('');
-  document.getElementById('recs-out').innerHTML=recs.length?recs.map(r=>`<div class="rec"><div class="rch">${esc(r.ch).toUpperCase()}</div><div class="ract">${esc(r.a)}</div><div class="rimp">${esc(r.i)}</div></div>`).join(''):'<div style="font-size:13px;color:var(--text-secondary);padding:8px 0">No specific recommendations — campaigns are healthy.</div>';
-  const ts=data.reduce((s,c)=>s+c.spend,0),tr=data.reduce((s,c)=>s+c.rev,0);const bROAS=parseFloat((tr/ts).toFixed(2)),bROMI=parseFloat(((tr-ts)/ts).toFixed(2));const uc=data.filter(c=>c.tier==='under').length;
-  document.getElementById('exec-out').innerHTML=`<strong>${esc(meta.name)}</strong>${meta.period?' ('+esc(meta.period)+')':''} | Goal: ${esc(meta.goal)}${meta.audience?' | Audience: '+esc(meta.audience):''} | Vertical: ${esc(meta.vertical)}<br><br>Across ${data.length} channels and ${f$(ts)} total spend, this campaign generated ${f$(tr)} in revenue — a blended ROAS of ${bROAS}x and ROMI of ${bROMI}x. ${bROMI>=1?'Overall performance is above breakeven.':'Total spend is not yet returning profit.'} ${top.type} is the highest-efficiency channel at ${fn(top.roas,1)}x ROAS. ${uc>0?`${uc} channel${uc>1?'s':''} underperforming vs. benchmark.`:'No channels critically underperforming.'}${meta.rationale?'<br><br><em>Campaign context:</em> '+esc(meta.rationale.slice(0,200))+(meta.rationale.length>200?'…':''):''}`;
+
+  // 2. UNDERPERFORMING vs BENCHMARK with LTV context
+  data.forEach(c=>{
+    if(c.romi>=0&&c.roas<c.bench.roas*0.75){
+      const gap=c.bench.roas-c.roas;
+      const recoverable=Math.round(gap*c.spend);
+      let ltvNote='';
+      if(ltv&&c.conv>0){
+        const ltvRoas=(ltv*c.conv)/c.spend;
+        if(ltvRoas>c.bench.roas) ltvNote=' However, at your '+f$(ltv)+' LTV, lifetime ROAS on this channel is ~'+fn(ltvRoas,1)+'x — above benchmark. This channel may be worth keeping if it acquires high-LTV customers.';
+      }
+      const cause=c.ctr<c.bench.ctr*0.6
+        ?'CTR of '+pct(c.ctr)+' (benchmark: '+pct(c.bench.ctr)+') indicates weak creative or poor audience-message fit.'
+        :c.spend<5000
+          ?'At '+f$(c.spend)+' spend, this channel may not have exited the learning phase — most platforms need 50+ conversions/month to optimize.'
+          :'CPC and volume look reasonable; problem is likely audience quality or post-click experience.';
+      flags.push({l:'w',t:c.type+' underperforming — '+fn(c.roas,1)+'x ROAS vs. '+fn(c.bench.roas,1)+'x benchmark',d:pct(Math.round((1-c.roas/c.bench.roas)*100))+' below vertical benchmark. '+f$(recoverable)+' in unrealized revenue at current spend.'});
+      recs.push({ch:c.type,pri:'med',a:cause+ltvNote+confNote(c)+' Test 2-3 audience segments with fresh creative before scaling further.',i:'Closing half the gap adds ~'+f$(Math.round(recoverable*0.5))+' in revenue at current spend.'});
+    }
+  });
+
+  // 3. CROSS-CHANNEL: acquisition vs retention signal
+  const acqTypes=['Paid Search','Paid Social','Display','Influencer'];
+  const retTypes=['Email','Affiliate'];
+  const acqD=data.filter(c=>acqTypes.includes(c.type));
+  const retD=data.filter(c=>retTypes.includes(c.type));
+  if(acqD.length&&retD.length){
+    const acqROAS=acqD.reduce((s,c)=>s+c.roas*c.spend,0)/acqD.reduce((s,c)=>s+c.spend,0);
+    const retROAS=retD.reduce((s,c)=>s+c.roas*c.spend,0)/retD.reduce((s,c)=>s+c.spend,0);
+    const retSpend=retD.reduce((s,c)=>s+c.spend,0);
+    const retPct=Math.round(retSpend/ts*100);
+    if(retROAS>acqROAS*1.8&&retPct<30){
+      flags.push({l:'w',t:'Retention channels significantly outperforming acquisition',d:retD.map(c=>c.type).join(' + ')+' averaging '+fn(retROAS,1)+'x ROAS vs. '+fn(acqROAS,1)+'x for acquisition.'});
+      recs.push({ch:'Channel mix',pri:'high',a:'Your retention channels are '+Math.round(retROAS/acqROAS)+'x more efficient than acquisition but only represent '+retPct+'% of spend. Your offer and post-purchase experience are clearly working — acquisition targeting or creative is the weak link. Increase '+retD.map(c=>c.type).join('/')+' budget by 20-30% and simultaneously audit acquisition audience quality.',i:'Shifting '+f$(Math.round(ts*0.1))+' from acquisition to retention channels projects ~'+f$(Math.round(ts*0.1*retROAS))+' in added revenue at current retention ROAS.'});
+    } else if(acqROAS>retROAS*1.8&&retPct>50){
+      flags.push({l:'w',t:'High retention spend with lower efficiency than acquisition',d:'Retention is '+retPct+'% of budget but generating lower ROAS than acquisition channels.'});
+      recs.push({ch:'Channel mix',pri:'med',a:'Your acquisition channels are more efficient right now. High retention spend at lower ROAS often means audience fatigue — check email unsubscribe rates and open rates by segment. If email lists are engaged, the problem may be offer relevance for repeat purchasers rather than list quality.',i:'Improving retention channel ROAS by 25% would add ~'+f$(Math.round(retSpend*retROAS*0.25))+' in revenue without increasing spend.'});
+    }
+  }
+
+  // 4. BUDGET CONCENTRATION RISK
+  if(data.length>=2){
+    const topSpend=[...data].sort((a,b)=>b.spend-a.spend)[0];
+    const topSpendPct=Math.round(topSpend.spend/ts*100);
+    if(topSpendPct>50&&topSpend.roas<topSpend.bench.roas){
+      flags.push({l:'w',t:'Over-concentrated in '+topSpend.type+' ('+topSpendPct+'% of budget) while underperforming',d:f$(topSpend.spend)+' in '+topSpend.type+' at '+fn(topSpend.roas,1)+'x ROAS — high concentration with below-benchmark returns.'});
+      recs.push({ch:'Budget allocation',pri:'high',a:topSpend.type+' is '+topSpendPct+'% of total spend but below benchmark. This combination — high concentration, underperformance — is your biggest risk. Reduce to 35-40% of budget and move the freed capital to '+top.type+' (your most efficient channel at '+fn(top.roas,1)+'x ROAS).',i:'Diversifying and shifting 15% of budget to '+top.type+' at current efficiency adds ~'+f$(Math.round(ts*0.15*top.roas))+' in projected revenue.'});
+    } else if(top.roas>bot.roas*2&&top.spend<bot.spend){
+      const shift=Math.round(bot.spend*0.25);
+      flags.push({l:'w',t:'Spend inversely allocated — more budget behind lower-performing channel',d:bot.type+' has '+fn(bot.roas,1)+'x ROAS but '+f$(bot.spend)+' in spend vs. '+f$(top.spend)+' in '+top.type+' at '+fn(top.roas,1)+'x.'});
+      recs.push({ch:'Budget allocation',pri:'high',a:'You are spending more on your least efficient channel than your most efficient one. Shift '+f$(shift)+' (25% of '+bot.type+' spend) into '+top.type+' immediately. Watch '+top.type+' CPA — if it rises more than 20%, pull back and investigate saturation.',i:'At '+top.type+'s current ROAS, that '+f$(shift)+' generates an estimated '+f$(Math.round(shift*top.roas))+' in revenue.'});
+    }
+  }
+
+  // 5. UNDERINVESTED HIGH PERFORMER
+  data.forEach(c=>{
+    if(c.roas>=c.bench.roas*1.1&&c.spend<5000&&c.conv>=10){
+      flags.push({l:'',t:c.type+' is efficient but underinvested',d:fn(c.roas,1)+'x ROAS at only '+f$(c.spend)+' — strong signal with limited budget behind it.'});
+      recs.push({ch:c.type,pri:'med',a:c.type+' is your standout performer at '+fn(c.roas,1)+'x ROAS ('+Math.round((c.roas/c.bench.roas-1)*100)+'% above benchmark) with only '+f$(c.spend)+' behind it. Increase budget by 50% and monitor CPA weekly. If CPA stays within 20% of current '+f$(Math.round(c.cpa))+', scale again.',i:'Doubling spend at current efficiency adds approximately '+f$(Math.round(c.spend*c.roas))+' in revenue. Upside is significant even accounting for typical efficiency loss at scale.'});
+    }
+  });
+
+  // 6. CAC vs TARGET
+  if(targetCac&&actualCac&&tc>10){
+    if(actualCac>targetCac*1.25){
+      const worstCac=[...data].filter(c=>c.conv>5).sort((a,b)=>b.cpa-a.cpa)[0];
+      flags.push({l:'w',t:'CAC '+f$(Math.round(actualCac))+' is '+Math.round((actualCac/targetCac-1)*100)+'% over target ('+f$(targetCac)+')',d:'Overpaying for customers relative to your stated target.'});
+      recs.push({ch:'CAC',pri:'high',a:'Your highest-CAC channel is '+(worstCac?worstCac.type+' at '+f$(Math.round(worstCac.cpa))+'/conversion':'a low-volume channel')+'. '+(worstCac&&worstCac.cpa>targetCac*2?'This channel alone is dragging blended CAC above target. Pausing it would bring CAC to approximately '+f$(Math.round((ts-worstCac.spend)/(tc-worstCac.conv)))+' — closer to your '+f$(targetCac)+' target.':'Review audience quality across all channels — high CAC usually means reaching people not ready to buy, not a broken offer.')+' If LTV justifies current CAC, document that for stakeholders.',i:'Reducing blended CAC to target saves '+f$(Math.round((actualCac-targetCac)*tc))+' in acquisition cost at current volume.'});
+    } else if(actualCac<targetCac*0.8){
+      recs.push({ch:'CAC',pri:'med',a:'Your CAC of '+f$(Math.round(actualCac))+' is '+Math.round((1-actualCac/targetCac)*100)+'% below target — you have budget headroom. Consider increasing total budget or testing new audience segments while efficiency is strong. This is the right time to scale, not when CAC is tight.',i:'You could acquire approximately '+Math.round((targetCac-actualCac)/actualCac*tc)+' additional customers before hitting your CAC target at current efficiency.'});
+    }
+  }
+
+  // 7. CTR FATIGUE with frequency cross-reference
+  data.forEach(c=>{
+    if(c.ctr<c.bench.ctr*0.5&&c.romi>=0){
+      const freqNote=c.frequency&&c.frequency>3?' Frequency is '+fn(c.frequency,1)+'x — the same audience is seeing this ad repeatedly, which explains the CTR decline. Audience expansion is the fix, not just creative.':' This looks like a creative or audience-fit issue rather than saturation.';
+      flags.push({l:'w',t:c.type+' CTR critically low — '+pct(c.ctr)+' vs. '+pct(c.bench.ctr)+' benchmark',d:'Low CTR inflates effective CPC to '+f$(Math.round(c.cpc))+' and signals poor creative-audience fit.'});
+      recs.push({ch:c.type,pri:'med',a:'CTR gap of '+pct(c.bench.ctr-c.ctr)+' below benchmark.'+freqNote+' Test 3 ad variants: one leading with social proof, one with a specific outcome, one addressing a direct pain point. Cut underperformers after 500 impressions each.',i:'Improving CTR to benchmark reduces effective CPC by ~'+Math.round((1-c.ctr/c.bench.ctr)*100)+'%, recovering ~'+f$(Math.round(c.spend*(1-c.ctr/c.bench.ctr)*0.5))+' in wasted impression spend.'});
+    }
+  });
+
+  // 8. ZERO CONVERSIONS
+  data.forEach(c=>{
+    if(c.conv===0&&c.clicks>100){
+      flags.push({l:'d',t:c.type+' — zero conversions on '+c.clicks.toLocaleString()+' clicks',d:'Tracking may be broken or post-click experience is causing 100% drop-off.'});
+      recs.push({ch:c.type,pri:'high',a:'Zero conversions with '+c.clicks.toLocaleString()+' clicks indicates: (1) broken conversion pixel — verify it fires on the confirmation page, (2) landing page mismatch — ad promise vs. page content must align exactly, or (3) technical failure — test the full funnel yourself on mobile and desktop. Do not increase spend until resolved.',i:'At your CPC of '+f$(Math.round(c.cpc))+', a 0.5% conversion rate on current clicks would generate '+Math.round(c.clicks*0.005)+' conversions immediately.'});
+    }
+  });
+
+  // 9. KEYWORDS
+  kws.forEach(k=>{
+    if(k.ctr<k.benchCTR*0.7&&k.oppClicks>100){
+      const posNote=k.rank<=3?'You rank #'+k.rank+' but CTR is still below expected — title tag is not compelling or does not match search intent. Users see your result and choose a competitor.':'At rank #'+k.rank+', moving to top 3 would increase expected CTR from '+pct(k.benchCTR)+' to 11-28%.';
+      flags.push({l:'w',t:'"'+k.term+'" — '+k.oppClicks.toLocaleString()+' clicks/mo left on table',d:'Rank #'+k.rank+', CTR '+pct(k.ctr)+' vs. '+pct(k.benchCTR)+' expected.'});
+      recs.push({ch:'SEO',pri:'med',a:posNote+' Rewrite title tag to lead with the primary keyword plus a specific value proposition — a number, outcome, or differentiator. Test for 4 weeks before evaluating.',i:'+'+k.oppClicks.toLocaleString()+' monthly clicks at current conversion rate adds ~'+Math.round(k.oppClicks*(tc/Math.max(1,data.reduce((s,c)=>s+c.clicks,0))))+' conversions/month.'});
+    }
+  });
+
+  // SORT by priority
+  const priOrder={high:0,med:1,low:2};
+  recs.sort((a,b)=>(priOrder[a.pri]||1)-(priOrder[b.pri]||1));
+
+  // RENDER FLAGS
+  if(!flags.length)flags.push({l:'',t:'No critical issues detected — all channels at or above benchmark',d:'Consider scaling your top-performing channels while maintaining current efficiency.'});
+  document.getElementById('flags-out').innerHTML=flags.map(f=>'<div class="flag-item"><div class="fdot '+f.l+'"></div><div><div class="ftitle">'+esc(f.t)+'</div><div class="fdesc">'+esc(f.d)+'</div></div></div>').join('');
+
+  // RENDER RECS
+  document.getElementById('recs-out').innerHTML=recs.length?recs.map(r=>'<div class="rec"><div class="rch" style="display:flex;align-items:center;gap:6px">'+esc(r.ch).toUpperCase()+(r.pri==='high'?'<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--bg-danger);color:var(--text-danger)">High priority</span>':r.pri==='med'?'<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:var(--bg-warning);color:var(--text-warning)">Review</span>':'')+'</div><div class="ract">'+esc(r.a)+'</div><div class="rimp">'+esc(r.i)+'</div></div>').join(''):'<div style="font-size:13px;color:var(--text-secondary);padding:8px 0">No specific recommendations — campaign is healthy across all channels.</div>';
+
+  // EXEC SUMMARY
+  const perfDesc=bROMI>=3?'strong':bROMI>=1?'profitable':bROMI>=0?'marginally above breakeven':'loss-making';
+  const topInsight=top.roas>top.bench.roas?top.type+' is the standout channel at '+fn(top.roas,1)+'x ROAS, '+Math.round((top.roas/top.bench.roas-1)*100)+'% above the '+( meta.vertical||'industry')+' benchmark':'Even the best channel ('+top.type+' at '+fn(top.roas,1)+'x) is below benchmark — this campaign needs structural changes before scaling';
+  const ltvLine=ltv&&actualCac?' On a lifetime basis, LTV:CAC is '+fn(ltv/actualCac,1)+'x — '+(ltv/actualCac>=3?'healthy unit economics.':'below the 3:1 ratio considered sustainable for most businesses.'):'';
+  const hiPri=recs.filter(r=>r.pri==='high').length;
+  document.getElementById('exec-out').innerHTML='<strong>'+esc(meta.name)+'</strong>'+(meta.period?' ('+esc(meta.period)+')':'')+' | '+esc(meta.goal)+' | '+esc(meta.vertical)+'<br><br>'+f$(ts)+' in total spend generated '+f$(tr)+' in revenue — a blended ROAS of '+fn(bROAS,2)+'x and ROMI of '+fn(bROMI,2)+'x. This campaign is <strong>'+perfDesc+'</strong>. '+topInsight+'.'+ltvLine+(hiPri>0?' There are <strong>'+hiPri+' high-priority issue'+(hiPri>1?'s':'')+'</strong> requiring immediate attention.':' No critical issues were identified.')+(meta.rationale?'<br><br><em>Campaign context:</em> '+esc(meta.rationale.slice(0,250))+(meta.rationale.length>250?'…':''):'');
   document.getElementById('save-label').value=esc(meta.name)+(meta.period?' — '+esc(meta.period):'');
 }
-
 // ── OPTIMIZER HISTORY ──
 function toggleTag(el,tag){el.classList.toggle('selected');}
 function getSelectedTags(){return Array.from(document.querySelectorAll('#tag-selector .tag-opt.selected')).map(e=>e.textContent);}
