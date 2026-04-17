@@ -307,10 +307,13 @@
 
     /* ── PRINT / PDF ── */
     @media print{
-      .site-header,.back-btn,.export-btn,.btn-p,.btn-s,.btn-g,.add-btn,.rmv,.nav,.tab-row,.prog,.half{display:none!important}
+      .site-header,.back-btn,.export-btn,.btn-p,.btn-s,.btn-g,.add-btn,.rmv,.nav,.tab-row,.prog,.half,.inline-export-btn,.share-btn,.attr-btn,#attr-toggle,.goal-track-bar,.scenario-wrap{display:none!important}
       body{background:#fff!important;color:#000!important}
-      .step{display:block!important}
-      .card,.exec,.rec,.forecast-band,.proj-card,.channel-alloc{break-inside:avoid;border:0.5px solid #ccc!important;background:#fff!important}
+      .step{display:none!important}
+      #opt-step3,#opt-step4,#pln-step3{display:block!important}
+      #opt-step4 .tab-panel{display:none!important}
+      #panel4-recs{display:block!important}
+      .card,.exec,.rec,.forecast-band,.proj-card{break-inside:avoid;border:0.5px solid #ccc!important;background:#fff!important}
       .mcard{background:#f5f5f5!important;border:0.5px solid #ccc}
       .print-header{display:block!important}
       canvas{max-width:100%}
