@@ -52,6 +52,8 @@
     .back-btn:hover{background:rgba(255,255,255,0.1)}
     .back-btn.visible{display:block}
     .export-btn{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);background:transparent;cursor:pointer;display:none}
+    .inline-export-btn{font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;border:0.5px solid var(--border-medium);color:var(--text-secondary);background:var(--bg-secondary);cursor:pointer;margin-left:auto;white-space:nowrap;flex-shrink:0}
+    .inline-export-btn:hover{background:var(--bg-tertiary);color:var(--text-primary)}
     .export-btn:hover{background:rgba(255,255,255,0.1)}
     .export-btn.visible{display:block}
     #landing{display:flex;min-height:calc(100vh - 56px)}
@@ -384,7 +386,7 @@
     </div>
 
     <div class="step" id="opt-step3">
-      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div></div>
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Dashboard</div><div class="step-sub" id="dash-sub">Results</div></div><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div>
       <div class="print-header" id="opt-print-header">
         <div class="print-header-title" id="opt-print-title">ROMI Optimizer Report</div>
         <div class="print-header-meta" id="opt-print-meta"></div>
@@ -514,7 +516,7 @@
     </div>
 
     <div class="step" id="pln-step3">
-      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div></div>
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">ROMI forecast</div><div class="step-sub" id="pln-dash-sub">Projected outcomes</div></div><button class="inline-export-btn" onclick="exportPDF()">Export PDF</button></div>
       <div class="print-header" id="pln-print-header">
         <div class="print-header-title" id="pln-print-title">Campaign Planner Forecast</div>
         <div class="print-header-meta" id="pln-print-meta"></div>
@@ -1128,8 +1130,8 @@ function plnRunForecast(){
 }
 
 // ── NAVIGATION ──
-let currentOptStep=1;function optGoStep(n){currentOptStep=n;document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);if(n>=3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
-function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';if(n===3)document.getElementById('export-btn').classList.add('visible');else document.getElementById('export-btn').classList.remove('visible');}
+let currentOptStep=1;function optGoStep(n){currentOptStep=n;document.querySelectorAll('#tool-optimizer .step').forEach(s=>s.classList.remove('active'));document.getElementById('opt-step'+n).classList.add('active');for(let i=1;i<=4;i++)document.getElementById('op'+i).classList.toggle('done',i<=n);}
+function plnGoStep(n){document.querySelectorAll('#tool-planner .step').forEach(s=>s.classList.remove('active'));document.getElementById('pln-step'+n).classList.add('active');for(let i=1;i<=3;i++)document.getElementById('pp'+i).classList.toggle('done',i<=n);if(n===2){plnSuggestMix();plnUpdateAlloc();}if(n===1)document.getElementById('pln-step2-err').style.display='none';}
 function switchTab(n){['channels','keywords','csv'].forEach(t=>{document.getElementById('tab-'+t)?.classList.toggle('active',t===n);document.getElementById('panel-'+t)?.classList.toggle('active',t===n);});}
 function switchTab4(n){['recs','history','compare'].forEach(t=>{document.getElementById('tab4-'+t)?.classList.toggle('active',t===n);document.getElementById('panel4-'+t)?.classList.toggle('active',t===n);});if(n==='history')renderHistory();if(n==='compare')populateCmpDropdowns();}
 function resetTool(){document.getElementById('ch-container').innerHTML='';document.getElementById('kw-container').innerHTML='';chCount=0;kwCount=0;analysisData=[];kwData=[];document.getElementById('csv-mapper').style.display='none';optGoStep(1);}
